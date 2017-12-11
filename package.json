@@ -15,12 +15,15 @@
     "url": "https://github.com/IBM/watson-review-analyzer"
   },
   "dependencies": {
+    "async-waterfall": "^0.1.5",
     "body-parser": "^1.17.x",
-    "request": "^2.83.x",
-    "express": "^4.15.x",
-    "promise": "^8.0.x",
     "cheerio": "~1.0.0-rc.2",
-    "cloudscraper": "^1.4.x"
+    "cloudscraper": "^1.4.x",
+    "express": "^4.15.x",
+    "jsonfile": "^4.0.0",
+    "promise": "^8.0.x",
+    "request": "^2.83.x",
+    "watson-developer-cloud": "^2.42.0"
   },
   "author": "Anthony Amanse",
   "license": "Apache-2.0"
