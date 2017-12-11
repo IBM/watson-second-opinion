@@ -109,7 +109,7 @@ function watsonAddDocument(reviews) {
   var promise = new Promise(function (resolve,reject) {
     var docs = 0;
     var errorFlag = false;
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < reviews.length; i++) {
 
       discovery.addJsonDocument({
         environment_id: config.environment_id,
