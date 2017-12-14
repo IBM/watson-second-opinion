@@ -4,7 +4,4 @@
 {
   "discoveryUsername" : {your discovery username},
   "discoveryPassword" : {your discovery password},
-  "collection_id" : {your collection id},
-  "configuration_id" : {your configuration id},
-  "environment_id" : {your environment id}
 }
