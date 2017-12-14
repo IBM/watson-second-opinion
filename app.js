@@ -91,8 +91,8 @@ function scrapeEveryPage(totalPages, arrayOfReviews, productId) {
                 var configID = output
                 watson.getDiscoveryCollections(envID, configID).then(function(output){
                     watson.watsonAddDocument(arrayOfReviews, output).then(function(){
+                      // console.log('about to get to setTimeout from app.js')                                              
                       setTimeout(function(){
-                        console.log('about to hit setTime out from app.js')                        
                         watson.discoveryQuery(output)
                       }, 5000);            
                     });

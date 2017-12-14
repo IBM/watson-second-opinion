@@ -1,0 +1,7 @@
+# Replace the credentials here with your own.
+# Rename this file to config.json before starting the app, and delete these two lines.
+
+{
+  "discoveryUsername" : {your discovery username},
+  "discoveryPassword" : {your discovery password},
+}
