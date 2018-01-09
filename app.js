@@ -51,45 +51,45 @@ app.get('/reviews/:reviewId', function(req, res) {
                 console.log('doc count: ' + result.document_counts.available);
                 var collectionProduct = result.name;
                 if (reviewId === collectionProduct) {
-                  console.log('collectionID === reviewID')
+                  console.log('collectionID === reviewID');
                   var collectionDocCount = result.document_counts.available + result.document_counts.processing;
                   var cloudCount = options.CloudReviewsLen;
                   if (collectionDocCount !== cloudCount) {
                     watson.deleteCollection(currentDiscoveryInfo).then(function(result){
                       watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
                         getCloudantReviews(reviewId).then(function(reviews){
-                          console.log('number of reviews from cloudant ' +  reviews.reviews.length)
+                          console.log('number of reviews from cloudant ' +  reviews.reviews.length);
                           watson.watsonAddDocument(reviews, currentDiscoveryInfo, reviews.reviews.length)
                           .then(function(){
                             setTimeout(function(){
-                              watson.discoveryQuery(currentDiscoveryInfo)
+                              watson.discoveryQuery(currentDiscoveryInfo);
                             }, 9000);
                           });
                         });
                       });
                     });
                   } else {
-                    console.log('all of our reviews are already in the collection')
+                    console.log('all of our reviews are already in the collection');
                     watson.discoveryQuery(currentDiscoveryInfo);
                   }
                 }
                 else {
-                  console.log('collectionID != reviewID')
+                  console.log('collectionID != reviewID');
                   watson.deleteCollection(currentDiscoveryInfo).then(function(result){
                     watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
                       getCloudantReviews(reviewId).then(function(reviews){
-                        console.log('number of reviews from cloudant ' +  reviews.reviews.length)
+                        console.log('number of reviews from cloudant ' +  reviews.reviews.length);
                         watson.watsonAddDocument(reviews, currentDiscoveryInfo)
                         .then(function(){
                           setTimeout(function(){
-                            watson.discoveryQuery(currentDiscoveryInfo)
+                            watson.discoveryQuery(currentDiscoveryInfo);
                           }, 7000);
                         });
                       });
                     });
                   });
                 }
-                console.log(result)
+                console.log(result);
               });
             });
 
@@ -109,13 +109,12 @@ app.get('/reviews/:reviewId', function(req, res) {
                     res.send("Updated document in Cloudant");
                     // remove res.send and query watson discovery if collection exists
                     watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
-
                       getCloudantReviews().then(function(reviews){
-                        console.log('number of reviews from cloudant ' +  reviews.reviews.length)
+                        console.log('number of reviews from cloudant ' +  reviews.reviews.length);
                         watson.watsonAddDocument(reviews, currentDiscoveryInfo)
                         .then(function(){
                           setTimeout(function(){
-                            watson.discoveryQuery(currentDiscoveryInfo)
+                            watson.discoveryQuery(currentDiscoveryInfo);
                           }, 9000);
                         });
                       });
@@ -142,11 +141,11 @@ app.get('/reviews/:reviewId', function(req, res) {
                 watson.deleteCollection(currentDiscoveryInfo).then(function(result){
                   watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
                     getCloudantReviews(reviewId).then(function(reviews){
-                      console.log('number of reviews from cloudant ' +  reviews.reviews.length)
+                      console.log('number of reviews from cloudant ' +  reviews.reviews.length);
                       watson.watsonAddDocument(reviews, currentDiscoveryInfo)
                       .then(function(){
                         setTimeout(function(){
-                          watson.discoveryQuery(currentDiscoveryInfo)
+                          watson.discoveryQuery(currentDiscoveryInfo);
                         }, 7000);
                       });
                     });
@@ -285,8 +284,8 @@ function scrapeNumberOfPages(productId) {
         object.productName = $("title").text().replace("Amazon.com: Customer reviews: ","");
         console.log(object.productName + " <== GETTING REVIEWS OF");
         object.totalPages = pageList.pop();
-        console.log('object.totalPages: ')
-        console.log(object.totalPages)
+        console.log('object.totalPages: ');
+        console.log(object.totalPages);
         object.productId = productId;
         resolve(object);
       }
