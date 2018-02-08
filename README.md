@@ -24,8 +24,6 @@ $ npm install
 
 Next, provide your Cloudant URL from your Cloudant Service Credentials as an environment variable.
 
-It should looks something along the lines of this: https://1111405-438f-4374-9b43-975e0220f3cd-bluemix:935684a91478c5f8918d3d0b2e004ef6fe825939ed2304f28ec2225fa9a952df@8bb72405-438f-4374-9b43-975e0220f3cd-bluemix.cloudant.com
-
 ```
 export CLOUDANT_URL=https://1111405-438f-4374-9b43-975e0220f3cd-bluemix:935684a91478c5f8918d3d0b2e004ef6fe825939ed2304f28ec2225fa9a952df@8bb72405-438f-4374-9b43-975e0220f3cd-bluemix.cloudant.com
 ```
