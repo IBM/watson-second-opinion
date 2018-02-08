@@ -5,8 +5,9 @@ An application that ingests unstructured reviews and uses Watson Discovery to fi
 
 ## Installation
 
-Edit the `config.json.sample` file to include your Watson Discovery username and password. Then rename the file to `config.json`
+Edit the `config.json.sample` file to include your Watson Discovery username and password. Then rename the file to `config.json`.
 
+Next, install all the required dependencies for the project.
 
 ```
 $ npm install
