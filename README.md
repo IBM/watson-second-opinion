@@ -4,8 +4,21 @@
 An application that ingests unstructured reviews and uses Watson Discovery to find insights and provide a second opinion on the reviews. 
 
 ## Installation
+
+Edit the `config.json.sample` file to include your Watson Discovery username and password. Then rename the file to `config.json`
+
+
 ```
 $ npm install
+```
+
+Next, provide environment variables to access the cloudant database. Example shown below. 
+
+```
+export CLOUDANT_URL=https://<user>:<password>@anthonyamanse.cloudant.com```
+```
+Now, you are ready to run the app!
+```
 $ node app.js
 ```
 
