@@ -3,7 +3,16 @@
 # watson-review-analyzer
 An application that ingests unstructured reviews and uses Watson Discovery to find insights and provide a second opinion on the reviews. 
 
-## Installation
+## 1. Create IBM Cloud services
+
+Create the following services:
+
+* [**Watson Discovery**](https://console.ng.bluemix.net/catalog/services/discovery)
+
+* [**Cloudant NoSQL DB**](https://console.bluemix.net/catalog/services/cloudant-nosql-db)
+
+
+## 2. Installation
 
 Edit the `config.json.sample` file to include your Watson Discovery username and password. Then rename the file to `config.json`.
 
@@ -13,17 +22,19 @@ Next, install all the required dependencies for the project.
 $ npm install
 ```
 
-Next, provide environment variables to access the cloudant database. Example shown below. 
+Next, provide your Cloudant URL from your Cloudant Service Credentials as an environment variable.
+
+It should looks something along the lines of this: https://1111405-438f-4374-9b43-975e0220f3cd-bluemix:935684a91478c5f8918d3d0b2e004ef6fe825939ed2304f28ec2225fa9a952df@8bb72405-438f-4374-9b43-975e0220f3cd-bluemix.cloudant.com
 
 ```
-export CLOUDANT_URL=https://<user>:<password>@username.cloudant.com
+export CLOUDANT_URL=https://1111405-438f-4374-9b43-975e0220f3cd-bluemix:935684a91478c5f8918d3d0b2e004ef6fe825939ed2304f28ec2225fa9a952df@8bb72405-438f-4374-9b43-975e0220f3cd-bluemix.cloudant.com
 ```
 Now, you are ready to run the app!
 ```
 $ node app.js
 ```
 
-## Usage
+## 3. Usage
 `curl http://localhost:8080/reviews/[product-id]`
 
 example:
