@@ -45,7 +45,7 @@ app.get('/reviews/:reviewId', function(req, res) {
         .then(isNumberOfReviewsEqual)
         .then(function (options) {
           if (options.isEqual) {
-            res.send("Query Watson Discovery if Collection for product exists.");
+            // res.send("Query Watson Discovery if Collection for product exists.");
             watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
               watson.getCollectionInfo(currentDiscoveryInfo).then(function(result){
                 console.log('doc count: ' + result.document_counts.available);
@@ -62,7 +62,10 @@ app.get('/reviews/:reviewId', function(req, res) {
                           watson.watsonAddDocument(reviews, currentDiscoveryInfo, reviews.reviews.length)
                           .then(function(){
                             setTimeout(function(){
-                              watson.discoveryQuery(currentDiscoveryInfo);
+                              watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
+                                console.log(output)
+                                res.send(output);
+                              });                            
                             }, 9000);
                           });
                         });
@@ -70,7 +73,10 @@ app.get('/reviews/:reviewId', function(req, res) {
                     });
                   } else {
                     console.log('all of our reviews are already in the collection');
-                    watson.discoveryQuery(currentDiscoveryInfo);
+                    watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
+                      console.log(output)
+                      res.send(output);
+                    });
                   }
                 }
                 else {
@@ -82,7 +88,10 @@ app.get('/reviews/:reviewId', function(req, res) {
                         watson.watsonAddDocument(reviews, currentDiscoveryInfo)
                         .then(function(){
                           setTimeout(function(){
-                            watson.discoveryQuery(currentDiscoveryInfo);
+                            watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
+                              console.log(output)
+                              res.send(output);
+                            });
                           }, 7000);
                         });
                       });
@@ -106,18 +115,25 @@ app.get('/reviews/:reviewId', function(req, res) {
                 };
                 insertCloudantDoc(cloudantDocument)
                   .then(function (options) {
-                    res.send("Updated document in Cloudant");
+                    // res.send("Updated document in Cloudant");
                     // remove res.send and query watson discovery if collection exists
-                    watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
-                      getCloudantReviews().then(function(reviews){
-                        console.log('number of reviews from cloudant ' +  reviews.reviews.length);
-                        watson.watsonAddDocument(reviews, currentDiscoveryInfo)
-                        .then(function(){
-                          setTimeout(function(){
-                            watson.discoveryQuery(currentDiscoveryInfo);
-                          }, 9000);
+                    watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){  
+                      watson.deleteCollection(currentDiscoveryInfo).then(function(result){
+                        watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
+                          getCloudantReviews(reviewId).then(function(reviews){
+                            console.log('number of reviews from cloudant ' +  reviews.reviews.length);
+                            watson.watsonAddDocument(reviews, currentDiscoveryInfo)
+                            .then(function(){
+                              setTimeout(function(){
+                                watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
+                                  console.log(output)
+                                  res.send(output);
+                                });                              
+                              }, 7000);
+                            });
+                          });
                         });
-                      });
+                      });          
                     });
                   });
               });
