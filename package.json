@@ -22,6 +22,8 @@
     "cloudscraper": "^1.4.x",
     "express": "^4.15.x",
     "jsonfile": "^4.0.0",
+    "kue": "^0.11.6",
+    "performance-now": "^2.1.0",
     "promise": "^8.0.x",
     "request": "^2.83.x",
     "watson-developer-cloud": "^2.42.0"

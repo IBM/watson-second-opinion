@@ -7,6 +7,8 @@ var Cloudant = require('cloudant');
 var app = express();
 var review_url = "https://www.amazon.com/product-reviews/";
 var review_page = "/ref=cm_cr_arp_d_paging_btm_2?pageNumber=";
+var envID = '';
+var configID = '';
 
 var cloudantURL = process.env.CLOUDANT_URL;
 var cloudant = Cloudant(cloudantURL, function(er, cloudant, reply) {
@@ -18,8 +20,8 @@ var cloudant = Cloudant(cloudantURL, function(er, cloudant, reply) {
 var mydb = cloudant.db.use("products");
 
 // Watson config
-var Watson = require('./lib/watson.js')
-var watson = new Watson()
+var Watson = require('./lib/watson.js');
+var watson = new Watson();
 
 app.use(require('body-parser').json());
 
@@ -28,6 +30,14 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/reviews/:reviewId', function(req, res) {
   var reviewId = req.params.reviewId;
+  //get Environment & configiguration ready for Watson Discovery calls
+  watson.getDiscoveryEnvironments().then(function(eID){
+    envID = eID;
+    watson.getDiscoveryConfigurations(envID).then(function(conf){
+      configID = conf;
+    });
+  });   
+
   existingCloudantDoc(reviewId).then(function (result) {
     if (result) {
       console.log(reviewId + " document exists");
@@ -35,8 +45,63 @@ app.get('/reviews/:reviewId', function(req, res) {
         .then(isNumberOfReviewsEqual)
         .then(function (options) {
           if (options.isEqual) {
-            res.send("Query Watson Discovery if Collection for product exists.")
-            // remove res.send and query if discovery collection exists
+            // res.send("Query Watson Discovery if Collection for product exists.");
+            watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
+              watson.getCollectionInfo(currentDiscoveryInfo).then(function(result){
+                console.log('doc count: ' + result.document_counts.available);
+                var collectionProduct = result.name;
+                if (reviewId === collectionProduct) {
+                  console.log('collectionID === reviewID');
+                  var collectionDocCount = result.document_counts.available + result.document_counts.processing;
+                  var cloudCount = options.CloudReviewsLen;
+                  if (collectionDocCount !== cloudCount) {
+                    watson.deleteCollection(currentDiscoveryInfo).then(function(result){
+                      watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
+                        getCloudantReviews(reviewId).then(function(reviews){
+                          console.log('number of reviews from cloudant ' +  reviews.reviews.length);
+                          watson.watsonAddDocument(reviews, currentDiscoveryInfo, reviews.reviews.length)
+                          .then(function(){
+                            setTimeout(function(){
+                              watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
+                                console.log(output)
+                                res.send(output);
+                              });                            
+                            }, 9000);
+                          });
+                        });
+                      });
+                    });
+                  } else {
+                    console.log('all of our reviews are already in the collection');
+                    watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
+                      console.log(output)
+                      res.send(output);
+                    });
+                  }
+                }
+                else {
+                  console.log('collectionID != reviewID');
+                  watson.deleteCollection(currentDiscoveryInfo).then(function(result){
+                    watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
+                      getCloudantReviews(reviewId).then(function(reviews){
+                        console.log('number of reviews from cloudant ' +  reviews.reviews.length);
+                        watson.watsonAddDocument(reviews, currentDiscoveryInfo)
+                        .then(function(){
+                          setTimeout(function(){
+                            watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
+                              console.log(output)
+                              res.send(output);
+                            });
+                          }, 7000);
+                        });
+                      });
+                    });
+                  });
+                }
+                console.log(result);
+              });
+            });
+
           }
           else {
             scrapeNumberOfPages(reviewId)
@@ -50,10 +115,28 @@ app.get('/reviews/:reviewId', function(req, res) {
                 };
                 insertCloudantDoc(cloudantDocument)
                   .then(function (options) {
-                    res.send("Updated document in Cloudant");
+                    // res.send("Updated document in Cloudant");
                     // remove res.send and query watson discovery if collection exists
+                    watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){  
+                      watson.deleteCollection(currentDiscoveryInfo).then(function(result){
+                        watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
+                          getCloudantReviews(reviewId).then(function(reviews){
+                            console.log('number of reviews from cloudant ' +  reviews.reviews.length);
+                            watson.watsonAddDocument(reviews, currentDiscoveryInfo)
+                            .then(function(){
+                              setTimeout(function(){
+                                watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
+                                  console.log(output)
+                                  res.send(output);
+                                });                              
+                              }, 7000);
+                            });
+                          });
+                        });
+                      });          
+                    });
                   });
-              })
+              });
           }
         });
     }
@@ -68,10 +151,24 @@ app.get('/reviews/:reviewId', function(req, res) {
             reviews: options.reviews
           };
           insertCloudantDoc(cloudantDocument)
-            .then(function (options) {
-              res.send("Saved document in Cloudant");
+            .then(function (options) {              
               // remove res.send and create collecion in watson discovery
-            })
+              watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){  
+                watson.deleteCollection(currentDiscoveryInfo).then(function(result){
+                  watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
+                    getCloudantReviews(reviewId).then(function(reviews){
+                      console.log('number of reviews from cloudant ' +  reviews.reviews.length);
+                      watson.watsonAddDocument(reviews, currentDiscoveryInfo)
+                      .then(function(){
+                        setTimeout(function(){
+                          watson.discoveryQuery(currentDiscoveryInfo);
+                        }, 7000);
+                      });
+                    });
+                  });
+                });          
+              });
+          });
         });
     }
   });
@@ -165,29 +262,6 @@ function scrapeEveryPage(options) {
           totalReviews += title.length;
           if (completedRequests == options.totalPages) {
             console.log('Total reviews parsed: ' + totalReviews);
-
-            // WATSON FUNCTIONS
-            // this should be in /reviews/:reviewIds
-            // Getting environment config
-            // watson.getDiscoveryEnvironments().then(function(result){
-            //   var envID = result;
-            //
-            //   // Getting Discovery Configurations
-            //   watson.getDiscoveryConfigurations(result).then(function(output){
-            //     var configID = output
-            //     // GETTING DISCOVERY COLLECTION  (One collection for one product?)
-            //     watson.getDiscoveryCollections(envID, configID).then(function(output){
-            //         // ADDING DOCUMENTS
-            //         watson.watsonAddDocument(arrayOfReviews, output).then(function(){
-            //           // console.log('about to get to setTimeout from app.js')
-            //           setTimeout(function(){
-            //             watson.discoveryQuery(output)
-            //           }, 5000);
-            //         });
-            //     });
-            //   })
-            // })
-            // END OF WATSON FUNCTIONS
             var object = {};
             object.productId = options.productId;
             object.productName = options.productName;
@@ -220,12 +294,14 @@ function scrapeNumberOfPages(productId) {
         var pageList = [];
         var $ = cheerio.load(body);
         $("li[class='page-button']").each(function(i, element){
-            pageList.push(parseInt($(this).text()));
+            pageList.push(parseInt($(this).text().replace(",","")));
         });
         var object = {};
         object.productName = $("title").text().replace("Amazon.com: Customer reviews: ","");
         console.log(object.productName + " <== GETTING REVIEWS OF");
         object.totalPages = pageList.pop();
+        console.log('object.totalPages: ');
+        console.log(object.totalPages);
         object.productId = productId;
         resolve(object);
       }
@@ -308,6 +384,7 @@ function isNumberOfReviewsEqual(options) {
         var object = {};
         object.isEqual = result.docs[0].reviews.length == options.numberOfReviews;
         object._rev = result.docs[0]._rev;
+        object.CloudReviewsLen = result.docs[0].reviews.length;
         console.log(object._rev);
         console.log(result.docs[0].reviews.length + " in cloudant. " + options.numberOfReviews + " in scraping");
         resolve(object);

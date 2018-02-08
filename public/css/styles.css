@@ -1,0 +1,207 @@
+/* padding and border are included in total width and height of elements */
+* {
+  box-sizing: border-box;
+}
+
+input[type=text], select {
+  height: 50px;
+  width: 50%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: "Roboto Slab";  
+  font-size: 16px;
+}
+
+input[type=submit]:hover {
+  background-color: #0CABE8;
+}
+
+#goButton {
+  height: 50px;
+  padding: 8px 27px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: #0F7F9E;
+	font-family: "Roboto Slab";
+  font-size: 16px;
+  color: white;
+}
+
+.col-md-12 {
+	font-family: "Roboto Slab";
+  font-size: 16px;
+  margin: 15px 5px 15px 5px;
+  color: white;
+}
+
+.loader {
+  /* border: 16px solid #ccc; Light grey */
+  border-top: 10px solid #07d;
+  border-right: 10px solid transparent;  
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 1.0s ease infinite;
+  margin-top: 200px;
+}
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+#myLoader {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  z-index: 900;
+}
+
+h1{
+	font-family: "Roboto Slab";
+	font-size: 32px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+  line-height: 26.4px;
+}
+
+h3 {
+  font-family: "Roboto Slab";
+  padding-bottom: 2px;
+  color:black;
+}
+
+h2 {
+  font-family: "Roboto Slab";
+  padding-bottom: 2px;
+  color: black;
+}
+
+p{
+	font-family: "Roboto Slab";
+	font-size: 16px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+  line-height: 26.4px;
+  text-align: left;
+  padding-left: 10px;
+  color: black;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-family: "Roboto Slab";
+  text-align: left;  
+  min-height: 20px;
+  padding: 19px;
+  font-size: 20px;
+}
+
+._full-width-row_gray, #box {
+  background-color: #f4f4f4;
+  padding: 2rem 0;
+}
+
+.query_collapsed, #box {
+  height: auto;
+  min-height: auto;
+  padding: 6rem 0;
+  background: none;
+  background-color: #9753e1;
+}
+
+._full-width-row, #box {
+  margin-top: 0;
+  padding: 2rem 0;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-top: -15px;
+}
+
+.stars-outer {
+  display: inline-block;
+  position: relative;
+  font-family: FontAwesome;
+}
+ 
+/* .stars-outer::before {
+  content: "\f006 \f006 \f006 \f006 \f006";
+} */
+ 
+.stars-inner {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+#rating {
+  display: inline-block;
+  margin-right: .5em;
+  margin-bottom: 2em; 
+  margin-top: -1em;   
+}
+ 
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  color: #f8ce0b;
+}
+
+#reviewText {
+  margin-top: -50px;  
+}
+
+#topEntities {
+  margin-bottom:-4px;  
+  z-index: 900;
+}
+
+#userIcon {
+  font-size:24px;
+  color:black;
+  float: left;
+  margin-left: 10px;
+  margin-right: 8px;
+}
+
+#entitiesCont {
+  width: 75%;
+  height: 25em;
+  border: 1px solid #e3e3e3;    
+  margin-top: 3rem;    
+  z-index: -900;
+  margin-bottom: 3rem;
+}
+
+#sentimentCont {
+  width: 75%;  
+  z-index: -1;
+  border: 1px solid #e3e3e3;  
+  height: 25em;
+  overflow: hidden;
+}
+
+#reviewsCont {
+  width: 75%;
+  z-index: -1;
+  border: 1px solid #e3e3e3;  
+  min-height: 25em;
+  margin-top: 3rem;
+  margin: auto;
+}
+
+.zc-ref {
+  text-align: center;
+  font-family: "Roboto Slab";  
+}
+
+#discoveryQueryOutput {
+  padding-bottom: 3rem;
+}

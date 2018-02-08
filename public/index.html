@@ -1,0 +1,80 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Watson Review</title>
+  <meta name="description" content="Developer SLAM Project">
+  <meta name="author" content="Horea Porutiu">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+  <!-- Chart.js -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>   -->
+
+  <!-- Roboto Slab Font -->
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Slab" />
+  <!-- Font Awesome for Star Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- High Charts for General Sentiment -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+
+  <!-- Word Cloud for Top Entites -->
+  <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
+  <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+  ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
+  <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+
+  <!-- Viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+</head>
+
+<body>
+  <center>
+    <header class = 'header' >
+      <h3>Developer SLAM / Cognitive Journey<h3>
+    </header>
+    <section class="_full-width-row _full-width-row_gray jumbotron">
+      <h1>Watson 2nd Review analyzes millions of reviews</h1>
+      <h1>and helps you make an educated decision</h1>
+    </section>
+  </center>
+  
+        
+  <div class="col-md-12 text-center">
+    <center>
+    <section class="_full-width-row query query_collapsed">
+      <label>Copy &amp; paste a product ID:</label>
+      <input id = 'productUrl' type = "text" value="B06XZ2CM2H" id= "text" name="text" required>
+      <input id = "goButton" type="submit" value="Go"> 
+      <br>
+    </section>
+    <div id = "myLoader" class="loader"></div>
+    <div id = "discoveryQueryOutput"></div>
+    <!-- <div class = "row" id="sentimentCont" ></div>
+    <div class = "col" id="entitiesCont">
+      <h2 id = "topEntities">Top Entities</h2>
+    </div> -->
+    <div id="sentimentCont" ></div>
+    <div id="entitiesCont">
+      <h2 id = "topEntities">Top Entities</h2>
+    </div>
+    </center>
+    
+    <div class = "reviews" id="reviewsCont" ></div>    
+  </div>  
+  
+
+  <script src="analyze.js"></script>    
+  
+</body>
+</html>
