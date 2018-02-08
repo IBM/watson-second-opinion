@@ -16,7 +16,7 @@ $ npm install
 Next, provide environment variables to access the cloudant database. Example shown below. 
 
 ```
-export CLOUDANT_URL=https://<user>:<password>@anthonyamanse.cloudant.com```
+export CLOUDANT_URL=https://<user>:<password>@username.cloudant.com
 ```
 Now, you are ready to run the app!
 ```
