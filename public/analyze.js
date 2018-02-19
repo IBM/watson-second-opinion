@@ -15,7 +15,7 @@ class Watson{
     data.source = document.getElementById("productUrl").value; 
     // console.log('data.source: ');
     // console.log(data.source);
-    var nodeUrl = 'http://localhost:4000/reviews/' + data.source;
+    var nodeUrl = 'reviews/' + data.source;
     var json = JSON.stringify(data);
     var ourRequest = new XMLHttpRequest();
     ourRequest.open("GET", nodeUrl, true);
@@ -85,7 +85,18 @@ class Watson{
 
           reviewsCont.innerHTML += 
           '<div class="stars-outer">' +
-          '<p id = "rating">' + 'Rating: ' + '</p>' +           '<div class="stars-inner"></div></div>';
+          '<p id = "rating">' + 'Rating: ' + '</p>';
+          var numberOfStars = 0;
+          var starsContent = "";
+          while (numberOfStars < output.results[i].rating) {
+            starsContent += "&#xf005 ";
+            numberOfStars++;
+          }
+          while (numberOfStars < 5) {
+            starsContent += "&#xf006 ";
+            numberOfStars++;
+          }
+          reviewsCont.innerHTML += '<div class="stars-inner fa">' + starsContent + '</div></div>';
           
 
           reviewsCont.innerHTML += '<p id = "reviewText">' + '<p><b>' +
