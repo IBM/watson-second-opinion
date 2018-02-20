@@ -141,17 +141,15 @@ label {
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
+  color: #f8ce0b;
+  text-shadow: -0.01px 0 orange, 0 0.01px orange, 0.01px 0 orange, 0 -0.01px orange;
 }
+
 #rating {
   display: inline-block;
   margin-right: .5em;
   margin-bottom: 2em; 
   margin-top: -1em;   
-}
- 
-.stars-inner::before {
-  content: "\f005 \f005 \f005 \f005 \f005";
-  color: #f8ce0b;
 }
 
 #reviewText {

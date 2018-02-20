@@ -9,6 +9,7 @@ var review_url = "https://www.amazon.com/product-reviews/";
 var review_page = "/ref=cm_cr_arp_d_paging_btm_2?pageNumber=";
 var envID = '';
 var configID = '';
+var mydb;
 
 var cloudantURL = process.env.CLOUDANT_URL;
 var cloudant = Cloudant(cloudantURL, function(er, cloudant, reply) {
@@ -17,11 +18,34 @@ var cloudant = Cloudant(cloudantURL, function(er, cloudant, reply) {
   }
   console.log('Connected with username: %s', reply.userCtx.name);
 });
-var mydb = cloudant.db.use("products");
+
+// Create a database 'products' if it doesn't exist
+cloudant.db.list(function(err,dbs) {
+  if (!dbs.includes('products')) {
+    console.log('Creating products database');
+
+    cloudant.db.create('products', function() {
+      mydb = cloudant.db.use("products");
+    });
+  }
+  else {
+    mydb = cloudant.db.use("products");
+  }
+});
 
 // Watson config
 var Watson = require('./lib/watson.js');
 var watson = new Watson();
+
+//get Environment & configiguration ready for Watson Discovery calls
+watson.getDiscoveryEnvironments()
+  .then(function(eID) {
+    envID = eID;
+    watson.getDiscoveryConfigurations(envID)
+      .then(function(conf) {
+        configID = conf;
+      });
+  });
 
 app.use(require('body-parser').json());
 
@@ -30,13 +54,6 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/reviews/:reviewId', function(req, res) {
   var reviewId = req.params.reviewId;
-  //get Environment & configiguration ready for Watson Discovery calls
-  watson.getDiscoveryEnvironments().then(function(eID){
-    envID = eID;
-    watson.getDiscoveryConfigurations(envID).then(function(conf){
-      configID = conf;
-    });
-  });   
 
   existingCloudantDoc(reviewId).then(function (result) {
     if (result) {
@@ -44,66 +61,137 @@ app.get('/reviews/:reviewId', function(req, res) {
       scrapeNumberOfReviews(reviewId)
         .then(isNumberOfReviewsEqual)
         .then(function (options) {
-          if (options.isEqual) {
-            // res.send("Query Watson Discovery if Collection for product exists.");
-            watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
-              watson.getCollectionInfo(currentDiscoveryInfo).then(function(result){
-                console.log('doc count: ' + result.document_counts.available);
-                var collectionProduct = result.name;
-                if (reviewId === collectionProduct) {
-                  console.log('collectionID === reviewID');
-                  var collectionDocCount = result.document_counts.available + result.document_counts.processing;
-                  var cloudCount = options.CloudReviewsLen;
-                  if (collectionDocCount !== cloudCount) {
-                    watson.deleteCollection(currentDiscoveryInfo).then(function(result){
-                      watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
-                        getCloudantReviews(reviewId).then(function(reviews){
-                          console.log('number of reviews from cloudant ' +  reviews.reviews.length);
-                          watson.watsonAddDocument(reviews, currentDiscoveryInfo, reviews.reviews.length)
-                          .then(function(){
-                            setTimeout(function(){
-                              watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
-                                console.log(output)
-                                res.send(output);
-                              });                            
-                            }, 9000);
-                          });
-                        });
-                      });
-                    });
-                  } else {
-                    console.log('all of our reviews are already in the collection');
-                    watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
-                      console.log(output)
-                      res.send(output);
-                    });
-                  }
-                }
-                else {
-                  console.log('collectionID != reviewID');
-                  watson.deleteCollection(currentDiscoveryInfo).then(function(result){
-                    watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
-                      getCloudantReviews(reviewId).then(function(reviews){
-                        console.log('number of reviews from cloudant ' +  reviews.reviews.length);
-                        watson.watsonAddDocument(reviews, currentDiscoveryInfo)
-                        .then(function(){
-                          setTimeout(function(){
-                            watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
-                              console.log(output)
-                              res.send(output);
-                            });
-                          }, 7000);
-                        });
-                      });
-                    });
-                  });
-                }
-                console.log(result);
-              });
-            });
+          if (options.isEqualToScrape) {
 
+            // if number of reviews in cloudant is equal to discovery results in cloudant
+            // this could be "not equal" if the app fails to upload some of the reviews
+            if (options.isReviewsEqualToDiscoveryDocuments) {
+              console.log("Cloudant Document already has the watson Discovery Results");
+
+              // get cloudant document then send the watson discovery result
+              getCloudantReviews(reviewId)
+                .then(function(reviews) {
+                  res.send(reviews.watsonDiscovery);
+                });
+            }
+            else {
+              // if number of reviews from scrape and cloudant are equal
+              // would mean reviews are synced
+              // but discovery results in cloudant isn't equal to its number of reviews
+
+              // get watson discovery collections
+              watson.getDiscoveryCollections(envID, configID, reviewId)
+              .then(function(currentDiscoveryInfo) {
+
+                // get collection info 
+                watson.getCollectionInfo(currentDiscoveryInfo)
+                  .then(function(result) {
+
+                    // check if the collection name is the same as the product name
+                    console.log('doc count: ' + result.document_counts.available);
+                    var collectionProduct = result.name;
+                    if (reviewId === collectionProduct) {
+
+                      // if it is
+                      // check if number of reviews from cloudant is equal to watson reviews
+                      console.log('collectionID === reviewID');
+                      var collectionDocCount = result.document_counts.available + result.document_counts.processing;
+                      var cloudCount = options.CloudReviewsLen;
+                      if (collectionDocCount !== cloudCount) {
+
+                        // if it is not
+                        // delete the collections
+                        watson.deleteCollection(currentDiscoveryInfo)
+                          .then(function(result){
+
+                            // get collection info
+                            watson.getDiscoveryCollections(envID, configID, reviewId)
+                              .then(function(currentDiscoveryInfo){
+
+                                // get the reviews in cloudant
+                                getCloudantReviews(reviewId)
+                                  .then(function(reviews) {
+
+                                    // start adding the reviews in cloudant to
+                                    // the clean watson discovery collection
+                                    console.log('number of reviews from cloudant ' +  reviews.reviews.length);
+                                    watson.watsonAddDocument(reviews, currentDiscoveryInfo, reviews.reviews.length)
+                                    .then(function() {
+
+                                      // start querying the discovery result
+                                      setTimeout(function(){
+                                        watson.discoveryQuery(currentDiscoveryInfo)
+                                          .then(function(output) {
+
+                                            // store discovery results in cloudant
+                                            insertDiscoveryInCloudant(output, reviewId)
+                                            res.send(output);
+                                          });
+                                      }, 9000);
+                                    });
+                                  });
+                              });
+                          });
+                      } else {
+
+                        // else reviews are equal and
+                        // we are assuming the reviews are the same and not modified
+                        console.log('all of our reviews are already in the collection');
+                        watson.discoveryQuery(currentDiscoveryInfo)
+                          .then(function(output){
+
+                            // store discovery results in cloudant
+                            insertDiscoveryInCloudant(output, reviewId)
+                            res.send(output);
+                          });
+                      }
+                    }
+                    else {
+
+                      // else we are gonna delete the collections
+                      console.log('collectionID != reviewID');
+                      watson.deleteCollection(currentDiscoveryInfo)
+                        .then(function(result) {
+
+                          // get collection info
+                          watson.getDiscoveryCollections(envID, configID, reviewId)
+                            .then(function(currentDiscoveryInfo) {
+
+                              // get the reviews in cloudant
+                              getCloudantReviews(reviewId)
+                                .then(function(reviews) {
+
+                                  // start adding the reviews in cloudant to discovery collection
+                                  console.log('number of reviews from cloudant ' +  reviews.reviews.length);
+                                  watson.watsonAddDocument(reviews, currentDiscoveryInfo)
+                                    .then(function() {
+
+                                      // after adding the documents
+                                      // query discovery collections
+                                      setTimeout(function() {
+                                        watson.discoveryQuery(currentDiscoveryInfo)
+                                          .then(function(output) {
+
+                                            // store discovery results in cloudant
+                                            insertDiscoveryInCloudant(output, reviewId)
+                                            res.send(output);
+                                          });
+                                      }, 7000);
+                                    });
+                                });
+                            });
+                        });
+                    }
+                  });
+              });
+            }
           }
           else {
+
+            // if number of reviews from scrape and cloudant are not equal
+            // would mean reviews are not synced; there are new reviews (or deleted? or unscraped? reviews)
+
+            // scrape again
             scrapeNumberOfPages(reviewId)
               .then(scrapeEveryPage)
               .then(function (_options) {
@@ -113,34 +201,57 @@ app.get('/reviews/:reviewId', function(req, res) {
                   reviews: _options.reviews,
                   _rev: options._rev
                 };
+
+                // add the document for the product with the reviews
                 insertCloudantDoc(cloudantDocument)
                   .then(function (options) {
-                    // res.send("Updated document in Cloudant");
-                    // remove res.send and query watson discovery if collection exists
-                    watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){  
-                      watson.deleteCollection(currentDiscoveryInfo).then(function(result){
-                        watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
-                          getCloudantReviews(reviewId).then(function(reviews){
-                            console.log('number of reviews from cloudant ' +  reviews.reviews.length);
-                            watson.watsonAddDocument(reviews, currentDiscoveryInfo)
-                            .then(function(){
-                              setTimeout(function(){
-                                watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
-                                  console.log(output)
-                                  res.send(output);
-                                });                              
-                              }, 7000);
-                            });
-                          });
-                        });
-                      });          
-                    });
+                    
+                    // get collection info
+                    watson.getDiscoveryCollections(envID, configID, reviewId)
+                      .then(function(currentDiscoveryInfo) {
+
+                        // then delete the collection
+                        watson.deleteCollection(currentDiscoveryInfo)
+                          .then(function(result) {
+
+                            // get collection info
+                            watson.getDiscoveryCollections(envID, configID, reviewId)
+                              .then(function(currentDiscoveryInfo) {
+
+                                // get the new set of reviews in cloudant
+                                getCloudantReviews(reviewId)
+                                  .then(function(reviews) {
+
+                                    // start adding the reviews to discovery collection
+                                    console.log('number of reviews from cloudant ' +  reviews.reviews.length);
+                                    watson.watsonAddDocument(reviews, currentDiscoveryInfo)
+                                      .then(function() {
+
+                                        // after adding documents
+                                        // query discovery results
+                                        setTimeout(function() {
+                                          watson.discoveryQuery(currentDiscoveryInfo)
+                                            .then(function(output) {
+
+                                              // store discovery results in cloudant
+                                              insertDiscoveryInCloudant(output, reviewId)
+                                              res.send(output);
+                                            });                              
+                                        }, 7000);
+                                      });
+                                  });
+                              });
+                          });          
+                      });
                   });
               });
           }
         });
     }
     else {
+
+      // if no document of product
+      // start scraping the reviews
       console.log(reviewId + " document doesnt exist");
       scrapeNumberOfPages(reviewId)
         .then(scrapeEveryPage)
@@ -151,23 +262,47 @@ app.get('/reviews/:reviewId', function(req, res) {
             reviews: options.reviews
           };
           insertCloudantDoc(cloudantDocument)
-            .then(function (options) {              
-              // remove res.send and create collecion in watson discovery
-              watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){  
-                watson.deleteCollection(currentDiscoveryInfo).then(function(result){
-                  watson.getDiscoveryCollections(envID, configID, reviewId).then(function(currentDiscoveryInfo){
-                    getCloudantReviews(reviewId).then(function(reviews){
-                      console.log('number of reviews from cloudant ' +  reviews.reviews.length);
-                      watson.watsonAddDocument(reviews, currentDiscoveryInfo)
-                      .then(function(){
-                        setTimeout(function(){
-                          watson.discoveryQuery(currentDiscoveryInfo);
-                        }, 7000);
-                      });
+            .then(function (options) {
+
+              // after inserting in cloudant
+              // get collection info
+              watson.getDiscoveryCollections(envID, configID, reviewId)
+                .then(function(currentDiscoveryInfo) {
+
+                  // delete the collection
+                  // since this is a new scrape
+                  watson.deleteCollection(currentDiscoveryInfo)
+                    .then(function(result) {
+
+                      // get collection info
+                      watson.getDiscoveryCollections(envID, configID, reviewId)
+                        .then(function(currentDiscoveryInfo){
+
+                          // get the reviews in cloudant
+                          getCloudantReviews(reviewId)
+                            .then(function(reviews) {
+
+                              // start adding the reviews to the dsicovery collection
+                              console.log('number of reviews from cloudant ' +  reviews.reviews.length);
+                              watson.watsonAddDocument(reviews, currentDiscoveryInfo)
+                                .then(function() {
+
+                                  // after adding documents
+                                  // query discovery results
+                                  setTimeout(function() {
+                                    watson.discoveryQuery(currentDiscoveryInfo)
+                                      .then(function(output) {
+
+                                        // store discovery results in cloudant
+                                        insertDiscoveryInCloudant(output, reviewId)
+                                        res.send(output);
+                                      }); 
+                                  }, 7000);
+                                });
+                            });
+                        });
                     });
-                  });
-                });          
-              });
+                });
           });
         });
     }
@@ -178,6 +313,24 @@ app.get('/cloudant/:reviewId', function(req, res) {
   getCloudantReviews(req.params.reviewId)
     .then(function (result) {
       res.send(result);
+    });
+});
+
+app.get('/discoveries', function(req, res) {
+  mydb.list(function(err, data) {
+    if (err) {
+      res.send(err)
+    }
+    else {
+      res.send(data)
+    }
+  });
+});
+
+app.get('/discoveries/:reviewId', function(req, res) {
+  getCloudantReviews(req.params.reviewId)
+    .then(function (result) {
+      res.send(result.watsonDiscovery);
     });
 });
 
@@ -370,9 +523,11 @@ function existingCloudantDoc(productId) {
  * object resolved:
  * object = {
  * "isEqual": true,
+ * "isReviewsEqualToDiscoveryDocuments": true
  * "_rev": ""
  * }
- * object.isEqual is a Boolean
+ * object.isEqualToScrape is a Boolean
+ * object.isReviewsEqualToDiscoveryDocuments is Boolean
  */
 function isNumberOfReviewsEqual(options) {
   return new Promise(function (resolve, reject) {
@@ -382,9 +537,15 @@ function isNumberOfReviewsEqual(options) {
       }
       else {
         var object = {};
-        object.isEqual = result.docs[0].reviews.length == options.numberOfReviews;
+        object.isEqualToScrape = result.docs[0].reviews.length == options.numberOfReviews;
         object._rev = result.docs[0]._rev;
         object.CloudReviewsLen = result.docs[0].reviews.length;
+        if (result.docs[0].hasOwnProperty("watsonDiscovery")) {
+          object.isReviewsEqualToDiscoveryDocuments = object.CloudReviewsLen == result.docs[0].watsonDiscovery.matching_results;
+        }
+        else {
+          object.isReviewsEqualToDiscoveryDocuments = false;
+        }
         console.log(object._rev);
         console.log(result.docs[0].reviews.length + " in cloudant. " + options.numberOfReviews + " in scraping");
         resolve(object);
@@ -409,6 +570,25 @@ function insertCloudantDoc(doc) {
       resolve(result);
     });
   });
+}
+
+/**
+ * Update a Cloudant Document with the discovery results
+ * @param {Object} discoveryResult - JSON to be saved in Cloudant
+ * - discoveryResult = is output of discoveryQuery in lib/watson.js
+ * @param {String} = reviewId of the product;
+ * @return {Promise} - promise that is resolved when cloudant document is saved
+ */
+function insertDiscoveryInCloudant(discoveryResult, reviewId) {
+  return new Promise(function(resolve,reject) {
+    getCloudantReviews(reviewId)
+    .then(function(options) {
+      var doc = options
+      doc.watsonDiscovery = JSON.parse(discoveryResult)
+      insertCloudantDoc(doc)
+        .then(resolve)
+    });
+  })
 }
 
 /**
