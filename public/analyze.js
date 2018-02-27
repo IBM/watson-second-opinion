@@ -1,7 +1,6 @@
 // var ProgressBar = require('progressbar.js');
 
 class Watson{
-
   discovery(){
 
     var posCount = 0;
@@ -12,10 +11,16 @@ class Watson{
     sentimentCont.hidden = true;
     entitiesCont.hidden = true;
     reviewsCont.hidden = true;   
-    data.source = document.getElementById("productUrl").value; 
-    // console.log('data.source: ');
-    // console.log(data.source);
-    var nodeUrl = 'reviews/' + data.source;
+
+    data.url = document.getElementById("productUrl").value; 
+    var match = data.url.match(pattern);
+    data.source = match[0];
+    console.log('data.url: ');
+    console.log(data.url);
+    console.log('data.source: ');
+    console.log(data.source);
+    var nodeUrl = 'http://localhost:4000/reviews/' + data.source;
+    
     var json = JSON.stringify(data);
     var ourRequest = new XMLHttpRequest();
     ourRequest.open("GET", nodeUrl, true);
@@ -204,6 +209,7 @@ class Watson{
 }
 
 let watson = new Watson();
+var pattern = /(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))/;
 
 document.getElementById("goButton").addEventListener("click", watson.discovery);
 
