@@ -63,7 +63,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                           .then(function(){
                             setTimeout(function(){
                               watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
-                                console.log(output)
+                                console.log("sending result: " + output);
                                 res.send(output);
                               });                            
                             }, 9000);
@@ -74,7 +74,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                   } else {
                     console.log('all of our reviews are already in the collection');
                     watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
-                      console.log(output)
+                      console.log("sending result: " + output);
                       res.send(output);
                     });
                   }
@@ -89,7 +89,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                         .then(function(){
                           setTimeout(function(){
                             watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
-                              console.log(output)
+                              console.log("sending result: " + output);
                               res.send(output);
                             });
                           }, 7000);
@@ -126,7 +126,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                             .then(function(){
                               setTimeout(function(){
                                 watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
-                                  console.log(output)
+                                  console.log("sending result: " + output);
                                   res.send(output);
                                 });                              
                               }, 7000);
@@ -161,7 +161,10 @@ app.get('/reviews/:reviewId', function(req, res) {
                       watson.watsonAddDocument(reviews, currentDiscoveryInfo)
                       .then(function(){
                         setTimeout(function(){
-                          watson.discoveryQuery(currentDiscoveryInfo);
+                          watson.discoveryQuery(currentDiscoveryInfo).then(function(output){
+                            console.log("sending result: " + output);
+                            res.send(output);
+                          });
                         }, 7000);
                       });
                     });
