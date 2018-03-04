@@ -38,3 +38,10 @@ spec:
               value: 'password'
           ports:
             - containerPort: 5984
+          volumeMounts:
+            - name: couchdb-storage
+              mountPath: /opt/couchdb/data
+      volumes:
+        - name: couchdb-storage
+          persistentVolumeClaim:
+            claimName: couchdb-claim
