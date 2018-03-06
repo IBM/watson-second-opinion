@@ -334,7 +334,7 @@ app.get('/discoveries/:reviewId', function(req, res) {
     });
 });
 
-var port = process.env.PORT || 4000
+var port = process.env.PORT || 8080
 app.listen(port, function() {
   console.log("Oder API service is in port: " + port);
 });
@@ -367,6 +367,7 @@ function scrapeEveryPage(options) {
           console.log('Error occurred');
           reject(error);
         } else {
+          var productTitle = [];
           var title = [];
           var review = [];
           var author = [];
@@ -374,6 +375,7 @@ function scrapeEveryPage(options) {
           var rating = [];
 
           var $ = cheerio.load(body);
+
           $("a[class='a-size-base a-link-normal review-title a-color-base a-text-bold']").each(function(i, element){
               // console.log((i) + '==>' + $(this).text());
               title.push($(this).text());
@@ -408,6 +410,7 @@ function scrapeEveryPage(options) {
             JSONObjectReview.text = review[i];
             JSONObjectReview.title = title[i];
             JSONObjectReview.rating = parseInt(rating[i]);
+            JSONObjectReview.productTitle = options.productTitle;
             arrayOfReviews.push(JSONObjectReview);
           }
 
@@ -419,6 +422,8 @@ function scrapeEveryPage(options) {
             object.productId = options.productId;
             object.productName = options.productName;
             object.reviews = arrayOfReviews;
+            console.log('aboout so show productName')
+            console.log(object.productName)
             resolve(object);
           }
         }
