@@ -61,6 +61,7 @@ app.get('/reviews/:reviewId', function(req, res) {
       scrapeNumberOfReviews(reviewId)
         .then(isNumberOfReviewsEqual)
         .then(function (options) {
+        
           if (options.isEqualToScrape) {
 
             // if number of reviews in cloudant is equal to discovery results in cloudant
@@ -124,7 +125,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                                           .then(function(output) {
 
                                             // store discovery results in cloudant
-                                            insertDiscoveryInCloudant(output, reviewId)
+                                            insertDiscoveryInCloudant(output, reviewId);
                                             res.send(output);
                                           });
                                       }, 9000);
@@ -141,7 +142,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                           .then(function(output){
 
                             // store discovery results in cloudant
-                            insertDiscoveryInCloudant(output, reviewId)
+                            insertDiscoveryInCloudant(output, reviewId);
                             res.send(output);
                           });
                       }
@@ -173,7 +174,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                                           .then(function(output) {
 
                                             // store discovery results in cloudant
-                                            insertDiscoveryInCloudant(output, reviewId)
+                                            insertDiscoveryInCloudant(output, reviewId);
                                             res.send(output);
                                           });
                                       }, 7000);
@@ -234,7 +235,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                                             .then(function(output) {
 
                                               // store discovery results in cloudant
-                                              insertDiscoveryInCloudant(output, reviewId)
+                                              insertDiscoveryInCloudant(output, reviewId);
                                               res.send(output);
                                             });                              
                                         }, 7000);
@@ -243,6 +244,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                               });
                           });          
                       });
+
                   });
               });
           }
@@ -294,7 +296,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                                       .then(function(output) {
 
                                         // store discovery results in cloudant
-                                        insertDiscoveryInCloudant(output, reviewId)
+                                        insertDiscoveryInCloudant(output, reviewId);
                                         res.send(output);
                                       }); 
                                   }, 7000);
@@ -453,6 +455,8 @@ function scrapeNumberOfPages(productId) {
         object.productName = $("title").text().replace("Amazon.com: Customer reviews: ","");
         console.log(object.productName + " <== GETTING REVIEWS OF");
         object.totalPages = pageList.pop();
+        if(object.totalPages == undefined)
+          object.totalPages = 1;
         console.log('object.totalPages: ');
         console.log(object.totalPages);
         object.productId = productId;
