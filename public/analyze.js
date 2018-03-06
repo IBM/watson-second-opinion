@@ -7,12 +7,25 @@ class Watson{
     var posCount = 0;
     var neuCount = 0;
     var negCount = 0;
-    var entityCount = 0;
+    var entityCount = 0;  
+    outputText.hidden = true;
+    data.url = document.getElementById("productUrl").value; 
+    var match = data.url.match(pattern);
+    if(match == null){
+      outputText.hidden = false;
+      sentimentCont.hidden = true;
+      entitiesCont.hidden = true;
+      reviewsCont.hidden = true; 
+      outputText.innerHTML = "Please check your input is a valid Amazon product url";
+      return;
+    }
     loader.hidden = false; 
     sentimentCont.hidden = true;
     entitiesCont.hidden = true;
-    reviewsCont.hidden = true;   
-    data.source = document.getElementById("productUrl").value; 
+    reviewsCont.hidden = true; 
+    data.source = match[0];
+    //console.log('data.url: ');
+    //console.log(data.url);
     // console.log('data.source: ');
     // console.log(data.source);
     var nodeUrl = 'reviews/' + data.source;
@@ -192,7 +205,7 @@ class Watson{
       entitiesCont.hidden = false;
       reviewsCont.hidden = false;              
     };
-    ourRequest.send(json);    
+    ourRequest.send(json);  
   }
 
   sort(dict) {
@@ -204,6 +217,7 @@ class Watson{
 }
 
 let watson = new Watson();
+var pattern = /(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))/;
 
 document.getElementById("goButton").addEventListener("click", watson.discovery);
 
@@ -216,6 +230,7 @@ var reviewsCont = document.getElementById("reviewsCont");
 
 var data = {};
 
+outputText.hidden = true;
 loader.hidden = true; //hide loader at the start of the app
 sentimentCont.hidden = true;
 entitiesCont.hidden = true;
