@@ -9,6 +9,7 @@ class Watson{
     var negCount = 0;
     var entityCount = 0;  
     outputText.hidden = true;
+    productName.hidden = true;
     data.url = document.getElementById("productUrl").value; 
     var match = data.url.match(pattern);
     if(match == null){
@@ -39,23 +40,37 @@ class Watson{
       }
       else {
         var output = JSON.parse(ourRequest.responseText);
+        console.log('output: ')
         console.log(output);
-        var reviewLen = output.results.length;
+        var reviewLen;
+        if (output.matching_results === undefined) {
+          reviewLen = output.reviews.length;
+        } else {
+          reviewLen = output.matching_results;
+        }
+        productName.innerHTML = '<center><h2>' + output.productName + '</h2></center>';
         var dict = [];
         var dictLenght = dict.length;
         var insertToEntities = true;
+        var results;
+
+        if (output.watsonDiscovery === undefined) {
+          results = output.results;
+        } else {
+          results = output.watsonDiscovery.results;
+        }
 
         reviewsCont.innerHTML = '<center><h2>Customer reviews </h2></center>';
 
         for (var i = 0; i < reviewLen; i++) {
-          if (output.results[i].enriched_text !== undefined) {
-            var entitiesLen = output.results[i].enriched_text.entities.length;
+          if (results[i].enriched_text !== undefined) {
+            var entitiesLen = results[i].enriched_text.entities.length;
             if (entitiesLen > 0) {
               console.log('go here; ')
               console.log(i)
               for (var j = 0; j < entitiesLen; j++) {
-                var entity = output.results[i].enriched_text.entities[j].text;
-                var count = output.results[i].enriched_text.entities[j].count;
+                var entity = results[i].enriched_text.entities[j].text;
+                var count = results[i].enriched_text.entities[j].count;
                 var add = true;              
                 if (dict.length <= 0) {
                   dict.push({
@@ -79,9 +94,9 @@ class Watson{
                 }
               }
             }
-            if (output.results[i].enriched_text.sentiment.document.label === 'positive') {
+            if (results[i].enriched_text.sentiment.document.label === 'positive') {
               posCount++;
-            } else if (output.results[i].enriched_text.sentiment.document.label === 'negative') {
+            } else if (results[i].enriched_text.sentiment.document.label === 'negative') {
                 negCount++;
             } else {
               neuCount++;
@@ -93,15 +108,15 @@ class Watson{
 
         var userIcon = '<i id = "userIcon" class="fa fa-user-circle-o"></i>';
         
-        for (var i = 0; i < output.results.length; i++) {
-          reviewsCont.innerHTML += userIcon + '<p>' + output.results[i].reviewer + '</p>';
+        for (var i = 0; i < results.length; i++) {
+          reviewsCont.innerHTML += userIcon + '<p>' + results[i].reviewer + '</p>';
 
           reviewsCont.innerHTML += 
           '<div class="stars-outer">' +
           '<p id = "rating">' + 'Rating: ' + '</p>';
           var numberOfStars = 0;
           var starsContent = "";
-          while (numberOfStars < output.results[i].rating) {
+          while (numberOfStars < results[i].rating) {
             starsContent += "&#xf005 ";
             numberOfStars++;
           }
@@ -113,7 +128,7 @@ class Watson{
           
 
           reviewsCont.innerHTML += '<p id = "reviewText">' + '<p><b>' +
-            output.results[i].title + ' - ' + ' </b>' + output.results[i].text + '<br></p>';   
+            results[i].title + ' - ' + ' </b>' + results[i].text + '<br></p>';   
         }
 
         var posPercent = Math.round(100*(posCount / reviewLen));
@@ -126,8 +141,7 @@ class Watson{
         console.log('posPercent: ')
         console.log(posPercent)
 
-        var overallSentiment = 'General<br>Sentiment: <br>' +
-          posPercent + '% Positive'; 
+        var overallSentiment = '<h3>Reviews Analysis</h3>';
 
         Highcharts.setOptions({
           colors: ['#64E572', '#ffff00','#ff0000']
@@ -137,35 +151,31 @@ class Watson{
           chart: {
             plotBackgroundColor: null,
             plotBorderWidth: 0,
-            plotShadow: false
+            plotShadow: false,
+            type: 'pie'
           },
           title: {
-            text: overallSentiment,
-            align: 'center',
-            verticalAlign: 'middle',
-            y: 40
+            text: overallSentiment
           },
           tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:1.0f}%</b>'
           },
           plotOptions: {
             pie: {
-              dataLabels: {
-                enabled: true,
-                distance: -50,
-                style: {
-                  fontWeight: 'bold',
-                  color: 'white'
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:1.0f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
                 }
-              },
-              startAngle: -90,
-              endAngle: 90,
-              center: ['50%', '75%']
             }
-          },
+        },
           series: [{
             type: 'pie',
-            name: 'General Product Sentiment',
+            name: 'Review Sentiment',
             innerSize: '50%',
             data: [
               ['Positive', posPercent],
@@ -203,7 +213,8 @@ class Watson{
       loader.hidden = true;
       sentimentCont.hidden = false;  
       entitiesCont.hidden = false;
-      reviewsCont.hidden = false;              
+      reviewsCont.hidden = false;   
+      productName.hidden = false;           
     };
     ourRequest.send(json);  
   }
@@ -226,6 +237,7 @@ var loader = document.getElementById("myLoader");
 var sentimentCont = document.getElementById("sentimentCont");
 var entitiesCont = document.getElementById("entitiesCont");
 var reviewsCont = document.getElementById("reviewsCont");
+var productName = document.getElementById("productName");
 
 
 var data = {};
@@ -235,5 +247,7 @@ loader.hidden = true; //hide loader at the start of the app
 sentimentCont.hidden = true;
 entitiesCont.hidden = true;
 reviewsCont.hidden = true; 
+productName.hidden = true; 
+
 
 

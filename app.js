@@ -72,7 +72,7 @@ app.get('/reviews/:reviewId', function(req, res) {
               // get cloudant document then send the watson discovery result
               getCloudantReviews(reviewId)
                 .then(function(reviews) {
-                  res.send(reviews.watsonDiscovery);
+                  res.send(reviews);
                 });
             }
             else {
@@ -126,6 +126,8 @@ app.get('/reviews/:reviewId', function(req, res) {
 
                                             // store discovery results in cloudant
                                             insertDiscoveryInCloudant(output, reviewId);
+                                            output = JSON.parse(output);
+                                            output.productName = reviews.productName;
                                             res.send(output);
                                           });
                                       }, 9000);
@@ -175,6 +177,8 @@ app.get('/reviews/:reviewId', function(req, res) {
 
                                             // store discovery results in cloudant
                                             insertDiscoveryInCloudant(output, reviewId);
+                                            output = JSON.parse(output);
+                                            output.productName = reviews.productName;
                                             res.send(output);
                                           });
                                       }, 7000);
@@ -236,6 +240,8 @@ app.get('/reviews/:reviewId', function(req, res) {
 
                                               // store discovery results in cloudant
                                               insertDiscoveryInCloudant(output, reviewId);
+                                              output = JSON.parse(output);
+                                              output.productName = reviews.productName;
                                               res.send(output);
                                             });                              
                                         }, 7000);
@@ -297,6 +303,8 @@ app.get('/reviews/:reviewId', function(req, res) {
 
                                         // store discovery results in cloudant
                                         insertDiscoveryInCloudant(output, reviewId);
+                                        output = JSON.parse(output);
+                                        output.productName = reviews.productName;
                                         res.send(output);
                                       }); 
                                   }, 7000);
