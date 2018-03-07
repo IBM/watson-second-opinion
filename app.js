@@ -72,7 +72,7 @@ app.get('/reviews/:reviewId', function(req, res) {
               // get cloudant document then send the watson discovery result
               getCloudantReviews(reviewId)
                 .then(function(reviews) {
-                  res.send(reviews.watsonDiscovery);
+                  res.send(reviews);
                 });
             }
             else {
@@ -126,6 +126,8 @@ app.get('/reviews/:reviewId', function(req, res) {
 
                                             // store discovery results in cloudant
                                             insertDiscoveryInCloudant(output, reviewId);
+                                            output = JSON.parse(output);
+                                            output.productName = reviews.productName;
                                             res.send(output);
                                           });
                                       }, 9000);
@@ -175,6 +177,8 @@ app.get('/reviews/:reviewId', function(req, res) {
 
                                             // store discovery results in cloudant
                                             insertDiscoveryInCloudant(output, reviewId);
+                                            output = JSON.parse(output);
+                                            output.productName = reviews.productName;
                                             res.send(output);
                                           });
                                       }, 7000);
@@ -236,6 +240,8 @@ app.get('/reviews/:reviewId', function(req, res) {
 
                                               // store discovery results in cloudant
                                               insertDiscoveryInCloudant(output, reviewId);
+                                              output = JSON.parse(output);
+                                              output.productName = reviews.productName;
                                               res.send(output);
                                             });                              
                                         }, 7000);
@@ -297,6 +303,8 @@ app.get('/reviews/:reviewId', function(req, res) {
 
                                         // store discovery results in cloudant
                                         insertDiscoveryInCloudant(output, reviewId);
+                                        output = JSON.parse(output);
+                                        output.productName = reviews.productName;
                                         res.send(output);
                                       }); 
                                   }, 7000);
@@ -336,7 +344,7 @@ app.get('/discoveries/:reviewId', function(req, res) {
     });
 });
 
-var port = process.env.PORT || 8080
+var port = process.env.PORT || 4000
 app.listen(port, function() {
   console.log("Oder API service is in port: " + port);
 });
@@ -369,7 +377,6 @@ function scrapeEveryPage(options) {
           console.log('Error occurred');
           reject(error);
         } else {
-          var productTitle = [];
           var title = [];
           var review = [];
           var author = [];
@@ -377,7 +384,6 @@ function scrapeEveryPage(options) {
           var rating = [];
 
           var $ = cheerio.load(body);
-
           $("a[class='a-size-base a-link-normal review-title a-color-base a-text-bold']").each(function(i, element){
               // console.log((i) + '==>' + $(this).text());
               title.push($(this).text());
@@ -412,7 +418,6 @@ function scrapeEveryPage(options) {
             JSONObjectReview.text = review[i];
             JSONObjectReview.title = title[i];
             JSONObjectReview.rating = parseInt(rating[i]);
-            JSONObjectReview.productTitle = options.productTitle;
             arrayOfReviews.push(JSONObjectReview);
           }
 
@@ -424,8 +429,6 @@ function scrapeEveryPage(options) {
             object.productId = options.productId;
             object.productName = options.productName;
             object.reviews = arrayOfReviews;
-            console.log('aboout so show productName')
-            console.log(object.productName)
             resolve(object);
           }
         }
