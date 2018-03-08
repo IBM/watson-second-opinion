@@ -78,12 +78,12 @@ $ docker push DOCKERHUB_USERNAME/watson-review-analyzer:1.0
 Setup kubectl to use your cluster
 
 ```
-bx cs cluster-config <your-cluster-name>
+$ bx cs cluster-config <your-cluster-name>
 ```
 Use the configuration for your cluster by exporting the environment variables - copy and paste the full line starting with:
 
 ```
-export KUBECONFIG=
+$ export KUBECONFIG=
 ```
 
 Add your Watson Discovery credentials in `config.json.sample` and rename it to `config.json`:
