@@ -61,7 +61,7 @@ app.get('/reviews/:reviewId', function(req, res) {
       scrapeNumberOfReviews(reviewId)
         .then(isNumberOfReviewsEqual)
         .then(function (options) {
-        
+
           if (options.isEqualToScrape) {
 
             // if number of reviews in cloudant is equal to discovery results in cloudant
@@ -84,7 +84,7 @@ app.get('/reviews/:reviewId', function(req, res) {
               watson.getDiscoveryCollections(envID, configID, reviewId)
               .then(function(currentDiscoveryInfo) {
 
-                // get collection info 
+                // get collection info
                 watson.getCollectionInfo(currentDiscoveryInfo)
                   .then(function(result) {
 
@@ -210,7 +210,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                 // add the document for the product with the reviews
                 insertCloudantDoc(cloudantDocument)
                   .then(function (options) {
-                    
+
                     // get collection info
                     watson.getDiscoveryCollections(envID, configID, reviewId)
                       .then(function(currentDiscoveryInfo) {
@@ -243,12 +243,12 @@ app.get('/reviews/:reviewId', function(req, res) {
                                               output = JSON.parse(output);
                                               output.productName = reviews.productName;
                                               res.send(output);
-                                            });                              
+                                            });
                                         }, 7000);
                                       });
                                   });
                               });
-                          });          
+                          });
                       });
 
                   });
@@ -306,7 +306,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                                         output = JSON.parse(output);
                                         output.productName = reviews.productName;
                                         res.send(output);
-                                      }); 
+                                      });
                                   }, 7000);
                                 });
                             });
@@ -375,6 +375,7 @@ function scrapeEveryPage(options) {
       cloudscraper.get(review_url + options.productId + review_page + page, function(error, response, body) {
         if (error) {
           console.log('Error occurred');
+          console.log(error);
           reject(error);
         } else {
           var title = [];
