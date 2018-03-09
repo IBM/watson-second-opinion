@@ -51,7 +51,7 @@ class Watson{
 
         productName.innerHTML = '<center><h1>' + output.productName + '</h1></center>';
         
-      
+
         var results;
 
         if (output.watsonDiscovery === undefined) {
@@ -384,7 +384,6 @@ var relatedConceptsCont = document.getElementById("relatedConceptsCont");
 var productName = document.getElementById("productName");
 var topKeywords = document.getElementById("topKeywords");
 var relatedConcepts = document.getElementById("relatedConcepts");
-
 
 var data = {};
 
