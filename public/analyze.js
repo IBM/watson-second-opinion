@@ -51,7 +51,7 @@ class Watson{
 
         productName.innerHTML = '<center><h1>' + output.productName + '</h1></center>';
         
-        
+      
         var results;
 
         if (output.watsonDiscovery === undefined) {
@@ -65,6 +65,7 @@ class Watson{
         //go through all the reviews. 
         for (var i = 0; i < reviewLen; i++) {
           //check metadata of each individial review...i.e entities / keywords
+
           if (results[i].enriched_text !== undefined) {
             var entitiesLen = results[i].enriched_text.entities.length;
             if (entitiesLen > 0) {
@@ -353,6 +354,7 @@ class Watson{
       if (showConcepts) {
         relatedConceptsCont.hidden = false;              
       }
+
       reviewsCont.hidden = false;   
       productName.hidden = false;           
     };
@@ -382,6 +384,7 @@ var relatedConceptsCont = document.getElementById("relatedConceptsCont");
 var productName = document.getElementById("productName");
 var topKeywords = document.getElementById("topKeywords");
 var relatedConcepts = document.getElementById("relatedConcepts");
+
 
 var data = {};
 

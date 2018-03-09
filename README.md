@@ -61,8 +61,13 @@ Create the following service:
 * [**IBM Cloud Kubernetes**](https://console.bluemix.net/containers-kubernetes/catalog/cluster)
 
 ### 3. Build your images
+Login to Docker using your username and password for your Docker Registry.
 
-The Node.js app will be packaged into a Docker image. This will be used by the Kubernetes Cluster
+```
+$ docker login
+```
+
+The Node.js app will be packaged into a Docker image. This will be used by the Kubernetes Cluster.
 
 ```
 $ docker build -t DOCKERHUB_USERNAME/watson-review-analyzer:1.0 .
@@ -70,7 +75,16 @@ $ docker push DOCKERHUB_USERNAME/watson-review-analyzer:1.0
 ```
 
 ### 4. Configure Deployment files
-> Make sure you have set-up `kubectl` to use your cluster.
+Setup kubectl to use your cluster
+
+```
+$ bx cs cluster-config <your-cluster-name>
+```
+Use the configuration for your cluster by exporting the environment variables - copy and paste the full line starting with:
+
+```
+$ export KUBECONFIG=
+```
 
 Add your Watson Discovery credentials in `config.json.sample` and rename it to `config.json`:
 
