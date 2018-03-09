@@ -152,7 +152,7 @@ kube-dal12-cr5c30966926aa444f9c02c72d5c3e1ca5-w1   <b>169.xy.xyz.35</b>   10.184
 
 Go to `169.xy.xyz.221` or `169.xy.xyz.35:31385` (for clusters without a Load Balancer)
 
-![Landing Page](docs/landing-page.png)
+![Landing Page](docs/empty.png)
 
 ### 6. Search for a product in Amazon
 
@@ -162,13 +162,13 @@ To use the app, search for the product you want the reviews to be uploaded to Wa
 
 In this case, the product ID is **B06XZ2CM2H**
 
-![Landing Page](docs/input.png)
+![Landing Page](docs/analysis.png)
 
 Go ahead and press `Go`.
 
 After Watson Discovery finishes processing all the reviews, the app should show you its General Sentiment and Top entities found.
 
-![Landing Page](docs/discovery-result.png)
+![Landing Page](docs/concepts.png)
 
 # Learn more
 
