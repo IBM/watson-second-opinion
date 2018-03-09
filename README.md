@@ -46,6 +46,31 @@ You would also need a Docker Registry. [Docker Hub](https://hub.docker.com/) let
 5. [Deploy the application](#5-deploy-the-application)
 6. [Search for a product in Amazon](#6-search-for-a-product-in-amazon)
 
+## Deploy to IBM Cloud
+
+[![Deploy to Bluemix](https://metrics-tracker.mybluemix.net/stats/7044d7c07bc30cff6a6c2a52e804ad8a/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-review-analyzer.git)
+
+1. Create the following service:
+    * [**Watson Discovery**](https://console.ng.bluemix.net/catalog/services/discovery)
+    * [**IBM Cloud Kubernetes**](https://console.bluemix.net/containers-kubernetes/catalog/cluster)
+      > You can use an existing IBM Cloud Kubernetes cluster
+
+2. Press the above `Deploy to IBM Cloud`
+    > The toolchain uses GitHub for its source control. You may be asked to authenticate the toolchain to use your account. The toolchain will clone this repo and will be used for its deployment.
+3. Fill out the following fields.
+    * If you don't have an API key for your account, create one [here](https://console.ng.bluemix.net/iam/#/apikeys)
+    * For the cluster name, choose the one you have created
+    * For the image registry namespace, use an existing one if you have previously created an [IBM Cloud Container Registry](https://console.bluemix.net/containers-kubernetes/registry/start) or use a unique name for yourself. The toolchain will create one for you if the namespace is existing
+      > Toolchain will fail if the namespace is taken
+    * For the Discovery username and Discovery password, use the one you have just created
+![fields](docs/fields.png)
+
+4. The IP address of your app can be found in the logs of the delivery pipeline's deploy stage.
+![deploy](docs/deploy.png)
+![link](docs/link.png)
+
+## Deploy to Kubernetes
+
 ### 1. Clone the repo
 
 ```

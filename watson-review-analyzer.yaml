@@ -46,3 +46,24 @@ spec:
         - name: config-file
           configMap:
             name: watson-discovery-config
+---
+apiVersion: batch/v1
+kind: Job
+metadata: {name: 'watson-review-analyzer-metrics'}
+spec:
+  template:
+    metadata: {name: 'watson-review-analyzer-metrics'}
+    spec:
+      containers:
+        - env:
+            - {name: config, value: '{"event_id": "web",
+                "repository_id": "https://github.com/IBM/watson-review-analyzer",
+                "target_services": ["Discovery"], "target_runtimes":
+                ["Kubernetes Cluster"], "event_organizer":
+                "dev-journeys"}'}
+            - {name: language, value: nodejs}
+          image: journeycode/kubernetes:latest
+          name: watson-review-analyzer-metrics
+          resources:
+            limits: {cpu: 100m}
+      restartPolicy: Never
