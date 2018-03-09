@@ -1,6 +1,7 @@
 <!doctype html>
 
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
 
@@ -28,54 +29,71 @@
   <![endif]-->
 
   <!-- Word Cloud for Top Entites -->
-  <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
-  <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
-  ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
+  <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+  <script>
+    zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
+  </script>
   <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
 
   <!-- Viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
 </head>
 
 <body>
-  <center>
-    <header class = 'header' >
-      <h3>Watson Second Opinion<h3>
-    </header>
-    <section class="_full-width-row _full-width-row_gray jumbotron">
-      <h1>Watson Second Opinion analyzes millions of reviews</h1>
+  <header>
+    <a href="http://www.ibm.com/watson/developercloud/discovery.html" id='discovery'>Discovery /</a>
+    <a href="https://discovery-news-demo.ng.bluemix.net/" id='discoveryDemo'>Discovery Demo</a>
+    <a href="/" id='secondOpinion'>Watson Second Opinion</a>
+  </header>
+  <section class="_full-width-row _full-width-row_gray jumbotron">
+    <center>
+      <h1 id='jumbotronTop'>Watson Second Opinion analyzes millions of reviews</h1>
       <h1>and helps you make an educated decision</h1>
-    </section>
+      <a href="https://www.ibm.com/watson/developer/">
+        <img id = 'watsonLogo' src="./photos/watson.png" alt="Mountain View">
+      </a>
+      <a href="https://www.ibm.com/watson/services/discovery/">
+        <img id = 'discoveryLogo' src="./photos/discovery.png" alt="Mountain View">            
+      </a>
+      <!-- <img id = 'watsonLogo' src="./photos/watson.png" alt="Mountain View">
+      <img id = 'discoveryLogo' src="./photos/discovery.png" alt="Mountain View">             -->
+    </center>
+  </section>
   </center>
 
 
   <div class="col-md-12 text-center">
     <center>
-    <section class="_full-width-row query query_collapsed">
-      <label>Copy &amp; paste your Amazon product URL:</label>
-      <input id = 'productUrl' type = "text" value="" id= "text" name="text" required/>
-      <input id = "goButton" type="submit" value="Go"/> 
-      <br/>
-    </section>
-    <div id = "myLoader" class="loader"></div>
-    <div id = "productName"></div>    
-    <div id = "discoveryQueryOutput"></div>
-    <!-- <div class = "row" id="sentimentCont" ></div>
-    <div class = "col" id="entitiesCont">
-      <h2 id = "topEntities">Top Entities</h2>
-    </div> -->
-    <div id="sentimentCont" ></div>
-    <div id="entitiesCont">
-      <h2 id = "topEntities">Top Entities</h2>
-    </div>
+      <section class="_full-width-row query query_collapsed">
+        <label>Copy &amp; paste your Amazon product URL:</label>
+        <input id='productUrl' type="text" value="https://www.amazon.com/Energizer-Alkaline-Battery-Batteries-Count/dp/B0128VWRFE/ref=pd_sim_121_9?_encoding=UTF8&pd_rd_i=B0128VWRFE&pd_rd_r=HZ5F2DW5FKX4C1S0ZV80&pd_rd_w=PedYW&pd_rd_wg=efTbe&psc=1&refRID=HZ5F2DW5FKX4C1S0ZV80"
+          id="text" name="text" required/>
+        <input id="goButton" type="submit" value="Go" />
+        <br/>
+      </section>
+      <div id="myLoader" class="loader"></div>
+      <div id="productName"></div>
+      <div id="discoveryQueryOutput"></div>
+      <div id="sentimentCont"></div>
+      <div id="keywordsCont">
+        <h2 id="topKeywords">Top Keywords</h2>
+      </div>
+      <div id="entitiesCont">
+        <h2 id="topEntities">Top Entities</h2>
+      </div>
+      <div id="relatedConceptsCont">
+        <h2 id="relatedConcepts">Related Concepts</h2>
+      </div>
     </center>
-    
-    <div class = "reviews" id="reviewsCont" ></div>    
-  </div>  
-  
 
-  <script src="analyze.js"></script>    
-  
+    <div class="reviews" id="reviewsCont"></div>
+  </div>
+
+
+  <script src="analyze.js"></script>
+
 </body>
+
 </html>
