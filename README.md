@@ -119,6 +119,16 @@ Deploy the Watson Review Analyzer app.
 $ kubectl apply -f watson-review-analyzer.yaml
 ```
 
+Check if your Pods are running. You should see a couchdb pod and the watson-review-analyzer pod.
+
+```
+$ kubectl get pods
+
+NAME                                         READY     STATUS    RESTARTS   AGE
+couchdb-deployment-78c87bf5bf-2nhc2          1/1       Running   0          4d
+watson-reviews-deployment-859b8d454f-4zxkw   1/1       Running   0          4d
+```
+
 You can access the application in the browser via the Load Balancer's IP (External IP).
 If you don't have the Load Balancer enabled, you can access it through one of your Kubernetes' worker IP and service Node port of watson-review-analyzer.
 
