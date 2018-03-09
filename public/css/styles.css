@@ -15,6 +15,60 @@ input[type=text], select {
   font-size: 16px;
 }
 
+.jumbotron {
+  margin-bottom: -9.3rem;
+}
+
+#jumbotronTop {
+  margin-top: -.1rem;
+}
+
+#secondOpinion {
+  position: absolute;  
+  right: 1rem;
+  font-size: 20px;
+  padding-bottom: 1rem;
+}
+#discovery, #discoveryDemo{
+  top: .1rem;
+  position: relative;
+  left: 1rem;
+}
+
+#watsonLogo {
+  position: relative;
+  left: 49rem;
+  bottom: 7.5rem;
+  width: 6%;
+  height: 6%;
+}
+
+#discoveryLogo {
+  position: relative;
+  right: 49.2rem;
+  bottom: 7.4rem;
+  width: 6%;
+  height: 6%;
+}
+
+header{
+  position: relative;
+  font-family: "Roboto Slab";
+  padding-bottom: 1.8rem;
+  color:black;
+}
+
+a:link {
+  color: purple; 
+  background-color: transparent; 
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: transparent;
+  text-decoration: underline;
+}
+
 input[type=submit]:hover {
   background-color: #0CABE8;
 }
@@ -41,9 +95,9 @@ input[type=submit]:hover {
 
 .loader {
   /* border: 16px solid #ccc; Light grey */
-  border-top: 10px solid #07d;
+  border-top: 10px solid #9753e1;
   border-right: 10px solid transparent;  
-  border-radius: 50%;
+  border-radius: 100%;
   width: 100px;
   height: 100px;
   animation: spin 1.0s ease infinite;
@@ -69,6 +123,7 @@ h1{
 	font-variant: normal;
 	font-weight: normal;
   line-height: 26.4px;
+  color: black;  
 }
 
 h3 {
@@ -79,7 +134,11 @@ h3 {
 
 h2 {
   font-family: "Roboto Slab";
-  padding-bottom: 2px;
+  padding-bottom: 6px;
+  padding-top: 6px;  
+  font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
   color: black;
 }
 
@@ -156,7 +215,7 @@ label {
   margin-top: -50px;  
 }
 
-#topEntities {
+#topEntities, #topKeywords, #relatedConcepts {
   margin-bottom:-4px;  
   z-index: 900;
 }
@@ -169,7 +228,7 @@ label {
   margin-right: 8px;
 }
 
-#entitiesCont {
+#entitiesCont, #keywordsCont, #relatedConceptsCont {
   width: 75%;
   height: 25em;
   border: 1px solid #e3e3e3;    
@@ -203,4 +262,9 @@ label {
 #discoveryQueryOutput {
   padding-bottom: 3rem;
   color: red;
+}
+
+#productName {
+  padding-bottom: 1rem;
+  padding-top: 1rem;  
 }
