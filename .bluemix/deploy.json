@@ -1,0 +1,110 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "messages": {
+       "$i18n": "locales.yml"
+    },
+     "title": {
+      "$ref": "#/messages/deploy.title"
+    },
+    "description": {
+      "$ref": "#/messages/deploy.description"
+    },
+    "longDescription": {
+      "$ref": "#/messages/deploy.longDescription"
+    },
+    "type": "object",
+    "properties": {
+        "prod-region": {
+            "description": "The IBM Cloud region",
+            "type": "string",
+	    "disabled": false
+        },
+       "api-key": {
+            "description": {
+              "$ref": "#/messages/deploy.apiKeyDescription"
+            },
+            "type": "string",
+            "pattern": "\\S"
+        },
+       "registry-namespace": {
+            "description": {
+              "$ref": "#/messages/deploy.registryDescription"
+            },
+            "type": "string",
+            "enum": [],
+            "pattern": "^[a-z0-9][a-z0-9_]{3,29}$"
+       },	    
+       "prod-cluster-name": {
+            "description": {
+              "$ref": "#/messages/deploy.clusterDescription"
+            },
+            "type": "string",
+            "pattern": "\\S",
+	    "enum": [],
+	    "disabled": false
+        },
+       "app-name": {
+            "description": "The app name is for the docker image that will be built. The format would be registry.ng.bluemix.net/REGISTRY_NAMESPACE/APP_NAME:GIT_COMMIT. This will be used by your Kubernetes Cluster",
+            "type": "string",
+            "pattern": "\\S"
+        },
+        "discovery-username": {
+          "description": "The Watson Discovery username of the discovery instance you just created",
+          "type": "string",
+          "disabled": false
+        },
+        "discovery-password": {
+          "description": "The Watson Discovery password of the discovery instance you just created",
+          "type": "string",
+          "disabled": false
+        }
+    },
+    "required": ["registry-namespace", "prod-region", "api-key", "prod-cluster-name", "app-name","discovery-username","discovery-password"],
+    "form": [
+       {
+          "type": "validator",
+          "url": "/devops/setup/bm-helper/custom_helper.html"
+       },{
+          "type": "text",
+          "readonly": false,
+          "title": "App name for your docker image",
+          "key": "app-name"
+        },{
+	  "type": "password",
+          "readonly": false,
+          "title": {
+            "$ref": "#/messages/deploy.apiKey"
+          },
+          "key": "api-key"
+        },
+	{
+          "type": "select",
+          "key": "prod-region",
+           "title": {
+            "$ref": "#/messages/region"
+          }
+        },{
+          "key": "prod-cluster-name",
+          "title": {
+              "$ref": "#/messages/deploy.clusterName"
+          }
+        },{
+          "type": "select",
+          "readonly": false,
+          "title": {
+            "$ref": "#/messages/deploy.imageRegistryNamespace"
+          },
+          "key": "registry-namespace"
+        },{
+          "type": "text",
+          "readonly": false,
+          "title": "Discovery Username",
+          "key": "discovery-username"
+        },{
+          "type": "password",
+          "readonly": false,
+          "title": "Discovery Password",
+          "key": "discovery-password"
+        }
+    ]
+}
