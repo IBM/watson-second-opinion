@@ -129,30 +129,42 @@ class Watson {
     ourRequest.send(json);
   }
 
-  /**
-   * Build a word cloud showing the insights 
-   * from customer reviews using zingChart library
-   * @param  {object} dict - sorted dictionary
-   * @param {string} Id - the id of the container to 
-   * 
-   */
-  buildWordCloud(dict, Id) {
-    var config = {
-      type: 'wordcloud',
-      FONTSIZE: '33',
-      options: {
-        "words": dict,
-        minLength: 4
+   /**
+ * Updates the UI to show accurate star ratings
+ * @param {object} results - an array of the reviews
+ * from the Amazon product 
+ */
+getStarRatings(results) {
+  
+      reviewsCont.innerHTML = '<center><h2>Customer reviews </h2></center>';
+  
+      var userIcon = '<i id = "userIcon" class="fa fa-user-circle-o"></i>';
+  
+      for (var i = 0; i < results.length; i++) {
+        reviewsCont.innerHTML += userIcon + '<p>' + results[i].reviewer + '</p>';
+  
+        reviewsCont.innerHTML +=
+          '<div class="stars-outer">' +
+          '<p id = "rating">' + 'Rating: ' + '</p>';
+        var numberOfStars = 0;
+        var starsContent = "";
+        while (numberOfStars < results[i].rating) {
+          starsContent += "&#xf005 ";
+          numberOfStars++;
+        }
+        while (numberOfStars < 5) {
+          starsContent += "&#xf006 ";
+          numberOfStars++;
+        }
+        reviewsCont.innerHTML += '<div class="stars-inner fa">' + starsContent + '</div></div>';
+  
+  
+        reviewsCont.innerHTML += '<p id = "reviewText">' + '<p><b>' +
+          results[i].title + ' - ' + ' </b>' + results[i].text + '<br></p>';
       }
-    };
-
-    zingchart.render({
-      id: Id,
-      data: config,
-      height: 400,
-      width: '100%'
-    });
-  }
+  
+    }
+  
 
   /**
 * Updates the UI to show accurate star ratings
@@ -280,55 +292,6 @@ class Watson {
   }
 
   /**
- * Updates the UI to show accurate star ratings
- * @param {object} results - an array of the reviews
- * from the Amazon product 
- */
-  getStarRatings(results) {
-
-    reviewsCont.innerHTML = '<center><h2>Customer reviews </h2></center>';
-
-    var userIcon = '<i id = "userIcon" class="fa fa-user-circle-o"></i>';
-
-    for (var i = 0; i < results.length; i++) {
-      reviewsCont.innerHTML += userIcon + '<p>' + results[i].reviewer + '</p>';
-
-      reviewsCont.innerHTML +=
-        '<div class="stars-outer">' +
-        '<p id = "rating">' + 'Rating: ' + '</p>';
-      var numberOfStars = 0;
-      var starsContent = "";
-      while (numberOfStars < results[i].rating) {
-        starsContent += "&#xf005 ";
-        numberOfStars++;
-      }
-      while (numberOfStars < 5) {
-        starsContent += "&#xf006 ";
-        numberOfStars++;
-      }
-      reviewsCont.innerHTML += '<div class="stars-inner fa">' + starsContent + '</div></div>';
-
-
-      reviewsCont.innerHTML += '<p id = "reviewText">' + '<p><b>' +
-        results[i].title + ' - ' + ' </b>' + results[i].text + '<br></p>';
-    }
-
-  }
-
-  /**
-   * A descending sort of our dictonary. Used to order the 
-   * top keywords, entities, and related concepts.
-   * @param {object} dict - an unsorted dictionary 
-   * containing the 
-   * @return {object} dict - returns a sorted dictionary
-   */
-  sort(dict) {
-    dict.sort(function (a, b) {
-      return (b.count) - (a.count);
-    });
-  }
-
-  /**
    * Output our circle graph showing the positive negative and
    * neutral sentiment of our reviews
    * @param {number} posPercent - this number represents the 
@@ -395,6 +358,45 @@ class Watson {
           }
         ]
       }]
+    });
+  }
+
+  /**
+   * Build a word cloud showing the insights 
+   * from customer reviews using zingChart library
+   * @param  {object} dict - sorted dictionary
+   * @param {string} Id - the id of the container to 
+   * 
+   */
+  buildWordCloud(dict, Id) {
+    var config = {
+      type: 'wordcloud',
+      FONTSIZE: '33',
+      options: {
+        "words": dict,
+        minLength: 4
+      }
+    };
+
+    zingchart.render({
+      id: Id,
+      data: config,
+      height: 400,
+      width: '100%'
+    });
+  }
+
+
+  /**
+   * A descending sort of our dictonary. Used to order the 
+   * top keywords, entities, and related concepts.
+   * @param {object} dict - an unsorted dictionary 
+   * containing the 
+   * @return {object} dict - returns a sorted dictionary
+   */
+  sort(dict) {
+    dict.sort(function (a, b) {
+      return (b.count) - (a.count);
     });
   }
 }
