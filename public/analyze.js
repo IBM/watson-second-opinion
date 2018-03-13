@@ -17,7 +17,8 @@ class Watson{
       outputText.hidden = false;
       sentimentCont.hidden = true;
       entitiesCont.hidden = true;
-      keywordsCont.hidden = true;      
+      keywordsCont.hidden = true; 
+      relatedConceptsCont.hidden = true;     
       reviewsCont.hidden = true; 
       outputText.innerHTML = "Please check your input is a valid Amazon product url";
       return;
