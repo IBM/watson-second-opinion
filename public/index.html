@@ -46,13 +46,13 @@
   <header>
     <a href="http://www.ibm.com/watson/developercloud/discovery.html" id='discovery'>Discovery /</a>
     <a href="https://discovery-news-demo.ng.bluemix.net/" id='discoveryDemo'>Discovery Demo</a>
-    <a href="/" id='secondOpinion'>Watson Second Opinion</a>
+    <a href="/" id='secondOpinion'><span style='font-weight: bold; color:black'>Watson</span> Second Opinion</a>
   </header>
   <section class="_full-width-row _full-width-row_gray jumbotron">
     <center>
-      <div>
-        <h1 id='jumbotronTop'>Watson Second Opinion analyzes millions of reviews</h1>
-        <h1 id='jumbotronTop'>and helps you make an educated decision</h1>
+      <div id = 'titleDiv'>
+        <h1 id='appTitle' ><span style='font-weight: bold'>Watson</span><span style="color: #9753e1"> Second Opinion</span> </h1>
+        <h3 id='jumbotronTop'>analyzes millions of reviews and helps you make an educated decision</h3>
         <a href="https://www.ibm.com/watson/developer/">
           <img id = 'watsonLogo' src="./photos/watson.png" alt="Mountain View">
         </a>
@@ -68,7 +68,7 @@
   <div class="col-md-12 text-center">
     <center>
       <section class="_full-width-row query query_collapsed">
-        <label>Copy &amp; paste your Amazon product URL:</label>
+        <label id = 'inputInstructions'>Copy &amp; paste your Amazon product URL:</label>
         <input id='productUrl' type="text" value="https://www.amazon.com/Energizer-Alkaline-Battery-Batteries-Count/dp/B0128VWRFE/ref=pd_sim_121_9?_encoding=UTF8&pd_rd_i=B0128VWRFE&pd_rd_r=HZ5F2DW5FKX4C1S0ZV80&pd_rd_w=PedYW&pd_rd_wg=efTbe&psc=1&refRID=HZ5F2DW5FKX4C1S0ZV80"
           id="text" name="text" required/>
         <input id="goButton" type="submit" value="Go" />

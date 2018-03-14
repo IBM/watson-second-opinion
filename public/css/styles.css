@@ -16,7 +16,32 @@ input[type=text], select {
 }
 
 .jumbotron {
-  margin-bottom: -9.3rem;
+  margin-bottom: -2rem;
+}
+
+._full-width-row_gray, #box {
+  background-color: #f4f4f4;
+  height: 10.5rem;
+}
+
+.query_collapsed, #box {
+  height: 6.2rem;
+  padding: 10rem 0;
+  background: none;
+  background-color: #9753e1;
+}
+
+._full-width-row, #box {
+  padding: 1rem 0;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-top: -15px;
+}
+
+#appTitle {
+  margin-top: 1rem;
+  padding-bottom: -2rem;
+  font-size: 60px;
 }
 
 #titleDiv {
@@ -25,11 +50,16 @@ input[type=text], select {
 
 #jumbotronTop {
   margin-top: -.1rem;
+  padding-bottom: -10rem;
+}
+
+#titleDiv {
+  padding-bottom: -10rem;
 }
 
 #secondOpinion {
   position: absolute;  
-  right: 1rem;
+  right: 1.5rem;
   padding-bottom: 1rem;
 }
 #discovery, #discoveryDemo{
@@ -41,17 +71,17 @@ input[type=text], select {
 #watsonLogo {
   position: relative;
   left: 49rem;
-  bottom: 7.5rem;
-  width: 6%;
-  height: 6%;
+  bottom: 9rem;
+  width: 7%;
+  height: 7%;
 }
 
 #discoveryLogo {
   position: relative;
-  right: 49.2rem;
-  bottom: 7.4rem;
-  width: 6%;
-  height: 6%;
+  right: 50rem;
+  bottom: 8.7rem;
+  width: 7%;
+  height: 7%;
 }
 
 header{
@@ -59,6 +89,14 @@ header{
   font-family: "Roboto Slab";
   padding-bottom: 1.8rem;
   color:black;
+}
+
+#inputInstructions {
+  margin-left: -1rem;
+}
+
+#productUrl {
+  width: 62rem;
 }
 
 a:link {
@@ -168,37 +206,12 @@ label {
   font-size: 20px;
 }
 
-._full-width-row_gray, #box {
-  background-color: #f4f4f4;
-  padding: 2rem 0;
-}
-
-.query_collapsed, #box {
-  height: auto;
-  min-height: auto;
-  padding: 6rem 0;
-  background: none;
-  background-color: #9753e1;
-}
-
-._full-width-row, #box {
-  margin-top: 0;
-  padding: 2rem 0;
-  margin-left: -15px;
-  margin-right: -15px;
-  margin-top: -15px;
-}
-
 .stars-outer {
   display: inline-block;
   position: relative;
   font-family: FontAwesome;
 }
- 
-/* .stars-outer::before {
-  content: "\f006 \f006 \f006 \f006 \f006";
-} */
- 
+
 .stars-inner {
   display: inline-block;
   white-space: nowrap;
