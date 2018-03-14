@@ -29,7 +29,7 @@ spec:
         app: watson-reviews
     spec:
       containers:
-        - image: horeaporutiu/watson-review-analyzer:2.1
+        - image: horeaporutiu/watson-review-analyzer:2.4
           imagePullPolicy: Always
           name: watson-reviews
           env:
