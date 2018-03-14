@@ -8,6 +8,7 @@ class Watson {
     var match = data.url.match(pattern);
     if (match == null) {
       outputText.hidden = false;
+      sentimentRating.hidden = true;
       sentimentCont.hidden = true;
       entitiesCont.hidden = true;
       keywordsCont.hidden = true;
@@ -17,6 +18,7 @@ class Watson {
       return;
     }
     loader.hidden = false;
+    sentimentRating.hidden = true;
     sentimentCont.hidden = true;
     entitiesCont.hidden = true;
     reviewsCont.hidden = true;
@@ -66,6 +68,10 @@ class Watson {
         var posPercent = Math.round(100 * (posCount / reviewLen));
         var negPercent = Math.round(100 * (negCount / reviewLen));
         var neuPercent = Math.round(100 * (neuCount / reviewLen));
+
+        var sentimentWeightedScore = (sentimentWeightedScoreSum / reviewLen);
+        
+        sentimentRating.innerHTML = '<center><h2>Sentiment Weighted Rating: ' + sentimentWeightedScore.toString().substring(0,3) + ' stars</h2></center>';
 
         //get our pie circle chart to show reviews sentiment analysis  
         watson.buildChart(posPercent, negPercent, neuPercent);
@@ -125,6 +131,7 @@ class Watson {
       sentimentCont.hidden = false;
       reviewsCont.hidden = false;
       productName.hidden = false;
+      sentimentRating.hidden = false;      
     };
     ourRequest.send(json);
   }
@@ -282,6 +289,16 @@ getStarRatings(results) {
 
     //check sentiment analysis of every review, and keep 
     //track of them to show overall analysis in pie chart
+
+    if (data.sentiment.document.score >= 0) {
+      sentimentWeightedScoreSum +=
+      (Math.sqrt(data.sentiment.document.score) * 2) + 3;
+    }
+    else {
+      sentimentWeightedScoreSum +=
+      (-1*Math.sqrt(Math.abs(data.sentiment.document.score)) * 2) + 3;
+    }
+
     if (data.sentiment.document.label === 'positive') {
       posCount++;
     } else if (data.sentiment.document.label === 'negative') {
@@ -376,25 +393,25 @@ getStarRatings(results) {
    });
 
 
-    keywordsCont.innerHTML = '<h2 id="topKeywords">Top Keywords</h2>';
+    //keywordsCont.innerHTML = '<h2 id="topKeywords">Top Keywords</h2>';
 
 
 
-    // var config = {
-    //   type: 'wordcloud',
-    //   FONTSIZE: '33',
-    //   options: {
-    //     "words": dict,
-    //     minLength: 4
-    //   }
-    // };
+    var config = {
+      type: 'wordcloud',
+      FONTSIZE: '33',
+      options: {
+        "words": dict,
+        minLength: 4
+      }
+    };
 
-    // zingchart.render({
-    //   id: Id,
-    //   data: config,
-    //   height: 400,
-    //   width: '100%'
-    // });
+    zingchart.render({
+      id: Id,
+      data: config,
+      height: 400,
+      width: '100%'
+    });
   }
 
 
@@ -419,6 +436,7 @@ document.getElementById("goButton").addEventListener("click", watson.discovery);
 
 var outputText = document.getElementById("discoveryQueryOutput"); //variable that will hold our final translation
 var loader = document.getElementById("myLoader");
+var sentimentRating = document.getElementById("sentimentRating");
 var sentimentCont = document.getElementById("sentimentCont");
 var entitiesCont = document.getElementById("entitiesCont");
 var keywordsCont = document.getElementById("keywordsCont");
@@ -434,6 +452,7 @@ var posCount = 0;
 var neuCount = 0;
 var negCount = 0;
 var entityCount = 0;
+var sentimentWeightedScoreSum = 0;
 var entitiesDict = [];
 var keywordDict = [];
 var conceptDict = [];
@@ -444,12 +463,15 @@ var showEntities = true;
 
 outputText.hidden = true;
 loader.hidden = true; //hide loader at the start of the app
+sentimentRating.hidden = true;
 sentimentCont.hidden = true;
 entitiesCont.hidden = true;
 keywordsCont.hidden = true;
 relatedConceptsCont.hidden = true;
 reviewsCont.hidden = true;
 productName.hidden = true;
+
+
 
 
 
