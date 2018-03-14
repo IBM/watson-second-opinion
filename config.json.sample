@@ -1,4 +1,4 @@
-{
-  "discoveryUsername" : "YOUR_WATSON_DISCOVERY_USERNAME",
-  "discoveryPassword" : "YOUR_WATSON_DISCOVERY_PASSWORD"
+{	
+  "discoveryUsername" : "YOUR_WATSON_DISCOVERY_USERNAME",	
+  "discoveryPassword" : "YOUR_WATSON_DISCOVERY_PASSWORD"	
 }
