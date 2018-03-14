@@ -69,9 +69,12 @@ class Watson {
         var neuPercent = Math.round(100 * (neuCount / reviewLen));
 
         var sentimentWeightedScore = (sentimentWeightedScoreSum / reviewLen);
-        var amazonRating = (amazonRatingSum / reviewLen);
 
-
+        var amazonRating = 0;
+        if (reviewLen-nullRatingsCounter != 0) {
+            amazonRating = (amazonRatingSum / (reviewLen-nullRatingsCounter));
+        }
+        
         sentimentRating.innerHTML = '<center><h2>Amazon Average Rating: ' +   amazonRating.toString().substring(0,4) + ' stars<br>'
           + 'Sentiment Weighted Rating: '
           + sentimentWeightedScore.toString().substring(0,4)
@@ -136,6 +139,13 @@ class Watson {
       reviewsCont.hidden = false;
       productName.hidden = false;
       sentimentRating.hidden = false;
+      posCount = 0;
+      neuCount = 0;
+      negCount = 0;
+      entityCount = 0;
+      sentimentWeightedScoreSum = 0;
+      amazonRatingSum = 0;
+      nullRatingsCounter = 0;
     };
     ourRequest.send(json);
   }
@@ -307,7 +317,11 @@ getStarRatings(results) {
       neuCount++;
     }
     amazonRatingSum += data.rating;
+    if (data.rating == null) {
+      nullRatingsCounter++;
+    }
 
+    console.log(nullRatingsCounter);
   }
 
   /**
@@ -453,6 +467,7 @@ var negCount = 0;
 var entityCount = 0;
 var sentimentWeightedScoreSum = 0;
 var amazonRatingSum = 0;
+var nullRatingsCounter = 0;
 var entitiesDict = [];
 var keywordDict = [];
 var conceptDict = [];
