@@ -1,0 +1,58 @@
+version: '2'
+messages:
+  $i18n: locales.yml
+template:
+  name:
+    $ref: "#/messages/template.name"
+  description:
+    $ref: "#/messages/template.description"
+  header: '![](toolchain.svg?localize)'
+  icon: secure-lock-kubernetes.svg
+  required:
+    - hello-world-build
+    - hello-world-repo
+  info:
+    git url: >-
+      [https://github.com/IBM/watson-review-analyzer](https://github.com/IBM/watson-review-analyzer)
+    git branch: >-
+      [master](https://github.com/IBM/watson-review-analyzer/tree/master)
+toolchain:
+  name: 'watson-review-analyzer-toolchain-{{timestamp}}'
+  template:
+    getting_started:
+      $ref: "#/messages/template.gettingStarted" 
+services:
+  hello-world-repo:
+    service_id: githubpublic
+    parameters:
+      repo_name: "{{name}}"
+      repo_url: https://github.com/IBM/watson-review-analyzer
+      type: clone
+      has_issues: false
+  hello-world-build:
+    service_id: pipeline
+    parameters:
+      services:
+        - hello-world-repo
+      name: 'watson-review-pipeline-{{timestamp}}'
+      ui-pipeline: true
+      configuration:
+        content:
+          $text: pipeline.yml
+        env:
+          GIT_REPO: hello-world-repo
+          CF_APP_NAME: '{{form.pipeline.parameters.app-name}}'
+          PROD_REGION_ID: '{{form.pipeline.parameters.prod-region}}'
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.prod-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          PROD_CLUSTER_NAME: '{{form.pipeline.parameters.prod-cluster-name}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+          DISCOVERY_USERNAME: '{{form.pipeline.parameters.discovery-username}}'
+          DISCOVERY_PASSWORD: '{{form.pipeline.parameters.discovery-password}}'
+        execute: true
+form:
+  pipeline:
+    parameters:
+      app-name: '{{services.hello-world-repo.parameters.repo_name}}'
+    schema:
+      $ref: deploy.json

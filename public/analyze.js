@@ -19,8 +19,9 @@ class Watson{
       sentimentRating.hidden = true;
       sentimentCont.hidden = true;
       entitiesCont.hidden = true;
-      keywordsCont.hidden = true;
-      reviewsCont.hidden = true;
+      keywordsCont.hidden = true; 
+      relatedConceptsCont.hidden = true;     
+      reviewsCont.hidden = true; 
       outputText.innerHTML = "Please check your input is a valid Amazon product url";
       return;
     }
@@ -53,8 +54,7 @@ class Watson{
         }
 
         productName.innerHTML = '<center><h1>' + output.productName + '</h1></center>';
-
-
+        
         var results;
 
         if (output.watsonDiscovery === undefined) {
@@ -410,7 +410,6 @@ var relatedConceptsCont = document.getElementById("relatedConceptsCont");
 var productName = document.getElementById("productName");
 var topKeywords = document.getElementById("topKeywords");
 var relatedConcepts = document.getElementById("relatedConcepts");
-
 
 var data = {};
 
