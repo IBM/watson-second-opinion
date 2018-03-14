@@ -34,7 +34,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 Create a Kubernetes cluster with either [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube) for local testing, or with [IBM Bluemix Container Service](https://github.com/IBM/container-journey-template/blob/master/README.md) to deploy in cloud. The code here is regularly tested against [Kubernetes Cluster from Bluemix Container Service](https://console.ng.bluemix.net/docs/containers/cs_ov.html#cs_ov) using Travis.
 
-Install [Docker](https://www.docker.com) by following the instructions [here](https://www.docker.com/community-edition#/download) for your preferrerd operating system.  
+Install [Docker](https://www.docker.com) by following the instructions [here](https://www.docker.com/community-edition#/download) for your preferred operating system.  
 You would also need a Docker Registry. [Docker Hub](https://hub.docker.com/) lets you create one quickly.
 
 # Steps
@@ -210,7 +210,7 @@ After Watson Discovery finishes processing all the reviews, the app should show 
 
 Sample Kubernetes Yaml file that includes this package may be configured to track deployments to [IBM Cloud](https://www.bluemix.net/) and other Kubernetes platforms. The following information is sent to a [Deployment Tracker](https://github.com/IBM/metrics-collector-service) service on each deployment:
 
-* Kubernetes Cluster Provider(`IBM Cloud,Minikube,etc`)
+* Kubernetes Cluster Provider(`IBM Cloud, Minikube, etc`)
 * Kubernetes Cluster ID (Only from IBM Cloud's cluster)
 
 This data is collected from the Kubernetes Job in the sample application's yaml file. This data is used by IBM to track metrics around deployments of sample applications to IBM Cloud to measure the usefulness of our examples so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
