@@ -369,21 +369,32 @@ getStarRatings(results) {
    * 
    */
   buildWordCloud(dict, Id) {
-    var config = {
-      type: 'wordcloud',
-      FONTSIZE: '33',
-      options: {
-        "words": dict,
-        minLength: 4
-      }
-    };
 
-    zingchart.render({
-      id: Id,
-      data: config,
-      height: 400,
-      width: '100%'
-    });
+    Object.keys(dict).forEach(function (key) {
+      console.log(dict[key])
+      // do something with obj[key]
+   });
+
+
+    keywordsCont.innerHTML = '<h2 id="topKeywords">Top Keywords</h2>';
+
+
+
+    // var config = {
+    //   type: 'wordcloud',
+    //   FONTSIZE: '33',
+    //   options: {
+    //     "words": dict,
+    //     minLength: 4
+    //   }
+    // };
+
+    // zingchart.render({
+    //   id: Id,
+    //   data: config,
+    //   height: 400,
+    //   width: '100%'
+    // });
   }
 
 
