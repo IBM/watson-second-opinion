@@ -7,7 +7,7 @@ In this Code Pattern, we will create a Node.js app that takes the reviews from a
 When the reader has completed this Code Pattern, they will understand how to:
 
 * Interact with Watson Discovery using Watson's Node SDK
-* Build a User Inerface around the result of Watson Discovery
+* Build a user interface around the result of Watson Discovery
 * Deploy the app in Kubernetes
 * Deploy and connect a CouchDB in the same instance of Kubernetes Cluster
 
@@ -15,9 +15,9 @@ When the reader has completed this Code Pattern, they will understand how to:
 ![Architecture](/docs/app-architecture.png)
 
 ## Flow
-1. The user deploys the app in Kubernetes. The user interacts with the User Interface of the app.
+1. The user deploys the app in Kubernetes. The user interacts with the user interface of the app.
 2. The user enters the product ID and the app would start getting the reviews of the Product.
-3. The app then stores the reviews in a CouchDB database for later use.
+3. The app then stores the reviews in a database for later use.
 4. The app starts to upload the reviews in Watson Discovery.
 5. After Watson Discovery finishes processing the reviews, the app then stores the result (General Sentiment and Top Entities) in the CouchDB. The user will see the result in the UI.
 
@@ -40,9 +40,9 @@ You would also need a Docker Registry. [Docker Hub](https://hub.docker.com/) let
 # Steps
 
 1. [Clone the repo](#1-clone-the-repo)
-2. [Create IBM Cloud services](#2-create-compose-for-mongodb-service-with-ibm-cloud)
-3. [Build your images](#3-build-your-images)
-4. [Configure Deployment files](#4-configure-deployment-files)
+2. [Create IBM Cloud services](#2-create-ibm-cloud-services)
+3. [Build your Docker image](#3-build-your-docker-image)
+4. [Configure deployment files](#4-configure-deployment-files)
 5. [Deploy the application](#5-deploy-the-application)
 6. [Search for a product in Amazon](#6-search-for-a-product-in-amazon)
 
@@ -85,7 +85,7 @@ Create the following service:
 * [**Watson Discovery**](https://console.ng.bluemix.net/catalog/services/discovery)
 * [**IBM Cloud Kubernetes**](https://console.bluemix.net/containers-kubernetes/catalog/cluster)
 
-### 3. Build your images
+### 3. Build your Docker image
 Login to Docker using your username and password for your Docker Registry.
 
 ```
@@ -95,11 +95,11 @@ $ docker login
 The Node.js app will be packaged into a Docker image. This will be used by the Kubernetes Cluster.
 
 ```
-$ docker build -t DOCKERHUB_USERNAME/watson-review-analyzer:1.0 .
-$ docker push DOCKERHUB_USERNAME/watson-review-analyzer:1.0
+$ docker build -t YOUR_DOCKERHUB_USERNAME/watson-review-analyzer:1.0 .
+$ docker push YOUR_DOCKERHUB_USERNAME/watson-review-analyzer:1.0
 ```
 
-### 4. Configure Deployment files
+### 4. Configure deployment files
 Setup kubectl to use your cluster
 
 ```
@@ -128,6 +128,17 @@ Create configmap in Kubernetes for `config.json`
 ```
 $ kubectl create configmap watson-discovery-config --from-file=config.json
 ```
+
+Modify `watson-review-analyzer.yaml`. In the line where you specify the image name, use the docker image you just built.  
+Change `horeaporutiu/watson-review-analyzer:2.1` to `YOUR_DOCKERHUB_USERNAME/watson-review-analyzer:1.0`.
+
+<pre>
+    spec:
+      containers:
+        - image: <b>horeaporutiu/watson-review-analyzer:2.1</b>
+          imagePullPolicy: Always
+          name: watson-reviews
+</pre>
 
 ### 5. Deploy the application
 <!--Deploy in kubernetes (1) nodejs app and (2) couchdb instance. Access via external ip-->
@@ -195,9 +206,29 @@ After Watson Discovery finishes processing all the reviews, the app should show 
 
 ![Landing Page](docs/concepts.png)
 
+# Privacy Notice
+
+Sample Kubernetes Yaml file that includes this package may be configured to track deployments to [IBM Cloud](https://www.bluemix.net/) and other Kubernetes platforms. The following information is sent to a [Deployment Tracker](https://github.com/IBM/metrics-collector-service) service on each deployment:
+
+* Kubernetes Cluster Provider(`IBM Cloud,Minikube,etc`)
+* Kubernetes Cluster ID (Only from IBM Cloud's cluster)
+
+This data is collected from the Kubernetes Job in the sample application's yaml file. This data is used by IBM to track metrics around deployments of sample applications to IBM Cloud to measure the usefulness of our examples so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
+
+## Disabling Deployment Tracking
+
+Please comment out/remove the Metric Kubernetes Job portion in the `watson-review-analyzer.yaml` file.
+
+# Links
+
+* [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk)
+
 # Learn more
 
 * **Node.js Code Patterns**: Enjoyed this Code Pattern? Check out our other [Node.js Code Patterns](https://developer.ibm.com/code/technologies/node-js/)
+* **Artificial Intelligence Code Patterns**: Enjoyed this Code Pattern? Check out our other [AI Code Patterns](https://developer.ibm.com/code/technologies/artificial-intelligence/).
+* **AI and Data Code Pattern Playlist**: Bookmark our [playlist](https://www.youtube.com/playlist?list=PLzUbsvIyrNfknNewObx5N7uGZ5FKH0Fde) with all of our Code Pattern videos
+* **With Watson**: Want to take your Watson app to the next level? Looking to utilize Watson Brand assets? [Join the With Watson program](https://www.ibm.com/watson/with-watson/) to leverage exclusive brand, marketing, and tech resources to amplify and accelerate your Watson embedded commercial solution.
 
 # License
 [Apache 2.0](LICENSE)
