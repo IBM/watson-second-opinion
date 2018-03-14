@@ -1,7 +1,6 @@
 class Watson {
 
   discovery() {
-
     outputText.hidden = true;
     productName.hidden = true;
     data.url = document.getElementById("productUrl").value;
@@ -56,11 +55,11 @@ class Watson {
         //build the stars based on the reviews from the customers
         watson.getStarRatings(results);
 
-        //go through all reviews and gather insights such as 
+        //go through all reviews and gather insights such as
         //keywords, entities, and related concepts
         for (var i = 0; i < reviewLen; i++) {
           if (results[i].enriched_text !== undefined) {
-            watson.getInsights(results[i].enriched_text);                    
+            watson.getInsights(results[i]);
           }
         }
 
@@ -70,13 +69,18 @@ class Watson {
         var neuPercent = Math.round(100 * (neuCount / reviewLen));
 
         var sentimentWeightedScore = (sentimentWeightedScoreSum / reviewLen);
-        
-        sentimentRating.innerHTML = '<center><h2>Sentiment Weighted Rating: ' + sentimentWeightedScore.toString().substring(0,3) + ' stars</h2></center>';
+        var amazonRating = (amazonRatingSum / reviewLen);
 
-        //get our pie circle chart to show reviews sentiment analysis  
+
+        sentimentRating.innerHTML = '<center><h2>Amazon Average Rating: ' +   amazonRating.toString().substring(0,4) + ' stars<br>'
+          + 'Sentiment Weighted Rating: '
+          + sentimentWeightedScore.toString().substring(0,4)
+          + ' stars</h2></center>';
+
+        //get our pie circle chart to show reviews sentiment analysis
         watson.buildChart(posPercent, negPercent, neuPercent);
 
-        //sort our dictionaries in descending order for easy 
+        //sort our dictionaries in descending order for easy
         //input to the word cloud
         if (entitiesDict !== undefined) {
           watson.sort(entitiesDict);
@@ -87,17 +91,17 @@ class Watson {
           conceptDict = conceptDict.slice(0, 15);
           console.log('conceptDict')
           console.log(conceptDict)
-          
+
         }
         if (keywordDict !== undefined) {
           watson.sort(keywordDict);
           keywordDict = keywordDict.slice(0, 15);
-          
+
         }
         //determine if we show keywords or not
         if (showKeywords) {
           topKeywords.hidden = false;
-          keywordsCont.hidden = false;          
+          keywordsCont.hidden = false;
           var keywordId = 'keywordsCont';
           watson.buildWordCloud(keywordDict, keywordId);
         } else {
@@ -109,7 +113,7 @@ class Watson {
         //determine if we show related concepts or not
         if (showConcepts) {
           relatedConcepts.hidden = false;
-          relatedConceptsCont.hidden = false;          
+          relatedConceptsCont.hidden = false;
           var conceptsId = 'relatedConceptsCont';
           watson.buildWordCloud(conceptDict, conceptsId);
         } else {
@@ -119,9 +123,9 @@ class Watson {
 
         if (showEntities) {
           topEntities.hidden = false;
-          entitiesCont.hidden = false;          
+          entitiesCont.hidden = false;
           var entitiesId = 'entitiesCont';
-          watson.buildWordCloud(entitiesDict, entitiesId);          
+          watson.buildWordCloud(entitiesDict, entitiesId);
         } else {
           entitiesCont.hidden = true;
           topEntities.hidden = true;
@@ -131,7 +135,7 @@ class Watson {
       sentimentCont.hidden = false;
       reviewsCont.hidden = false;
       productName.hidden = false;
-      sentimentRating.hidden = false;      
+      sentimentRating.hidden = false;
     };
     ourRequest.send(json);
   }
@@ -139,17 +143,17 @@ class Watson {
    /**
  * Updates the UI to show accurate star ratings
  * @param {object} results - an array of the reviews
- * from the Amazon product 
+ * from the Amazon product
  */
 getStarRatings(results) {
-  
+
       reviewsCont.innerHTML = '<center><h2>Customer reviews </h2></center>';
-  
+
       var userIcon = '<i id = "userIcon" class="fa fa-user-circle-o"></i>';
-  
+
       for (var i = 0; i < results.length; i++) {
         reviewsCont.innerHTML += userIcon + '<p>' + results[i].reviewer + '</p>';
-  
+
         reviewsCont.innerHTML +=
           '<div class="stars-outer">' +
           '<p id = "rating">' + 'Rating: ' + '</p>';
@@ -164,35 +168,32 @@ getStarRatings(results) {
           numberOfStars++;
         }
         reviewsCont.innerHTML += '<div class="stars-inner fa">' + starsContent + '</div></div>';
-  
-  
+
+
         reviewsCont.innerHTML += '<p id = "reviewText">' + '<p><b>' +
           results[i].title + ' - ' + ' </b>' + results[i].text + '<br></p>';
       }
-  
+
     }
-  
+
 
   /**
 * Updates the UI to show accurate star ratings
 * @param {object} data - an array of the reviews
-* from the Amazon product 
+* from the Amazon product
 */
   getInsights(data) {
-
-    console.log(data)
-
     //check metadata of each individial review...i.e entities / keywords
-    if (data.entities === undefined) {
+    if (data.enriched_text.entities === undefined) {
       console.log('no keywords found')
       showEntities = false;
     } else {
-      var entitiesLen = data.entities.length;
+      var entitiesLen = data.enriched_text.entities.length;
       if (entitiesLen > 0) {
 
         for (var j = 0; j < entitiesLen; j++) {
-          var entity = data.entities[j].text;
-          var count = data.entities[j].count;
+          var entity = data.enriched_text.entities[j].text;
+          var count = data.enriched_text.entities[j].count;
           var add = true;
           if (entitiesDict.length <= 0) {
             entitiesDict.push({
@@ -218,15 +219,15 @@ getStarRatings(results) {
       }
     }
     //check for keyword. If we find them, put them into word cloud
-    if (data.keywords === undefined) {
+    if (data.enriched_text.keywords === undefined) {
       console.log('no keywords found')
       showKeywords = false;
     } else {
       // var keywordCount = 1;
-      var keywordsLen = data.keywords.length;
+      var keywordsLen = data.enriched_text.keywords.length;
       if (keywordsLen > 0) {
         for (var j = 0; j < keywordsLen; j++) {
-          var keyword = data.keywords[j].text;
+          var keyword = data.enriched_text.keywords[j].text;
           var count = 1;
           var add = true;
           if (keywordDict.length <= 0) {
@@ -253,14 +254,14 @@ getStarRatings(results) {
       }
     }
     //check for related concepts, if we have some, put them into word cloud
-    if (data.concepts === undefined) {
+    if (data.enriched_text.concepts === undefined) {
       console.log('no concepts found! found')
       showConcepts = false;
     } else {
-      var conceptLen = data.concepts.length;
+      var conceptLen = data.enriched_text.concepts.length;
       if (conceptLen > 0) {
         for (var j = 0; j < conceptLen; j++) {
-          var concept = data.concepts[j].text;
+          var concept = data.enriched_text.concepts[j].text;
           var count = 1;
           var add = true;
           if (conceptDict.length <= 0) {
@@ -287,41 +288,42 @@ getStarRatings(results) {
       }
     }
 
-    //check sentiment analysis of every review, and keep 
+    //check sentiment analysis of every review, and keep
     //track of them to show overall analysis in pie chart
-
-    if (data.sentiment.document.score >= 0) {
+    if (data.enriched_text.sentiment.document.score >= 0) {
       sentimentWeightedScoreSum +=
-      (Math.sqrt(data.sentiment.document.score) * 2) + 3;
+      (Math.sqrt(data.enriched_text.sentiment.document.score) * 2) + 3;
     }
     else {
       sentimentWeightedScoreSum +=
-      (-1*Math.sqrt(Math.abs(data.sentiment.document.score)) * 2) + 3;
+      (-1*Math.sqrt(Math.abs(data.enriched_text.sentiment.document.score)) * 2) + 3;
     }
 
-    if (data.sentiment.document.label === 'positive') {
+    if (data.enriched_text.sentiment.document.label === 'positive') {
       posCount++;
-    } else if (data.sentiment.document.label === 'negative') {
+    } else if (data.enriched_text.sentiment.document.label === 'negative') {
       negCount++;
     } else {
       neuCount++;
     }
+    amazonRatingSum += data.rating;
+
   }
 
   /**
    * Output our circle graph showing the positive negative and
    * neutral sentiment of our reviews
-   * @param {number} posPercent - this number represents the 
-   * proprortion of positive reivews out of the total number 
+   * @param {number} posPercent - this number represents the
+   * proprortion of positive reivews out of the total number
    * of reviews uploaded
-   * @param {number} negPercent - this number represents the 
-   * proprortion of negative reivews out of the total number 
+   * @param {number} negPercent - this number represents the
+   * proprortion of negative reivews out of the total number
    * of reviews uploaded
-   * @param {number} neuPercent - this number represents the 
-   * proprortion of neutral reivews out of the total number 
+   * @param {number} neuPercent - this number represents the
+   * proprortion of neutral reivews out of the total number
    * of reviews uploaded
-   * @return {Highchart object} - This function creates a 
-   * Highchart object using the Highchart library. This 
+   * @return {Highchart object} - This function creates a
+   * Highchart object using the Highchart library. This
    * object is a pie chart
    */
   buildChart(posPercent, negPercent, neuPercent) {
@@ -379,11 +381,11 @@ getStarRatings(results) {
   }
 
   /**
-   * Build a word cloud showing the insights 
+   * Build a word cloud showing the insights
    * from customer reviews using zingChart library
    * @param  {object} dict - sorted dictionary
-   * @param {string} Id - the id of the container to 
-   * 
+   * @param {string} Id - the id of the container to
+   *
    */
   buildWordCloud(dict, Id) {
 
@@ -394,9 +396,6 @@ getStarRatings(results) {
 
 
     //keywordsCont.innerHTML = '<h2 id="topKeywords">Top Keywords</h2>';
-
-
-
     var config = {
       type: 'wordcloud',
       FONTSIZE: '33',
@@ -416,10 +415,10 @@ getStarRatings(results) {
 
 
   /**
-   * A descending sort of our dictonary. Used to order the 
+   * A descending sort of our dictonary. Used to order the
    * top keywords, entities, and related concepts.
-   * @param {object} dict - an unsorted dictionary 
-   * containing the 
+   * @param {object} dict - an unsorted dictionary
+   * containing the
    * @return {object} dict - returns a sorted dictionary
    */
   sort(dict) {
@@ -453,6 +452,7 @@ var neuCount = 0;
 var negCount = 0;
 var entityCount = 0;
 var sentimentWeightedScoreSum = 0;
+var amazonRatingSum = 0;
 var entitiesDict = [];
 var keywordDict = [];
 var conceptDict = [];
@@ -470,12 +470,3 @@ keywordsCont.hidden = true;
 relatedConceptsCont.hidden = true;
 reviewsCont.hidden = true;
 productName.hidden = true;
-
-
-
-
-
-
-
-
-
