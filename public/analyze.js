@@ -3,18 +3,20 @@
 class Watson{
 
   discovery(){
-    var showKeywords = true; 
-    var showConcepts = true;        
+    var showKeywords = true;
+    var showConcepts = true;
     var posCount = 0;
     var neuCount = 0;
     var negCount = 0;
-    var entityCount = 0;  
+    var entityCount = 0;
+    var sentimentWeightedScoreSum = 0;
     outputText.hidden = true;
     productName.hidden = true;
-    data.url = document.getElementById("productUrl").value; 
+    data.url = document.getElementById("productUrl").value;
     var match = data.url.match(pattern);
     if(match == null){
       outputText.hidden = false;
+      sentimentRating.hidden = true;
       sentimentCont.hidden = true;
       entitiesCont.hidden = true;
       keywordsCont.hidden = true; 
@@ -23,10 +25,11 @@ class Watson{
       outputText.innerHTML = "Please check your input is a valid Amazon product url";
       return;
     }
-    loader.hidden = false; 
+    loader.hidden = false;
+    sentimentRating.hidden = true;
     sentimentCont.hidden = true;
     entitiesCont.hidden = true;
-    reviewsCont.hidden = true; 
+    reviewsCont.hidden = true;
     keywordsCont.hidden = true;
     relatedConceptsCont.hidden = true;
     data.source = match[0];
@@ -48,11 +51,10 @@ class Watson{
           reviewLen = output.reviews.length;
         } else {
           reviewLen = output.matching_results;
-        }        
+        }
 
         productName.innerHTML = '<center><h1>' + output.productName + '</h1></center>';
         
-
         var results;
 
         if (output.watsonDiscovery === undefined) {
@@ -63,7 +65,7 @@ class Watson{
 
         reviewsCont.innerHTML = '<center><h2>Customer reviews </h2></center>';
 
-        //go through all the reviews. 
+        //go through all the reviews.
         for (var i = 0; i < reviewLen; i++) {
           //check metadata of each individial review...i.e entities / keywords
 
@@ -72,11 +74,11 @@ class Watson{
             if (entitiesLen > 0) {
               var dict = [];
               var dictLenght = dict.length;
-              
+
               for (var j = 0; j < entitiesLen; j++) {
                 var entity = results[i].enriched_text.entities[j].text;
                 var count = results[i].enriched_text.entities[j].count;
-                var add = true;              
+                var add = true;
                 if (dict.length <= 0) {
                   dict.push({
                     text: entity,
@@ -85,7 +87,7 @@ class Watson{
                 } else {
                   for (var k = 0; k < dict.length; k++) {
                     if (dict[k].text === entity) {
-                      add = false;                    
+                      add = false;
                       dict[k].count += count;
                       break;
                     }
@@ -110,7 +112,7 @@ class Watson{
                 for (var j = 0; j < keywordsLen; j++) {
                   var keyword = results[i].enriched_text.keywords[j].text;
                   var count = 1;
-                  var add = true;              
+                  var add = true;
                   if (keywordDict.length <= 0) {
                     keywordDict.push({
                       text: keyword,
@@ -119,7 +121,7 @@ class Watson{
                   } else {
                     for (var k = 0; k < keywordDict.length; k++) {
                       if (keywordDict[k].text === keyword) {
-                        add = false;                    
+                        add = false;
                         keywordDict[k].count += count;
                         break;
                       }
@@ -145,7 +147,7 @@ class Watson{
                 for (var j = 0; j < conceptLen; j++) {
                   var concept = results[i].enriched_text.concepts[j].text;
                   var count = 1;
-                  var add = true;              
+                  var add = true;
                   if (conceptDict.length <= 0) {
                     conceptDict.push({
                       text: concept,
@@ -154,7 +156,7 @@ class Watson{
                   } else {
                     for (var k = 0; k < conceptDict.length; k++) {
                       if (conceptDict[k].text === concept) {
-                        add = false;                    
+                        add = false;
                         conceptDict[k].count += count;
                         break;
                       }
@@ -176,9 +178,19 @@ class Watson{
                 negCount++;
             } else {
               neuCount++;
-            }      
+            }
+
+            if (results[i].enriched_text.sentiment.document.score >= 0) {
+              sentimentWeightedScoreSum +=
+              (Math.sqrt(results[i].enriched_text.sentiment.document.score) * 2) + 3;
+            }
+            else {
+              sentimentWeightedScoreSum +=
+              (-1*Math.sqrt(Math.abs(results[i].enriched_text.sentiment.document.score)) * 2) + 3;
+            }
+
           }
-          
+
         }
 
         console.log('keywordDict: ')
@@ -188,18 +200,18 @@ class Watson{
           watson.sort(dict);
         }
         if (conceptDict !== undefined) {
-          watson.sort(conceptDict)        
+          watson.sort(conceptDict)
         }
         if (keywordDict !== undefined) {
           watson.sort(keywordDict)
         }
-        
+
         var userIcon = '<i id = "userIcon" class="fa fa-user-circle-o"></i>';
-        
+
         for (var i = 0; i < results.length; i++) {
           reviewsCont.innerHTML += userIcon + '<p>' + results[i].reviewer + '</p>';
 
-          reviewsCont.innerHTML += 
+          reviewsCont.innerHTML +=
           '<div class="stars-outer">' +
           '<p id = "rating">' + 'Rating: ' + '</p>';
           var numberOfStars = 0;
@@ -213,15 +225,23 @@ class Watson{
             numberOfStars++;
           }
           reviewsCont.innerHTML += '<div class="stars-inner fa">' + starsContent + '</div></div>';
-          
+
 
           reviewsCont.innerHTML += '<p id = "reviewText">' + '<p><b>' +
-            results[i].title + ' - ' + ' </b>' + results[i].text + '<br></p>';   
+            results[i].title + ' - ' + ' </b>' + results[i].text + '<br></p>';
         }
 
         var posPercent = Math.round(100*(posCount / reviewLen));
         var negPercent = Math.round(100*(negCount / reviewLen));
         var neuPercent = Math.round(100*(neuCount / reviewLen));
+
+        var sentimentWeightedScore = (sentimentWeightedScoreSum / reviewLen);
+
+        sentimentRating.innerHTML = '<center><h2>Sentiment Weighted Rating: ' + sentimentWeightedScore.toString().substring(0,3) + ' stars</h2></center>';
+
+
+        console.log('Sentiment weighted score: ');
+        console.log(sentimentWeightedScore);
 
         var generalSent = posPercent - negPercent;
         var overallSentiment = '';
@@ -267,7 +287,7 @@ class Watson{
             innerSize: '50%',
             data: [
               ['Positive', posPercent],
-              ['Neutral', neuPercent],                
+              ['Neutral', neuPercent],
               ['Negative', negPercent],
               {
                 name: 'Proprietary or Undetectable',
@@ -292,13 +312,13 @@ class Watson{
                 minLength: 4
               }
             };
-             
-            var poop = zingchart.render({ 
-              id: 'keywordsCont', 
-              data: myKeywordConfig, 
-              height: 400, 
-              width: '100%' 
-            }); 
+
+            var poop = zingchart.render({
+              id: 'keywordsCont',
+              data: myKeywordConfig,
+              height: 400,
+              width: '100%'
+            });
           } else {
             topKeywords.hidden = true;
             keywordsCont.hidden = true;
@@ -316,18 +336,18 @@ class Watson{
                 minLength: 4
               }
             };
-             
-            var emoji = zingchart.render({ 
-              id: 'relatedConceptsCont', 
-              data: myConceptConfig, 
-              height: 400, 
-              width: '100%' 
-            }); 
+
+            var emoji = zingchart.render({
+              id: 'relatedConceptsCont',
+              data: myConceptConfig,
+              height: 400,
+              width: '100%'
+            });
           } else {
             relatedConcepts.hidden = true;
             relatedConceptsCont.hidden = true;
           }
-          
+
 
           var myEntitiesConfig = {
             type: 'wordcloud',
@@ -336,30 +356,31 @@ class Watson{
               minLength: 4
             }
           };
-           
-          var something = zingchart.render({ 
-            id: 'entitiesCont', 
-            data: myEntitiesConfig, 
-            height: 400, 
-            width: '100%' 
-          });         
+
+          var something = zingchart.render({
+            id: 'entitiesCont',
+            data: myEntitiesConfig,
+            height: 400,
+            width: '100%'
+          });
 
       }
       // outputText.hidden = false;
       loader.hidden = true;
-      sentimentCont.hidden = false;  
+      sentimentRating.hidden = false;
+      sentimentCont.hidden = false;
       entitiesCont.hidden = false;
       if (showKeywords) {
-        keywordsCont.hidden = false;              
+        keywordsCont.hidden = false;
       }
       if (showConcepts) {
-        relatedConceptsCont.hidden = false;              
+        relatedConceptsCont.hidden = false;
       }
 
-      reviewsCont.hidden = false;   
-      productName.hidden = false;           
+      reviewsCont.hidden = false;
+      productName.hidden = false;
     };
-    ourRequest.send(json);  
+    ourRequest.send(json);
   }
 
   sort(dict) {
@@ -377,6 +398,7 @@ document.getElementById("goButton").addEventListener("click", watson.discovery);
 
 var outputText = document.getElementById("discoveryQueryOutput"); //variable that will hold our final translation
 var loader = document.getElementById("myLoader");
+var sentimentRating = document.getElementById("sentimentRating");
 var sentimentCont = document.getElementById("sentimentCont");
 var entitiesCont = document.getElementById("entitiesCont");
 var keywordsCont = document.getElementById("keywordsCont");
@@ -390,12 +412,10 @@ var data = {};
 
 outputText.hidden = true;
 loader.hidden = true; //hide loader at the start of the app
+sentimentRating.hidden = true;
 sentimentCont.hidden = true;
 entitiesCont.hidden = true;
 keywordsCont.hidden = true;
 relatedConceptsCont.hidden = true;
-reviewsCont.hidden = true; 
-productName.hidden = true; 
-
-
-
+reviewsCont.hidden = true;
+productName.hidden = true;
