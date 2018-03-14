@@ -180,6 +180,9 @@ class Watson{
               neuCount++;
             }
 
+            // console.log(results[i].enriched_text.sentime)
+
+            // bottom/top weighted sentiment to star rating mapping
             if (results[i].enriched_text.sentiment.document.score >= 0) {
               sentimentWeightedScoreSum +=
               (Math.sqrt(results[i].enriched_text.sentiment.document.score) * 2) + 3;
