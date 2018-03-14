@@ -10,6 +10,7 @@ class Watson{
     var negCount = 0;
     var entityCount = 0;
     var sentimentWeightedScoreSum = 0;
+    var amazonRatingSum = 0;
     outputText.hidden = true;
     productName.hidden = true;
     data.url = document.getElementById("productUrl").value;
@@ -19,9 +20,9 @@ class Watson{
       sentimentRating.hidden = true;
       sentimentCont.hidden = true;
       entitiesCont.hidden = true;
-      keywordsCont.hidden = true; 
-      relatedConceptsCont.hidden = true;     
-      reviewsCont.hidden = true; 
+      keywordsCont.hidden = true;
+      relatedConceptsCont.hidden = true;
+      reviewsCont.hidden = true;
       outputText.innerHTML = "Please check your input is a valid Amazon product url";
       return;
     }
@@ -54,7 +55,7 @@ class Watson{
         }
 
         productName.innerHTML = '<center><h1>' + output.productName + '</h1></center>';
-        
+
         var results;
 
         if (output.watsonDiscovery === undefined) {
@@ -180,7 +181,7 @@ class Watson{
               neuCount++;
             }
 
-            // console.log(results[i].enriched_text.sentime)
+            amazonRatingSum += results[i].rating;
 
             // bottom/top weighted sentiment to star rating mapping
             if (results[i].enriched_text.sentiment.document.score >= 0) {
@@ -239,10 +240,16 @@ class Watson{
         var neuPercent = Math.round(100*(neuCount / reviewLen));
 
         var sentimentWeightedScore = (sentimentWeightedScoreSum / reviewLen);
+        var amazonRating = (amazonRatingSum / reviewLen);
 
-        sentimentRating.innerHTML = '<center><h2>Sentiment Weighted Rating: ' + sentimentWeightedScore.toString().substring(0,3) + ' stars</h2></center>';
+        sentimentRating.innerHTML = '<center><h2>Amazon Average Rating: ' +   amazonRating.toString().substring(0,4) + ' stars<br>'
+          + 'Sentiment Weighted Rating: '
+          + sentimentWeightedScore.toString().substring(0,4)
+          + ' stars</h2></center>';
 
 
+        console.log('Amazon Rating: ');
+        console.log(amazonRating);
         console.log('Sentiment weighted score: ');
         console.log(sentimentWeightedScore);
 
