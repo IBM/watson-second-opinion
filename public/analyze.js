@@ -3,6 +3,7 @@ class Watson {
   discovery() {
     outputText.hidden = true;
     productName.hidden = true;
+    productHeader.hidden = true;    
     data.url = document.getElementById("productUrl").value;
     var match = data.url.match(pattern);
     if (match == null) {
@@ -44,7 +45,10 @@ class Watson {
           reviewLen = output.matching_results;
         }
 
-        productName.innerHTML = '<center>' + output.productName + '</center>';
+        productHeader.innerHTML = '<b>' + 'Showing results for: </b>';
+        
+
+        productName.innerHTML = '"<i>' + output.productName + '</i>"';
 
         if (output.watsonDiscovery === undefined) {
           results = output.results;
@@ -75,10 +79,14 @@ class Watson {
             amazonRating = (amazonRatingSum / (reviewLen-nullRatingsCounter));
         }
         
-        sentimentRating.innerHTML = '<center><h2>Amazon Average Rating: ' +   amazonRating.toString().substring(0,4) + ' stars<br>'
-          + 'Sentiment Weighted Rating: '
-          + sentimentWeightedScore.toString().substring(0,4)
-          + ' stars</h2></center>';
+        sentimentRating.innerHTML = '<h2> <span id = "amazonRating">Amazon Average Rating: ' 
+          + '<span style="font-weight: bold; ">' + amazonRating.toString().substring(0,4) + '</span>'
+          + ' stars' + '</span>' +  ' <br>'
+          + '<span id = "sentimentRating">' 
+          + '<a href="https://www.ibm.com/watson/developer/"> Watson </a>' +  'Weighted Rating: '
+          + '<span style="font-weight: bold; ">'
+          + sentimentWeightedScore.toString().substring(0,4) + '</span>' 
+          + ' stars</span></h2>';
 
         //get our pie circle chart to show reviews sentiment analysis
         watson.buildChart(posPercent, negPercent, neuPercent);
@@ -106,7 +114,7 @@ class Watson {
           topKeywords.hidden = false;
           keywordsCont.hidden = false;
           var keywordId = 'keywordsCont';
-          watson.buildWordCloud(keywordDict, keywordId);
+          watson.buildWordCloud(keywordDict, keywordsCont);
         } else {
           topKeywords.hidden = true;
           keywordsCont.hidden = true;
@@ -118,7 +126,7 @@ class Watson {
           relatedConcepts.hidden = false;
           relatedConceptsCont.hidden = false;
           var conceptsId = 'relatedConceptsCont';
-          watson.buildWordCloud(conceptDict, conceptsId);
+          watson.buildWordCloud(conceptDict, relatedConceptsCont);
         } else {
           relatedConcepts.hidden = true;
           relatedConceptsCont.hidden = true;
@@ -128,7 +136,7 @@ class Watson {
           topEntities.hidden = false;
           entitiesCont.hidden = false;
           var entitiesId = 'entitiesCont';
-          watson.buildWordCloud(entitiesDict, entitiesId);
+          watson.buildWordCloud(entitiesDict, entitiesCont);
         } else {
           entitiesCont.hidden = true;
           topEntities.hidden = true;
@@ -138,6 +146,7 @@ class Watson {
       sentimentCont.hidden = false;
       reviewsCont.hidden = false;
       productName.hidden = false;
+      productHeader.hidden = false;      
       sentimentRating.hidden = false;
       posCount = 0;
       neuCount = 0;
@@ -157,7 +166,7 @@ class Watson {
  */
 getStarRatings(results) {
 
-      reviewsCont.innerHTML = '<center><h2>Customer reviews </h2></center>';
+      reviewsCont.innerHTML = '<center><h1><span id = "customerReviews">Customer reviews</span> </h1></center>';
 
       var userIcon = '<i id = "userIcon" class="fa fa-user-circle-o"></i>';
 
@@ -299,7 +308,7 @@ getStarRatings(results) {
     }
 
     //check sentiment analysis of every review, and keep
-    //track of them to show overall analysis in pie chart
+    //add sentiment star rating to compare to Amazon rating
     if (data.enriched_text.sentiment.document.score >= 0) {
       sentimentWeightedScoreSum +=
       (Math.sqrt(data.enriched_text.sentiment.document.score) * 2) + 3;
@@ -309,6 +318,7 @@ getStarRatings(results) {
       (-1*Math.sqrt(Math.abs(data.enriched_text.sentiment.document.score)) * 2) + 3;
     }
 
+    //build pie chart of reviews analysis
     if (data.enriched_text.sentiment.document.label === 'positive') {
       posCount++;
     } else if (data.enriched_text.sentiment.document.label === 'negative') {
@@ -342,56 +352,122 @@ getStarRatings(results) {
    */
   buildChart(posPercent, negPercent, neuPercent) {
 
-    var overallSentiment = '<h3>Reviews Analysis</h3>';
-
-    Highcharts.setOptions({
-      colors: ['#64E572', '#ffff00', '#ff0000']
-    });
-
-    var graph = Highcharts.chart('sentimentCont', {
-      chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: 0,
-        plotShadow: false,
-        type: 'pie'
-      },
-      title: {
-        text: overallSentiment
-      },
-      tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:1.0f}%</b>'
-      },
-      plotOptions: {
-        pie: {
-          allowPointSelect: true,
-          cursor: 'pointer',
-          dataLabels: {
-            enabled: true,
-            format: '<b>{point.name}</b>: {point.percentage:1.0f} %',
-            style: {
-              color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-            }
-          }
+    var chart = AmCharts.makeChart( "sentimentCont", {
+      "type": "pie",
+      "theme": "black",
+      "titles": [
+        {
+          "text": "Sentiment Analysis",
+          "size": 30,
+          "color": "#9753e1",
+          "bold": false
         }
-      },
-      series: [{
-        type: 'pie',
-        name: 'Review Sentiment',
-        innerSize: '50%',
-        data: [
-          ['Positive', posPercent],
-          ['Neutral', neuPercent],
-          ['Negative', negPercent],
-          {
-            name: 'Proprietary or Undetectable',
-            y: 0.2,
-            dataLabels: {
-              enabled: false
-            }
-          }
-        ]
-      }]
-    });
+      ],
+      "dataProvider": [ {
+        "country": "Negative",
+        "value": negPercent,
+        "color":"#ff0000",
+        "size": 30        
+      }, {
+        "country": "Neutral",
+        "value": neuPercent,
+        "color":"#ffff00"        
+      }, {
+        "country": "Positive",
+        "value": posPercent,
+        "color":"#64E572"
+      }],
+      "valueField": "value",
+      "titleField": "country",
+      "colorField": "color",
+      "outlineAlpha": 0.4,
+      // "depth3D": 25,
+      "innerRadius": 30,
+      "balloonText": "[[title]]<br><span style='font-size:20px'><b>[[value]]</b> ([[percents]]%)</span>",
+      // "angle": 28.2,
+      "hideCredits":true,      
+      "export": {
+        "enabled": false
+      }
+    } );
+
+    // var myConfig = {
+    //   "type":"ring3d",
+    //   "title":{
+    //     "text":"Sentiment Analysis"
+    //   },
+    //   "series":[
+    //     {"values":['Positive', posPercent]},
+    //     {"values":['Neutral', neuPercent]},
+    //     {"values":['Negative', negPercent]}
+    //   ]
+    // };
+     
+    // zingchart.render({ 
+    //   id : 'sentimentCont', 
+    //   data : myConfig, 
+    //   height: "100%", 
+    //   width: "100%" 
+    // });
+
+
+
+    // var overallSentiment = '<h1>Reviews Analysis</h1>';
+
+    // Highcharts.setOptions({
+    //   colors: ['#64E572', '#ffff00', '#ff0000']
+    // });
+
+    // var graph = Highcharts.chart('sentimentCont', {
+    //   chart: {
+    //     plotBackgroundColor: null,
+    //     plotBorderWidth: 0,
+    //     plotShadow: false,
+    //     type: 'pie'
+    //   },
+    //   title: {
+    //     text: 'Sentiment Analysis'
+    //   },
+    //   credits: {
+    //     enabled: false
+    //   },
+    //   exporting: { 
+    //     enabled: false 
+    //   },
+    //   tooltip: {
+    //     pointFormat: '{series.name}: <b>{point.percentage:1.0f}%</b>'
+    //   },
+    //   plotOptions: {
+    //     pie: {
+    //       allowPointSelect: true,
+    //       cursor: 'pointer',
+    //       dataLabels: {
+    //         enabled: true,
+    //         format: '<b>{point.name}</b>: {point.percentage:1.0f} %',
+    //         style: {
+    //           color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+    //         }
+    //       }
+    //     }
+    //   },
+    //   series: [{
+    //     type: 'pie',
+    //     name: 'Review Sentiment',
+    //     innerSize: '50%',
+    //     data: [
+    //       ['Positive', posPercent],
+    //       ['Neutral', neuPercent],
+    //       ['Negative', negPercent],
+    //       {
+    //         name: 'Proprietary or Undetectable',
+    //         y: 0.2,
+    //         dataLabels: {
+    //           enabled: false
+    //         }
+    //       }
+    //     ]
+    //   }]
+    // });
   }
 
   /**
@@ -401,30 +477,16 @@ getStarRatings(results) {
    * @param {string} Id - the id of the container to
    *
    */
-  buildWordCloud(dict, Id) {
+  buildWordCloud(dict, container) {
 
-    Object.keys(dict).forEach(function (key) {
-      console.log(dict[key])
-      // do something with obj[key]
-   });
+    Object.keys(dict).forEach(function(key) {
 
-
-    //keywordsCont.innerHTML = '<h2 id="topKeywords">Top Keywords</h2>';
-    var config = {
-      type: 'wordcloud',
-      FONTSIZE: '33',
-      options: {
-        "words": dict,
-        minLength: 4
-      }
-    };
-
-    zingchart.render({
-      id: Id,
-      data: config,
-      height: 400,
-      width: '100%'
+      container.innerHTML += '<h4 id = "wordCloudContent">' 
+        + '<span id="keyword">' + dict[key]['text'] + '</span>' 
+        + '  ' + '<span id="numberOfKeywords">' 
+        + dict[key]["count"] + '  ' + '</span>' + '</h4>' ;    
     });
+
   }
 
 
@@ -456,9 +518,11 @@ var keywordsCont = document.getElementById("keywordsCont");
 var reviewsCont = document.getElementById("reviewsCont");
 var relatedConceptsCont = document.getElementById("relatedConceptsCont");
 var productName = document.getElementById("productName");
+var productHeader = document.getElementById("productHeader");
 var topKeywords = document.getElementById("topKeywords");
 var topEntities = document.getElementById("topEntities");
 var relatedConcepts = document.getElementById("relatedConcepts");
+
 
 var results;
 var posCount = 0;
@@ -485,3 +549,4 @@ keywordsCont.hidden = true;
 relatedConceptsCont.hidden = true;
 reviewsCont.hidden = true;
 productName.hidden = true;
+productHeader.hidden = true;
