@@ -15,6 +15,10 @@
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>   -->
 
+  <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
+  <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+  ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
+
   <!-- Roboto Slab Font -->
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Slab" />
   <!-- Font Awesome for Star Icons -->
@@ -28,6 +32,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
   <![endif]-->
 
+  <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+  <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+  <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+  <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+  <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
   <!-- Word Cloud for Top Entites -->
   <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
   <script>
@@ -38,7 +48,7 @@
 
   <!-- Viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta content='width=device-width, initial-scale=1' name='viewport'/>  
+  <meta content='width=device-width, initial-scale=1' name='viewport' />
 
 </head>
 
@@ -50,8 +60,8 @@
   </header>
   <section class="_full-width-row _full-width-row_gray jumbotron">
     <center>
-      <div id = 'titleDiv'>
-        <h1 id='appTitle' ><span style='font-weight: bold'>Watson</span><span style="color: #9753e1"> Second Opinion</span> </h1>
+      <div id='titleDiv'>
+        <h1 id='appTitle'><span style='font-weight: bold'>Watson</span><span style="color: #9753e1"> Second Opinion</span> </h1>
         <h3 id='jumbotronTop'>analyzes millions of reviews and helps you make an educated decision</h3>
         <a href="https://www.ibm.com/watson/developer/">
           <img id = 'watsonLogo' src="./photos/watson.png" alt="Mountain View">
@@ -66,29 +76,49 @@
 
 
   <div class="col-md-12 text-center">
+    
     <center>
       <section class="_full-width-row query query_collapsed">
-        <label id = 'inputInstructions'>Copy &amp; paste your Amazon product URL:</label>
-        <input id='productUrl' type="text" value="https://www.amazon.com/Energizer-Alkaline-Battery-Batteries-Count/dp/B0128VWRFE/ref=pd_sim_121_9?_encoding=UTF8&pd_rd_i=B0128VWRFE&pd_rd_r=HZ5F2DW5FKX4C1S0ZV80&pd_rd_w=PedYW&pd_rd_wg=efTbe&psc=1&refRID=HZ5F2DW5FKX4C1S0ZV80"
+        <label id='inputInstructions'>Copy &amp; paste your Amazon product URL:</label>
+        <input id='productUrl' type="text" value="https://www.amazon.com/dp/B0731GNYCN/ref=sspa_dk_detail_3?psc=1&pd_rd_i=B0731GNYCN&pd_rd_wg=Mxh3c&pd_rd_r=RW3M8WGHNAP4B124PS4F&pd_rd_w=9FVWr"
           id="text" name="text" required/>
         <input id="goButton" type="submit" value="Go" />
         <br/>
       </section>
       <div id="myLoader" class="loader"></div>
-      <div id="productName"></div>
-      <div id="sentimentRating"></div>
-      <div id="discoveryQueryOutput"></div>
-      <div id="sentimentCont"></div>
+    </center>
+
+    <div id="discoveryQueryOutput"></div>
+    <div id='sentimentRow'>
+        <div id="sentimentRating"></div>
+        <div id ="productHeader"> </div>
+        <div id="productName"></div>
+        <div id="sentimentCont"></div>
+    </div>
+
+    
+
+    
       <div id="keywordsCont">
+        <center>
         <h2 id="topKeywords">Top Keywords</h2>
+        <h3 id="keywordDescription">Most common keywords extracted from customer reviews.</h3>
+      </center>
       </div>
+    <div id='conceptsRow'>
       <div id="entitiesCont">
+      <center>
         <h2 id="topEntities">Top Entities</h2>
+        <h3 id="entityDescription">Most common people, companies, organization, and cities extracted from custmer reviews.</h3>
+      </center>
       </div>
       <div id="relatedConceptsCont">
+      <center>
         <h2 id="relatedConcepts">Related Concepts</h2>
+        <h3 id="conceptsDescription">General concepts that rean't necessarily referenced in your data.</h3>
+      </center>
       </div>
-    </center>
+    </div>
 
     <div class="reviews" id="reviewsCont"></div>
   </div>

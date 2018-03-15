@@ -11,7 +11,7 @@ input[type=text], select {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-  font-family: "Roboto Slab";  
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;  
   font-size: 16px;
 }
 
@@ -29,6 +29,7 @@ input[type=text], select {
   padding: 10rem 0;
   background: none;
   background-color: #9753e1;
+  margin-bottom: -2rem;
 }
 
 ._full-width-row, #box {
@@ -86,7 +87,7 @@ input[type=text], select {
 
 header{
   position: relative;
-  font-family: "Roboto Slab";
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
   padding-bottom: 1.8rem;
   color:black;
 }
@@ -96,7 +97,35 @@ header{
 }
 
 #productUrl {
-  width: 62rem;
+  width: 51rem;
+}
+
+#wordCloudContent {
+  display: inline;  
+  color: black;
+}
+
+#numberOfKeywords {
+  border-radius: 50%;
+  behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+  width: 24px;
+  height: 36px;
+  padding: 2px;
+  margin-right: 1rem;
+  background: #fff;
+  border: 1px solid #666;
+  color: #666;
+  text-align: center;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  text-align: left;
+}
+
+#keyword {
+  margin-left: 1rem;  
+  color: #9753e1;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 24px;
+  text-align: left;
 }
 
 a:link {
@@ -122,13 +151,13 @@ input[type=submit]:hover {
   border-radius: 4px;
   box-sizing: border-box;
   background: #0F7F9E;
-	font-family: "Roboto Slab";
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
   color: white;
 }
 
 .col-md-12 {
-	font-family: "Roboto Slab";
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
   margin: 15px 5px 15px 5px;
   color: white;
@@ -158,7 +187,7 @@ input[type=submit]:hover {
 }
 
 h1{
-	font-family: "Roboto Slab";
+	font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
 	font-size: 32px;
 	font-style: normal;
 	font-variant: normal;
@@ -168,13 +197,13 @@ h1{
 }
 
 h3 {
-  font-family: "Roboto Slab";
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
   padding-bottom: 2px;
   color:black;
 }
 
 h2 {
-  font-family: "Roboto Slab";
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
   padding-bottom: 6px;
   padding-top: 6px;  
   font-style: normal;
@@ -184,7 +213,7 @@ h2 {
 }
 
 p{
-	font-family: "Roboto Slab";
+	font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
 	font-size: 16px;
 	font-style: normal;
 	font-variant: normal;
@@ -199,7 +228,7 @@ label {
   display: inline-block;
   margin-bottom: 5px;
   font-weight: bold;
-  font-family: "Roboto Slab";
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
   text-align: left;  
   min-height: 20px;
   padding: 19px;
@@ -231,10 +260,36 @@ label {
   margin-top: -50px;  
 }
 
+#sentimentRating {
+  float: right;
+  margin-right: 9rem;
+  font-style: italic;
+}
+#productHeader{
+  float: left;
+  margin-left: 17rem;  
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: black;
+  font-size: 46px;
+  margin-top: 2rem;
+  margin-bottom: -1rem;
+}
+#amazonRating {
+  margin-top: -5rem;  
+}
+
 #topEntities, #topKeywords, #relatedConcepts {
   margin-bottom:-4px;  
   z-index: 900;
+  font-size: 40px;
 }
+#customerReviews{
+  font-size: 40px;  
+}
+
+/* #keywordDescription {
+  float: left;
+} */
 
 #userIcon {
   font-size:24px;
@@ -244,35 +299,93 @@ label {
   margin-right: 8px;
 }
 
-#entitiesCont, #keywordsCont, #relatedConceptsCont {
-  width: 75%;
-  height: 25em;
-  border: 1px solid #e3e3e3;    
-  margin-top: 3rem;    
-  z-index: -900;
-  margin-bottom: 3rem;
+#productName {
+  height: 11.1em;    
+  width: 38%;
+  text-align: center;
+  margin-top: 3rem;
+  margin-left: 11rem;
+  margin-bottom: 2rem;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: black;
+  font-size: 36px;
+  line-height: 150%;  
+  float: left; 
+  border: 1px solid #e3e3e3;
+}
+
+#showResultsFor {
+  float: left;
+  margin-left: 1rem;   
+  margin-right: 1rem;
+  margin-top: 3rem;
+  height: 25em;  
+  font-style: bold;
+}
+
+ #conceptsRow {
+  display: inline-block;
+}
+
+#sentimentRow {
+  display: inline-block;
+  padding-top: 2rem;
 }
 
 #sentimentCont {
-  width: 75%;  
-  z-index: -1;
+  width: 38%;  
   border: 1px solid #e3e3e3;  
   height: 25em;
-  overflow: hidden;
+  float: right;
+  margin-bottom: 3rem;
+  margin-top: 2rem; 
+  /* margin-left: 55rem;     */
+  margin-right: 11rem;
 }
 
+#keywordsCont {
+  width: 78.5%;
+  height: 25em;
+  border: 1px solid #e3e3e3;   
+  float: right; 
+  z-index: -900;
+  margin-bottom: 3rem;
+  margin-right: 11rem;
+  margin-left: 1rem;
+}
+
+#entitiesCont {
+  width: 38%;
+  height: 25em;
+  border: 1px solid #e3e3e3;   
+  z-index: -900;
+  margin-bottom: 3rem;
+  margin-left: 11rem;
+  float: left;     
+}
+
+#relatedConceptsCont {
+  width: 38%;
+  height: 25em;
+  border: 1px solid #e3e3e3;   
+  z-index: -900;
+  margin-bottom: 3rem;
+  margin-right: 11rem;
+  float: right;   
+}
+
+
 #reviewsCont {
-  width: 75%;
+  width: 78.5%;
   z-index: -1;
   border: 1px solid #e3e3e3;  
   min-height: 25em;
-  margin-top: 3rem;
   margin: auto;
 }
 
 .zc-ref {
   text-align: center;
-  font-family: "Roboto Slab";  
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;  
 }
 
 #discoveryQueryOutput {
@@ -280,13 +393,4 @@ label {
   color: red;
 }
 
-#productName {
-  padding-bottom: 2rem;
-  padding-top: 2rem;  
-  margin-left: 11rem;
-  margin-right: 11rem;
-  font-family: "Roboto Slab";
-  color: black;
-  font-size: 2rem;
-  line-height: 150%;  
-}
+
