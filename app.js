@@ -128,6 +128,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                                             insertDiscoveryInCloudant(output, reviewId);
                                             output = JSON.parse(output);
                                             output.productName = reviews.productName;
+                                            output.starRating = reviews.starRating;
                                             res.send(output);
                                           });
                                       }, 9000);
@@ -140,8 +141,12 @@ app.get('/reviews/:reviewId', function(req, res) {
                         // else reviews are equal and
                         // we are assuming the reviews are the same and not modified
                         console.log('all of our reviews are already in the collection');
+                        console.log(currentDiscoveryInfo)
                         watson.discoveryQuery(currentDiscoveryInfo)
                           .then(function(output){
+
+                            console.log('output: ')
+                            console.log(output)
 
                             // store discovery results in cloudant
                             insertDiscoveryInCloudant(output, reviewId);
@@ -179,6 +184,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                                             insertDiscoveryInCloudant(output, reviewId);
                                             output = JSON.parse(output);
                                             output.productName = reviews.productName;
+                                            output.starRating = reviews.starRating;                                            
                                             res.send(output);
                                           });
                                       }, 7000);
@@ -203,6 +209,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                 var cloudantDocument = {
                   _id: _options.productId,
                   productName: _options.productName,
+                  starRating: _options.starRating,
                   reviews: _options.reviews,
                   _rev: options._rev
                 };
@@ -242,6 +249,7 @@ app.get('/reviews/:reviewId', function(req, res) {
                                               insertDiscoveryInCloudant(output, reviewId);
                                               output = JSON.parse(output);
                                               output.productName = reviews.productName;
+                                              output.starRating = reviews.starRating;                                              
                                               res.send(output);
                                             });
                                         }, 7000);
@@ -267,6 +275,7 @@ app.get('/reviews/:reviewId', function(req, res) {
           var cloudantDocument = {
             _id: options.productId,
             productName: options.productName,
+            starRating: options.starRating,
             reviews: options.reviews
           };
           insertCloudantDoc(cloudantDocument)
@@ -305,6 +314,9 @@ app.get('/reviews/:reviewId', function(req, res) {
                                         insertDiscoveryInCloudant(output, reviewId);
                                         output = JSON.parse(output);
                                         output.productName = reviews.productName;
+                                        console.log(reviews)
+                                        console.log(reviews)
+                                        output.starRating = reviews.starRating;                                        
                                         res.send(output);
                                       });
                                   }, 7000);
@@ -429,6 +441,7 @@ function scrapeEveryPage(options) {
             var object = {};
             object.productId = options.productId;
             object.productName = options.productName;
+            object.starRating = options.starRating;
             object.reviews = arrayOfReviews;
             resolve(object);
           }
@@ -457,11 +470,14 @@ function scrapeNumberOfPages(productId) {
       } else {
         var pageList = [];
         var $ = cheerio.load(body);
+        var amazonRating = 0;
         $("li[class='page-button']").each(function(i, element){
             pageList.push(parseInt($(this).text().replace(",","")));
         });
+        var starRating = $("span .arp-rating-out-of-text").text();
         var object = {};
         object.productName = $("title").text().replace("Amazon.com: Customer reviews: ","");
+        object.starRating = starRating;
         console.log(object.productName + " <== GETTING REVIEWS OF");
         object.totalPages = pageList.pop();
         if(object.totalPages == undefined)

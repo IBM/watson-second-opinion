@@ -260,10 +260,16 @@ label {
   margin-top: -50px;  
 }
 
+#amazonRating {
+  margin-top: -5rem;
+  margin-right: 10rem;  
+}
+
 #sentimentRating {
   float: right;
   margin-right: 9rem;
   font-style: italic;
+  margin-right: 11rem;    
 }
 #productHeader{
   float: left;
@@ -274,9 +280,7 @@ label {
   margin-top: 2rem;
   margin-bottom: -1rem;
 }
-#amazonRating {
-  margin-top: -5rem;  
-}
+
 
 #topEntities, #topKeywords, #relatedConcepts {
   margin-bottom:-4px;  
@@ -311,7 +315,7 @@ label {
   font-size: 36px;
   line-height: 150%;  
   float: left; 
-  border: 1px solid #e3e3e3;
+  /* border: 1px solid #e3e3e3; */
 }
 
 #showResultsFor {
@@ -330,6 +334,7 @@ label {
 #sentimentRow {
   display: inline-block;
   padding-top: 2rem;
+  margin
 }
 
 #sentimentCont {
