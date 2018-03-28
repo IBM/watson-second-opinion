@@ -17,6 +17,12 @@ class Watson {
         outputText.innerHTML = "Please check your input is a valid Amazon product url";
         return;
       }
+
+      console.log('clearing results from previous query');
+
+      keywordDict = [];
+      entitiesDict = [];
+      conceptDict = [];
   
       //clear the keywords from the previous query
       keywordsCont.innerHTML = '<center> <h2 id="topKeywords">Top Keywords</h2>' 
@@ -410,13 +416,6 @@ class Watson {
       });
   
     }
-  
-    clearWordCloud(container, header) {
-      console.log('we inside clearWord Cloud')
-      console.log(header)
-      container.innerHTML = header;
-    } 
-  
   
     /**
      * A descending sort of our dictonary. Used to order the
