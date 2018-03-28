@@ -32,7 +32,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 ## Watch the Video
 
-[![](docs/videoScreenshot.png)](https://www.youtube.com/watch?v=wwNAEvbxd54&list=PLVztKpIRxvQXhHlMQttCfYZrDN8aELnzP&index=1&t=1s)
+[![](docs/youtubePicture.png)](https://www.youtube.com/watch?v=wwNAEvbxd54&list=PLVztKpIRxvQXhHlMQttCfYZrDN8aELnzP&index=1&t=1s)
 
 # Prerequisite
 
