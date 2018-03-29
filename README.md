@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/IBM/watson-review-analyzer.svg?branch=master)](https://travis-ci.org/IBM/watson-review-analyzer)
+[![Build Status](https://travis-ci.org/IBM/watson-second-opinion.svg?branch=master)](https://travis-ci.org/IBM/watson-second-opinion)
 
 # Create a Review Analyzer with Watson Discovery
 
@@ -126,7 +126,7 @@ One Time Code (Get one at https://iam-id-2.ng.bluemix.net/identity/passcode)>
 Authenticating...
 OK
 
-Targeted account IBM (d5a44c187fafb2deda1a852cef31136c)
+Targeted account IBM (d5a44c1--------1a852cef31136c)
 
 Targeted resource group default
 
