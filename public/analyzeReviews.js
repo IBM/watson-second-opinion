@@ -64,13 +64,13 @@ function analyze() {
 
   //clear the keywords from the previous query
   keywordsCont.innerHTML = '<center> <h2 id="topKeywords">Top Keywords</h2>'
-    + '<h3 id="keywordDescription">Most common keywords extracted from customer reviews.</h3> </center>';
+    + '<h3 id="keywordDescription">Most common keywords extracted from customer reviews sorted by relavance (0-1).</h3> </center>';
 
   entitiesCont.innerHTML = '<center> <h2 id="topEntities">Top Entities</h2>'
-    + '<h3 id="entityDescription">Most common people, companies, organization, and cities extracted from custmer reviews.</h3> </center>';
+    + '<h3 id="entityDescription">Most common people, companies, organization, and cities extracted from custmer reviews sorted by relavance (0-1).</h3> </center>';
 
   relatedConceptsCont.innerHTML = '<center> <h2 id="relatedConcepts">Related Concepts</h2>'
-    + '<h3 id="conceptsDescription">General concepts that are not necessarily referenced in your data.</h3></center>';
+    + '<h3 id="conceptsDescription">General concepts that are not necessarily referenced in your data sorted by relavance (0-1).</h3></center>';
 
   loader.hidden = false;
   sentimentRating.hidden = true;
@@ -102,11 +102,34 @@ function analyze() {
       productName.innerHTML = '"<i>' + output.reviews.productName + '</i>"';
 
       //build the stars based on the reviews from the customers
+
       getStarRatings(output.reviews.reviews);
 
       getInsights(output);
 
       watsonStarRating = output.sentiment.document.score;
+
+      var sentimentPercent = 50 + (watsonStarRating * 50);
+
+      console.log('sentimentPercent: ')
+      console.log(sentimentPercent.toFixed(0));
+
+      // var x = document.getElementsByClassName("bar");
+      // x.dataset.percent = sentimentPercent.toFixed(0);
+      (function(document) {
+        var _bars = [].slice.call(document.querySelectorAll('.bar-inner'));
+        _bars.map(function(bar, index) {
+          setTimeout(function() {
+            bar.dataset.percent = sentimentPercent.toFixed(0)+ "%";
+            bar.style.width = bar.dataset.percent;
+          }, 0);
+          
+        });
+
+      })(document)
+
+      
+
 
       //adjust sentiment rating to a 5 point scale. 
       if (watsonStarRating > 0) {
@@ -127,9 +150,6 @@ function analyze() {
         + '<span style="font-weight: bold; ">'
         + watsonStarRating.toString().substring(0, 3) + '</span>'
         + ' stars</span></h2>';
-
-      //get our pie circle chart to show reviews sentiment analysis
-      buildChart(33, 33, 34);
 
       //determine if we show keywords or not
       if (showKeywords) {

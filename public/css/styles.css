@@ -281,8 +281,7 @@ label {
   margin-bottom: -1rem;
 }
 
-
-#topEntities, #topKeywords, #relatedConcepts {
+#topEntities, #topKeywords, #relatedConcepts, #sentimentTitle {
   margin-bottom:-4px;  
   z-index: 900;
   font-size: 40px;
@@ -290,10 +289,6 @@ label {
 #customerReviews{
   font-size: 40px;  
 }
-
-/* #keywordDescription {
-  float: left;
-} */
 
 #userIcon {
   font-size:24px;
@@ -334,7 +329,6 @@ label {
 #sentimentRow {
   display: inline-block;
   padding-top: 2rem;
-  margin
 }
 
 #sentimentCont {
@@ -346,6 +340,41 @@ label {
   margin-top: 2rem; 
   /* margin-left: 55rem;     */
   margin-right: 11rem;
+}
+
+#bar-title{
+  color: #9753e1;  
+}
+
+sentimentDescription {
+  margin-bottom: 30em;
+}
+
+.bar {
+  background-color: #f2f2f1;
+  width: 90%;
+  height: 50px;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  margin-left: 30px;
+  }
+
+.bar-inner {
+  background-color: #9753e1;
+  width: 0%;
+  height: 100%;
+  position: relative;
+  transition: width 1000ms linear;
+}
+
+.bar-inner:after {
+  position: absolute;
+  right: 2.5%;
+  content: attr(data-percent);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 50px;
 }
 
 #keywordsCont {

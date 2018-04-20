@@ -11,40 +11,10 @@
 
   <link rel="stylesheet" href="css/styles.css?v=1.0">
 
-  <!-- Chart.js -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>   -->
-
-  <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
-  <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
-  ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
-
   <!-- Roboto Slab Font -->
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Slab" />
   <!-- Font Awesome for Star Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  <!-- High Charts for General Sentiment -->
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <script src="https://code.highcharts.com/modules/exporting.js"></script>
-
-  <!--[if lt IE 9]>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
-  <![endif]-->
-
-  <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-  <script src="https://www.amcharts.com/lib/3/pie.js"></script>
-  <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-  <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-  <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-
-  <!-- Word Cloud for Top Entites -->
-  <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
-  <script>
-    zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
-    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
-  </script>
-  <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
 
   <!-- Viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,7 +46,7 @@
 
 
   <div class="col-md-12 text-center">
-    
+
     <center>
       <section class="_full-width-row query query_collapsed">
         <label id='inputInstructions'>Copy &amp; paste your Amazon product URL:</label>
@@ -90,42 +60,44 @@
 
     <div id="discoveryQueryOutput"></div>
     <div id='sentimentRow'>
-        <div id="sentimentRating"></div>
-        <div id ="productHeader"> </div>
-        <div id="productName"></div>
-        <div id="sentimentCont"></div>
+      <div id="sentimentRating"></div>
+      <div id="productHeader"> </div>
+      <div id="productName"></div>
+      <div id="sentimentCont">
+        <center>
+          <h2 id="sentimentTitle">Overall Sentiment</h2>
+          <h3 id="sentimentDescription">The tone of the language used in the reviews. 0% being extremely negative, 50% being neutral, 100% being extremely
+            positive.
+          </h3>
+        </center>
+        <br>
+        <div class="bar">
+          <div class="bar-inner" data-percent="30%"></div>
+        </div>
+      </div>
+
     </div>
 
-    
-
-    
-      <div id="keywordsCont">
-        <center>
-        <h2 id="topKeywords">Top Keywords</h2>
-        <h3 id="keywordDescription">Most common keywords extracted from customer reviews.</h3>
-      </center>
-      </div>
+    <div id="keywordsCont">
+      <h2 id="topKeywords">Top Keywords</h2>
+      <h3 id="keywordDescription"></h3>
+    </div>
     <div id='conceptsRow'>
       <div id="entitiesCont">
-      <center>
         <h2 id="topEntities">Top Entities</h2>
-        <h3 id="entityDescription">Most common people, companies, organization, and cities extracted from custmer reviews.</h3>
-      </center>
+        <h3 id="entityDescription"></h3>
       </div>
       <div id="relatedConceptsCont">
-      <center>
         <h2 id="relatedConcepts">Related Concepts</h2>
-        <h3 id="conceptsDescription">General concepts that rean't necessarily referenced in your data.</h3>
-      </center>
+        <h3 id="conceptsDescription"></h3>
       </div>
     </div>
 
     <div class="reviews" id="reviewsCont"></div>
   </div>
 
-
   <script src="analyzeReviews.js"></script>
-  <script src="buildUI.js"></script>  
+  <script src="buildUI.js"></script>
 
 </body>
 

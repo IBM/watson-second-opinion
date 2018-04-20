@@ -13,7 +13,12 @@ function getStarRatings(results) {
 
   var userIcon = '<i id = "userIcon" class="fa fa-user-circle-o"></i>';
 
-  for (var i = 0; i < 50; i++) {
+  //only display 50 reviews max
+  if (results.length > 50) {
+    results = results.slice(0,50);
+  }
+
+  for (var i = 0; i < results.length; i++) {
     reviewsCont.innerHTML += userIcon + '<p>' + results[i].reviewer + '</p>';
 
     reviewsCont.innerHTML +=
@@ -88,64 +93,6 @@ function pushToDict(dict, text, relevance) {
   dict.push({
     text: text,
     relevance: relevance
-  });
-}
-
-/**
- * Output our circle graph showing the positive negative and
- * neutral sentiment of our reviews
- * @param {number} posPercent - this number represents the
- * proprortion of positive reivews out of the total number
- * of reviews uploaded
- * @param {number} negPercent - this number represents the
- * proprortion of negative reivews out of the total number
- * of reviews uploaded
- * @param {number} neuPercent - this number represents the
- * proprortion of neutral reivews out of the total number
- * of reviews uploaded
- * @return {Highchart object} - This function creates a
- * Highchart object using the Highchart library. This
- * object is a pie chart
- */
-function buildChart(posPercent, negPercent, neuPercent) {
-
-  var chart = AmCharts.makeChart("sentimentCont", {
-    "type": "pie",
-    "theme": "black",
-    "titles": [
-      {
-        "text": "Sentiment Analysis",
-        "size": 30,
-        "color": "#9753e1",
-        "bold": false
-      }
-    ],
-    "dataProvider": [{
-      "country": "Negative",
-      "value": negPercent,
-      "color": "#ff0000",
-      "size": 30
-    }, {
-      "country": "Neutral",
-      "value": neuPercent,
-      "color": "#ffff00"
-    }, {
-      "country": "Positive",
-      "value": posPercent,
-      "color": "#64E572"
-    }],
-    "valueField": "value",
-    "titleField": "country",
-    "colorField": "color",
-    "outlineAlpha": 0.4,
-    // "depth3D": 30,
-    "innerRadius": 30,
-    "balloonText": "[[title]]<br><span style='font-size:20px'><b>[[value]]</b> ([[percents]]%)</span>",
-    // "angle": 28.2,
-    "hideCredits": true,
-    "export": {
-      "enabled": false
-    }
   });
 }
 
