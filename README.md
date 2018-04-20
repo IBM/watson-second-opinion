@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/IBM/watson-review-analyzer.svg?branch=master)](https://travis-ci.org/IBM/watson-review-analyzer)
+[![Build Status](https://travis-ci.org/IBM/watson-second-opinion.svg?branch=master)](https://travis-ci.org/IBM/watson-second-opinion)
 
 # Create a Review Analyzer with Watson Discovery
 
@@ -29,6 +29,10 @@ When the reader has completed this Code Pattern, they will understand how to:
 * [Node.js](https://nodejs.org/): An open-source JavaScript run-time environment for executing server-side JavaScript code.
 * [Databases](https://en.wikipedia.org/wiki/IBM_Information_Management_System#.22Full_Function.22_databases): Repository for storing and managing collections of data.
 * [Cloud](https://www.ibm.com/developerworks/learn/cloud/): Accessing computer and information technology resources through the Internet.
+
+## Watch the Video
+
+[![](docs/youtubePicture.png)](https://www.youtube.com/watch?v=wwNAEvbxd54&list=PLVztKpIRxvQXhHlMQttCfYZrDN8aELnzP&index=1&t=1s)
 
 # Prerequisite
 
@@ -74,8 +78,8 @@ You would also need a Docker Registry. [Docker Hub](https://hub.docker.com/) let
 ### 1. Clone the repo
 
 ```
-$ git clone https://github.com/IBM/watson-review-analyzer
-$ cd watson-review-analyzer/
+$ git clone https://github.com/IBM/watson-second-opinion
+$ cd watson-second-opinion/
 ```
 
 ### 2. Create IBM Cloud services
@@ -100,7 +104,41 @@ $ docker push YOUR_DOCKERHUB_USERNAME/watson-review-analyzer:1.0
 ```
 
 ### 4. Configure deployment files
-Setup kubectl to use your cluster
+Login to IBM Cloud (formerly called Bluemix). If not an IBM employee, use your IBM Cloud account username and password to login
+
+```
+$ bx login
+```
+
+If IBM employee, use --sso option and follow link for one time code, and use it to login.
+
+```
+$ bx login --sso
+```
+
+
+After you are logged in to IBM Cloud, you should see something like this:
+
+```
+API endpoint: https://api.ng.bluemix.net
+
+One Time Code (Get one at https://iam-id-2.ng.bluemix.net/identity/passcode)>
+Authenticating...
+OK
+
+Targeted account IBM (d5a44c1--------1a852cef31136c)
+
+Targeted resource group default
+
+
+API endpoint:     https://api.ng.bluemix.net (API version: 2.92.0)
+Region:           us-south
+User:             horea.porutiu@ibm.com
+Account:          IBM (d5a44c1--------1a852cef31136c)
+Resource group:   default
+```
+
+Next, setup kubectl to use your cluster
 
 ```
 $ bx cs cluster-config <your-cluster-name>
