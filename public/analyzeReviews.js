@@ -10,11 +10,17 @@ var entitiesCont = document.getElementById("entitiesCont");
 var keywordsCont = document.getElementById("keywordsCont");
 var reviewsCont = document.getElementById("reviewsCont");
 var relatedConceptsCont = document.getElementById("relatedConceptsCont");
-var productName = document.getElementById("productName");
+// var productName = document.getElementById("productName");
 var productHeader = document.getElementById("productHeader");
+var productPic = document.getElementById("productPic");
+var productCont = document.getElementById("productCont");
 var topKeywords = document.getElementById("topKeywords");
 var topEntities = document.getElementById("topEntities");
 var relatedConcepts = document.getElementById("relatedConcepts");
+var wrapper = document.getElementById("wrapperId");
+var aside2 = document.getElementById("aside2");
+var aside1 = document.getElementById("aside1");
+var main = document.getElementById("main");
 
 //variables to show NLU results
 var entitiesDict = [];
@@ -28,19 +34,21 @@ var watsonStarRating;
 
 //hide everything at start of app
 outputText.hidden = true;
+wrapper.hidden = false;
 loader.hidden = true; //hide loader at the start of the app
 sentimentRating.hidden = true;
 sentimentCont.hidden = true;
 entitiesCont.hidden = true;
 keywordsCont.hidden = true;
+productCont.hidden = true;
 relatedConceptsCont.hidden = true;
 reviewsCont.hidden = true;
-productName.hidden = true;
+// productName.hidden = true;
 productHeader.hidden = true;
 
 function analyze() {
   outputText.hidden = true;
-  productName.hidden = true;
+  // productName.hidden = true;
   productHeader.hidden = true;
   data.url = document.getElementById("productUrl").value;
   var match = data.url.match(pattern);
@@ -52,11 +60,15 @@ function analyze() {
     keywordsCont.hidden = true;
     relatedConceptsCont.hidden = true;
     reviewsCont.hidden = true;
+    productCont.hidden = true;
     outputText.innerHTML = "Please check your input is a valid Amazon product url";
     return;
   }
 
   console.log('clearing results from previous query');
+
+  //clear sentiment bar from previous query
+  showSentiment(0);
 
   keywordDict = [];
   entitiesDict = [];
@@ -73,10 +85,12 @@ function analyze() {
     + '<h3 id="conceptsDescription">General concepts that are not necessarily referenced in your data sorted by relavance (0-1).</h3></center>';
 
   loader.hidden = false;
+  wrapper.hidden = false;
   sentimentRating.hidden = true;
   sentimentCont.hidden = true;
   entitiesCont.hidden = true;
   reviewsCont.hidden = true;
+  productCont.hidden = true;
   keywordsCont.hidden = true;
   relatedConceptsCont.hidden = true;
   console.log('data.source: ')
@@ -93,70 +107,62 @@ function analyze() {
       outputText.innerHTML = "Error, check your network connection.";
     }
     else {
+      console.log(wrapper)
+      main.style.display = "none";
+      aside2.style.display = "none";
+
       var output = JSON.parse(ourRequest.responseText);
       console.log('output: ')
       console.log(output);
 
-      productHeader.innerHTML = '<b>' + 'Showing results for: </b>';
+      productHeader.innerHTML = '<b>' + output.reviews.productName + '</b>';
 
-      productName.innerHTML = '"<i>' + output.reviews.productName + '</i>"';
-
+      productPic.innerHTML = '<img id = "productPicId" src=' + output.reviews.img + '>';
+      
       //build the stars based on the reviews from the customers
 
       getStarRatings(output.reviews.reviews);
 
-      getInsights(output);
+      getNLUData(output);
 
+      //show sentiment based on sentiment score from NLU analysis
       watsonStarRating = output.sentiment.document.score;
-
       var sentimentPercent = 50 + (watsonStarRating * 50);
 
-      console.log('sentimentPercent: ')
-      console.log(sentimentPercent.toFixed(0));
+      console.log('sentimentPer: ')
+      console.log(sentimentPercent)
 
-      // var x = document.getElementsByClassName("bar");
-      // x.dataset.percent = sentimentPercent.toFixed(0);
-      (function(document) {
-        var _bars = [].slice.call(document.querySelectorAll('.bar-inner'));
-        _bars.map(function(bar, index) {
-          setTimeout(function() {
-            bar.dataset.percent = sentimentPercent.toFixed(0)+ "%";
-            bar.style.width = bar.dataset.percent;
-          }, 0);
-          
-        });
-
-      })(document)
-
-      
-
+      showSentiment(sentimentPercent, '.bar-inner');
 
       //adjust sentiment rating to a 5 point scale. 
       if (watsonStarRating > 0) {
         watsonStarRating = (Math.sqrt(watsonStarRating) * 2) + 3;
       } else if (watsonStarRating < 0) {
-        (-1*Math.sqrt(Math.abs(watsonStarRating)) * 2) + 3;
+        watsonStarRating = (-1 * Math.sqrt(Math.abs(watsonStarRating)) * 2) + 3;
       } else {
         watsonStarRating = 0;
       }
 
       var amazonScrapeRating = output.reviews.starRating.substring(0, 3);
 
-      sentimentRating.innerHTML = '<h2> <span id = "amazonRating">Amazon Rating: '
+      sentimentRating.innerHTML = ' <span id = "amazonRating">Amazon Rating: '
         + '<span style="font-weight: bold; ">' + amazonScrapeRating + '</span>'
         + ' stars' + '</span>' + ' <br>'
-        + '<span id = "sentimentRating">'
-        + '<a href="https://www.ibm.com/watson/developer/"> Watson </a>' + ' Rating: '
-        + '<span style="font-weight: bold; ">'
+        + '<span id = "watsonRating">'
+        + '<a title="some text for tooltip" href="https://www.ibm.com/watson/developer/">  Watson </a>' + ' Rating: '
+        + '<span style="font-weight: bold; cursor:pointer; ">'
         + watsonStarRating.toString().substring(0, 3) + '</span>'
-        + ' stars</span></h2>';
+        + ' stars <div class="tooltip"> ? <span class="tooltiptext"> '
+        + 'The Watson Rating is computed by taking an aggregate of the product reviews and using natural language understanding '
+        + 'to uncover insights from the reviews. The more positive the attitude and emotion of the review, the higher the Watson Rating.</span></div></span>';
 
       //determine if we show keywords or not
       if (showKeywords) {
         topKeywords.hidden = false;
         keywordsCont.hidden = false;
         var keywordId = 'keywordsCont';
-        buildWordCloud(keywordDict, keywordsCont);
+        var keywordBar = '.keywordBar-inner';
+        buildWordCloud(keywordDict, keywordsCont, keywordBar);
       } else {
         topKeywords.hidden = true;
         keywordsCont.hidden = true;
@@ -168,7 +174,8 @@ function analyze() {
         relatedConcepts.hidden = false;
         relatedConceptsCont.hidden = false;
         var conceptsId = 'relatedConceptsCont';
-        buildWordCloud(conceptDict, relatedConceptsCont);
+        var conceptsBar = '.conceptsBar-inner';        
+        buildWordCloud(conceptDict, relatedConceptsCont,'.conceptsBar-inner' );
       } else {
         relatedConcepts.hidden = true;
         relatedConceptsCont.hidden = true;
@@ -178,22 +185,25 @@ function analyze() {
         topEntities.hidden = false;
         entitiesCont.hidden = false;
         var entitiesId = 'entitiesCont';
-        buildWordCloud(entitiesDict, entitiesCont);
+        var entityBar = '.entityBar-inner';                
+        buildWordCloud(entitiesDict, entitiesCont, entityBar);
       } else {
         entitiesCont.hidden = true;
         topEntities.hidden = true;
       }
     }
     loader.hidden = true;
+   
     sentimentCont.hidden = false;
     reviewsCont.hidden = false;
-    productName.hidden = false;
+    // productName.hidden = false;
     productHeader.hidden = false;
     sentimentRating.hidden = false;
+    productCont.hidden = false;
   };
   ourRequest.send(json);
 }
 
-document.getElementById("goButton").addEventListener("click", function(){
+document.getElementById("goButton").addEventListener("click", function () {
   analyze();
 });

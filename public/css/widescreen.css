@@ -1,0 +1,106 @@
+/* Large screens */
+@media all and (min-width: 800px) {
+
+  .main { flex: 2 0px; }
+  .main    { order: 1; }
+  .aside-2 { order: 2; }
+
+
+
+  .header{
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    padding-bottom: 1vw;
+    color:black;
+    display: flex;
+    flex-direction: row;
+    /* background-color: rgba(255, 255, 255, 0.91); */
+    display: flex;  
+    flex-flow: row wrap;
+    font-weight: bold;
+    text-align: center;
+    /* background: #f4f4f4; */
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  #page {
+    width: 960px;
+    margin: 0 auto;
+  }
+
+
+  
+  ._full-width-row, #box {
+    padding: 2rem 0;
+    margin-left: -20px;
+    margin-right: -20px;
+    width: 102%;
+    margin-top: -15px;
+    height: 10%;
+    display: flex;  
+    flex-flow: row wrap;
+  }
+
+  #inputInstructions {
+    font-size: 2vw;
+    float: left;
+    margin-left: 4vw;
+  }
+  #productUrl {
+    width: 5vw;
+    color: white;
+  }
+  #goButton {
+    height: 50%;
+    width: 50%;
+    /* margin-left: 1vw;
+    margin-right: auto;  
+    top: 2vw; */
+  }
+
+  
+
+  #watsonLogo {
+  float: left;
+  max-height: 8vh;
+  max-width: 8vh;
+  margin-top: -9.5%;
+  margin-left: 4vw;  
+}
+#discoveryLogo {
+  float: right;
+  max-height: 12vh;
+  max-width: 12vh;
+  margin-top: -14%;
+  margin-right: 6vw;    
+}
+#appTitle {
+  margin-top: 2rem;
+  padding-bottom: -2rem;
+  font-size: 4vw;
+  text-align: center;
+
+}
+#appDescription {
+  margin-top: -.1rem;
+  font-size: 1.5vw;
+  text-align: center;
+  line-height: 2.9vw;
+  max-height: 5.8vw; 
+  width: 90%;
+}
+#secondOpinion {
+  font-size: 2vw;
+  float: left;
+}
+#discovery, #discoveryDemo{
+  left: 1vw;
+  font-size: 2vw;
+  margin-left: 0.2vw;
+}
+
+  
+}
+
+
+

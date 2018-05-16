@@ -1,0 +1,166 @@
+/* Medium screens */
+@media all and (min-width: 600px) {
+  body {
+    margin-left: -0.01em;
+    margin-right: -0.01em;
+    margin-top: -0.01em;
+  }
+  
+  .wrapper > * {
+    padding: 10px;
+    flex: 1 100%;
+  }
+  
+  .main {
+    text-align: left;
+    background: #f4f4f4;
+    order: 2;
+    flex: 0 1 auto; 
+  }
+  
+  .aside-1 {
+    background: #f4f4f4;    
+  }
+  
+  .aside-2 {
+    background: #f4f4f4;
+  }
+
+  #watsonLogo {
+    margin-right: 2vw;
+    width: 21vw;
+    height: 21vw;  
+    float: left;
+    margin-bottom: .01vw;
+    margin-top: 0.1vw;
+    
+  }
+  #discoveryLogo {
+    margin-left: 2vw;
+    width: 25vw;
+    height: 28vw;
+    float: right;    
+    margin-bottom: -1vw;
+    margin-top: -4vw;
+  }
+  #secondOpinion {
+    width: 33%;
+    font-size: 1.3em;
+    margin-left: 1vw;
+  }
+  #discovery{
+    width: 33%;
+    font-size: 1.2em;
+  }
+  #discoveryDemo{
+    width: 33%;
+    font-size: 1.2em;
+  }
+  #appTitle {
+    font-size: 8vw;
+    text-align: center;
+  }
+  #appDescription {
+    margin-top: -.1rem;
+    padding-bottom: -10rem;
+    font-size: 4.8vw;
+    width: 90%;
+    margin-left: 5vw;
+    text-align: center;
+  }
+  #inputInstructions {
+    font-size: 4.45vw;
+    text-align: center;
+  }
+  #productUrl {
+    width: 71.5vw;
+    color: white;
+  }
+  .header{
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    padding-bottom: 1vw;
+    color:black;
+    display: flex;
+    flex-flow: row wrap;
+    background-color: white;
+    width: 33%;
+  }
+
+  #productHeader{
+    width: 78.5%;
+    text-align: center;
+    color: black;
+    font-size: 4vw;
+    margin: auto;
+    overflow: hidden;
+    position: relative; 
+    line-height: 1.2em;
+    max-height: 2.4em; 
+  }
+
+  #productPicId {
+    width: 53%;
+    height: 13%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1vw;
+    display: block;
+  }
+
+  #productCont {
+    width: 78.5%;
+    height: 50vw;
+    border: 1px solid #e3e3e3;   
+    z-index: -900;
+    margin: auto;
+    margin-bottom: 4vw;
+    margin-top: 4vw;
+    padding: 4vw 4vw 4vw 4vw;
+    overflow: hidden;
+    
+  }
+  #entitiesCont, #keywordCont, #relatedConceptsCont {
+    width: 78.5%;
+    min-height: 25em;
+    border: 1px solid #e3e3e3;   
+    margin:auto;
+    margin-bottom: 4vw;
+    padding: 4vw 4vw 4vw 4vw;
+    
+  }
+
+  #sentimentCont {
+    width: 78.5%;  
+    border: 1px solid #e3e3e3;  
+    min-height: 17em;
+    margin: auto;  
+    margin-bottom: 4vw;
+    padding: 4vw 4vw 4vw 4vw;
+    
+  }
+
+  #amazonRating {
+    text-align: center; 
+    font-size: 4vw;
+  }
+  
+  #watsonRating {
+    text-align: center;
+    font-style: italic;  
+    font-size: 4vw;
+  }
+
+  h3 {
+    width: 92%;
+    font-size: 2.56vw;
+  }
+
+  h4 {
+    font-size: 2.4vw;
+  }
+
+  #wordCloudContent{
+    margin-left: 1.7vw;
+  }
+  
+}

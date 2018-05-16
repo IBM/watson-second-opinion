@@ -27,16 +27,17 @@ app.get('/reviews/:reviewId', function (req, res, next) {
       console.log(docExists)
         scraper.scrapeNumberOfPages(reviewId)
           .then(function(options){
-            console.log('options')
-            console.log(options)
+            // console.log(options)
             return scraper.scrapeEveryPage(options);
           })
           .then(function(options){
+            console.log(options)
             var cloudantDocument = {
               _id: options.productId,
               productName: options.productName,
               starRating: options.starRating,
-              reviews: options.reviews
+              reviews: options.reviews,
+              img: options.img
             };
             return cloudantDB.insertCloudantDoc(cloudantDocument);
           })
@@ -49,8 +50,7 @@ app.get('/reviews/:reviewId', function (req, res, next) {
             return watson.getSecondOpinion(reviews);
           })
           .then(function(opinion){
-            console.log('before res.send')
-            console.log()
+            // console.log('before res.send')
             res.send(opinion);
           })
           .catch(next);

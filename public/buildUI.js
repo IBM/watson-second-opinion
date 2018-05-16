@@ -10,12 +10,11 @@ function getStarRatings(results) {
   console.log(results)
 
   reviewsCont.innerHTML = '<center><h1><span id = "customerReviews">Customer reviews</span> </h1></center>';
-
   var userIcon = '<i id = "userIcon" class="fa fa-user-circle-o"></i>';
 
-  //only display 50 reviews max
-  if (results.length > 50) {
-    results = results.slice(0,50);
+  //only display 10 reviews max
+  if (results.length > 10) {
+    results = results.slice(0, 10);
   }
 
   for (var i = 0; i < results.length; i++) {
@@ -48,40 +47,109 @@ function getStarRatings(results) {
 * @param {object} data - an array of the reviews
 * from the Amazon product
 */
-function getInsights(data) {
+function getNLUData(data) {
 
   if (data.concepts.length === undefined) {
     console.log('no concepts!');
     showConcepts = false;
   } else {
-    var conceptsLen = data.concepts.length;
+    var conceptsLen;
+    if (data.concepts.length > 10) {
+      conceptsLen = 10;
+    } else {
+      conceptsLen = data.concepts.length;
+    }
     for (var i = 0; i < conceptsLen; i++) {
       pushToDict(conceptDict, data.concepts[i].text, data.concepts[i].relevance.toFixed(2))
     }
   }
-  
+
   if (data.entities.length === undefined) {
     console.log('no concepts!');
     showEntities = false;
   } else {
-    var entitiesLen = data.entities.length;
+    var entitiesLen;
+    if (data.entities.length > 10) {
+      entitiesLen = 10;
+    } else {
+      entitiesLen = data.entities.length;
+    }
     for (var j = 0; j < entitiesLen; j++) {
       pushToDict(entitiesDict, data.entities[j].text, data.entities[j].relevance.toFixed(2))
     }
-  } 
+  }
 
   if (data.keywords.length === undefined) {
     console.log('no concepts!');
     showKeywords = false;
   } else {
-    var keywordLen = data.keywords.length;
-    for (var k = 0; k < keywordLen; k++) {
-
-      pushToDict(keywordDict, data.keywords[k].text, data.keywords[k].relevance.toFixed(2))
+    var keywordLen;
+    if (data.keywords.length > 15) {
+      keywordLen = 15;
+    } else {
+      keywordLen = data.keywords.length;
     }
-  } 
+    for (var k = 0; k < keywordLen; k++) {
+      pushToDict(keywordDict, data.keywords[k].text, data.keywords[k].relevance.toFixed(2));
+    }
+  }
 }
 
+/**
+ * modify overall sentiment
+ * @param {number} sentimentPercent - the percent of overall positive sentiment 
+ * This function modifies the sentiment bar as needed.
+ */
+function showSentiment(sentimentPercent, querySelector) {
+
+  console.log('query selector: ')
+  console.log(querySelector)
+  var barInner = [].slice.call(document.querySelectorAll(querySelector));
+
+  barInner.map(function (bar, index) {
+    bar.dataset.percent = sentimentPercent.toFixed(0) + "%";
+    bar.style.width = bar.dataset.percent;
+  });
+}
+
+/**
+ * Build a word cloud showing the insights
+ * from customer reviews using zingChart library
+ * @param  {object} dict - sorted dictionary
+ * @param {string} Id - the id of the container to
+ *
+ */
+function buildWordCloud(dict, container, bar) {
+
+  var i = 0;
+
+  Object.keys(dict).forEach(function (key) {
+    //give each bar a different id to select it 
+    if (bar.includes('.')) {
+      bar = bar.slice( 1 );
+    }
+    bar = bar + i;
+
+    container.innerHTML += '<h4 id = "wordCloudContent">'
+      + '<span id="keyword">' + dict[key]['text'] + '</span>' 
+      //create div on the fly to be able to add relavance percentage
+      + '<div class="bar"><div class=' + bar + ' data-percent="30%"></div></div></h4>';
+
+      var relevance = dict[key]["relevance"] * 100;
+
+      if (!bar.includes('.')) {
+        bar = '.' + bar 
+        console.log('after adding . :')
+        console.log(bar) 
+      }
+
+    showSentiment(relevance, bar);
+    i++;
+  });
+  // showSentiment(50, '.keywordBar-inner0');
+  
+
+}
 
 /**
  * push metaData to dictionaries
@@ -97,25 +165,6 @@ function pushToDict(dict, text, relevance) {
 }
 
 /**
- * Build a word cloud showing the insights
- * from customer reviews using zingChart library
- * @param  {object} dict - sorted dictionary
- * @param {string} Id - the id of the container to
- *
- */
-function buildWordCloud(dict, container) {
-
-  Object.keys(dict).forEach(function (key) {
-
-    container.innerHTML += '<h4 id = "wordCloudContent">'
-      + '<span id="keyword">' + dict[key]['text'] + '</span>'
-      + '  ' + '<span id="numberOfKeywords">'
-      + dict[key]["relevance"] + '  ' + '</span>' + '</h4>';
-  });
-
-}
-
-/**
  * A descending sort of our dictonary. Used to order the
  * top keywords, entities, and related concepts.
  * @param {object} dict - an unsorted dictionary
@@ -124,7 +173,7 @@ function buildWordCloud(dict, container) {
  */
 function sort(dict) {
   dict.sort(function (a, b) {
-    console.log('dict sort is being called')
+    console.log('in the process of sorting')
     return (b.relevance) - (a.relevance);
   });
 }
