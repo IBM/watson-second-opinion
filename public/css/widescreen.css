@@ -1,106 +1,356 @@
 /* Large screens */
-@media all and (min-width: 800px) {
+@media all and (min-width: 961px) {
 
-  .main { flex: 2 0px; }
-  .main    { order: 1; }
-  .aside-2 { order: 2; }
+  body {
+    margin: 0 auto;
+    overflow: hidden;
+    /* display: table;      */
+  }
 
+  html {
+    overflow-y: scroll;
+  }
 
+  
 
+  .topnav {
+    background-color: #333;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  
+  .wrapper > * {
+    padding: 10px;
+    flex: 1 100%;
+  }
+
+  .wrapper {
+    display: flex;  
+    flex-flow: row wrap;
+    font-weight: bold;
+    text-align: center;
+    background: #f4f4f4;
+    justify-content: space-around;
+    /* width: 100%; */
+  }
+  input[type=text], select {
+    padding: 12px 20px;
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;  
+    font-size: 16px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid white;
+  }
+
+  .jumbotron {
+    margin-bottom: -2rem;
+  }
+
+  .query_collapsed, #box {
+    background-color: #9753e1;
+    padding: 1rem 0;
+    height: 10%;
+    /* overflow: hidden; */
+  }
+  
+  .main {
+    text-align: left;
+    background: #f4f4f4;
+    flex: 0 1 auto; 
+  }
+  
+  .aside-1 {
+    background: #f4f4f4;    
+  }
+  
+  .aside-2 {
+    background: #f4f4f4;
+  }
+
+  #watsonLogo {
+    max-width: 14vw;
+    max-height: 7vw;
+    float: left;
+    margin-bottom: 2.01vw;
+    margin-top: -8.9vw;
+    margin-left: 4vw;
+  }
+  #discoveryLogo {
+    max-width: 9vw;
+    max-height: 9vw;
+    float: right;
+    margin-top: -10vw;
+    margin-right: 2vw;
+  }
+  #secondOpinion {
+    width: 18%;
+    font-size: 1.3em;
+  }
+  #discovery{
+    width: 64%;
+    font-size: 1.2em;
+    margin-left: 3vw;
+  }
+  #discoveryDemo{
+    width: 18%;
+    font-size: 1.2em;
+    margin-right: -30vw;
+    margin-top: .1vw;
+  }
+  #appTitle {
+    margin-top: 2vw;
+    font-size: 4vw;
+    text-align: center;
+  }
+  label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    text-align: left;  
+    min-height: 20px;
+    padding: 19px;
+    font-size: 20px;
+  }
+
+  #goButton {
+    position: inline;
+    height: 40px;
+    width: 40px;
+    margin-left: 0.5vw;
+    margin-right: auto;  
+    margin-bottom: -1vw;
+  }
+
+  #appDescription {
+    font-size: 1.3vw;
+    width: 100%;
+    margin-left: 0.2vw;
+    margin-bottom: -0.2vw;
+  }
+  #inputInstructions {
+    display: inline-flex;
+    font-size: 35px;
+    text-align: center;
+
+  }
+  #inputInstructions2 {
+    display: block;
+    font-size: 22px;
+    text-align: center;
+
+  }
+  #productUrl {
+    width: 860px;
+    color: white;
+  }
   .header{
     font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
     padding-bottom: 1vw;
     color:black;
     display: flex;
-    flex-direction: row;
-    /* background-color: rgba(255, 255, 255, 0.91); */
-    display: flex;  
     flex-flow: row wrap;
-    font-weight: bold;
+    background-color: white;
+    width: 33%;
+  }
+
+  #productHeader{
+    width: 78.5%;
     text-align: center;
-    /* background: #f4f4f4; */
-    justify-content: space-around;
-    width: 100%;
+    color: black;
+    font-size: 24px;
+    margin: auto;
+    margin-top: 30px;
+    overflow: hidden;
+    position: relative; 
+    line-height: 1.2em;
+    max-height: 2.4em; 
+  }
+
+  #productPicId {
+    width: 50%;
+    height: 13%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1vw;
+    display: block;
+  }
+
+  #topEntities, #topKeywords, #relatedConcepts, #sentimentTitle, #customerReviews {
+    z-index: 900;
+    font-size: 40px;
+    margin-top: 10px;
+    margin-bottom: -0.1vw;
+  }
+
+   #customerReviews {
+    margin-top: -1vw;
+  } 
+
+  #amazonRating {
+    font-size: 20px;
+    margin-top:10px;
+    margin-left:-165px;    
+  }
+  
+  #watsonRating {
+    font-size: 20px;
+    margin-bottom:100px;  
+    text-align: left;
+    margin-left:-165px;    
+  }
+
+  .col-md-12 {
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    color: white;
+  }
+
+  #reviewsCont {
+    width: 930px;
+    z-index: -1;
+    border: 1px solid #e3e3e3;  
+    min-height: 400px;
+    margin-left: 5px;
+    margin-bottom: 50px;
+    padding: 10px 10px 10px 10px;
+    clear:both;
+  }
+
+
+
+  #keywordsCont {
+    width: 930px;
+    border: 1px solid #e3e3e3;   
+    padding: 10px 10px 10px 10px;
+    clear:both;
+    margin-left: 5px;
+  }
+
+  #entitiesCont {
+    width: 45.5%;
+    min-height: 400px;
+    border: 1px solid #e3e3e3;   
+    z-index: -900;
+    margin: 50px 0px 50px 5px; 
+    padding: 10px 10px 10px 10px;
+    overflow: hidden;
+    float: left;
+  }
+
+  #relatedConceptsCont {
+    width: 45.5%;
+    border: 1px solid #e3e3e3;   
+    min-height: 400px;
+    padding: 10px 10px 10px 10px; 
+    float: right;
+    margin: 50px 5px 50px 0px;  
   }
 
   #page {
     width: 960px;
-    margin: 0 auto;
+    margin: 0 auto;    
   }
 
-
-  
-  ._full-width-row, #box {
-    padding: 2rem 0;
-    margin-left: -20px;
-    margin-right: -20px;
-    width: 102%;
-    margin-top: -15px;
-    height: 10%;
-    display: flex;  
-    flex-flow: row wrap;
+  #sentimentRow {
+    height: 100%;
   }
 
-  #inputInstructions {
-    font-size: 2vw;
+  #sentimentCont {
+    width: 45.5%;
+    border: 1px solid #e3e3e3;   
+    height: 400px;
+    padding: 10px 10px 10px 10px; 
+    float: right;
+    margin: 50px 5px 50px 0px;    
+  }
+
+  #productCont {
+    width: 45.5%;
+    height: 400px;
+    border: 1px solid #e3e3e3;   
+    z-index: -900;
+    margin: 50px 0px 50px 5px; 
+    padding: 10px 10px 10px 10px;
+    overflow: hidden;
     float: left;
-    margin-left: 4vw;
-  }
-  #productUrl {
-    width: 5vw;
-    color: white;
-  }
-  #goButton {
-    height: 50%;
-    width: 50%;
-    /* margin-left: 1vw;
-    margin-right: auto;  
-    top: 2vw; */
   }
 
+  #keyword {
+    margin-left: 25px;  
+    color: #9753e1;
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 20px;
+    text-align: left;
+  }
   
+  #keyword:after{
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1em;
+  height: 1em;
+  margin-top: 10px;
+  background: white;
+  } 
 
-  #watsonLogo {
-  float: left;
-  max-height: 8vh;
-  max-width: 8vh;
-  margin-top: -9.5%;
-  margin-left: 4vw;  
-}
-#discoveryLogo {
-  float: right;
-  max-height: 12vh;
-  max-width: 12vh;
-  margin-top: -14%;
-  margin-right: 6vw;    
-}
-#appTitle {
-  margin-top: 2rem;
-  padding-bottom: -2rem;
-  font-size: 4vw;
-  text-align: center;
+  .bar {
+    background-color: #ddd;
+    height: 50px;
+    margin-right: 25px;
+    margin-left: 25px;
+    }
 
-}
-#appDescription {
-  margin-top: -.1rem;
-  font-size: 1.5vw;
-  text-align: center;
-  line-height: 2.9vw;
-  max-height: 5.8vw; 
-  width: 90%;
-}
-#secondOpinion {
-  font-size: 2vw;
-  float: left;
-}
-#discovery, #discoveryDemo{
-  left: 1vw;
-  font-size: 2vw;
-  margin-left: 0.2vw;
-}
-
+    .barSentiment {
+      margin-left: 2vw;
+      background-color: #ddd;
+      width: 90%;
+      height: 50px;
+      margin: auto;
+      margin-bottom: 3vw;
+      /* margin-left: 2vw; */
+      
+    }
   
-}
+  div[class^="keywordBar-inner"], div[class^="conceptsBar-inner"],
+  div[class^="entityBar-inner"], div[class^="bar-inner"] {
+    background-color: #9753e1;
+    width: 0%;
+    height: 100%;
+    position: relative;
+    transition: width 2500ms linear;
+  }
 
+  #sentimentRating {
+    width: 78.5%;
+    /* margin: auto; */
+    font-size: 16px;
+    color: #9753e1;
+  }
+  
+  
+  .bar-inner:after, div[class^="keywordBar-inner"]:after, div[class^="conceptsBar-inner"]:after,
+  div[class^="entityBar-inner"]:after {
+    position: absolute;
+    right: 2.5%;
+    content: attr(data-percent);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 50px;
+  }
+  
+  .zc-ref {
+    text-align: center;
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;  
+  }
+  
+  #discoveryQueryOutput {
+    padding-bottom: 3rem;
+    color: red;
+  }
+
+}
 
 

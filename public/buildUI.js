@@ -9,7 +9,7 @@ function getStarRatings(results) {
   console.log('results: ')
   console.log(results)
 
-  reviewsCont.innerHTML = '<center><h1><span id = "customerReviews">Customer reviews</span> </h1></center>';
+  reviewsCont.innerHTML = '<center><h2><span id = "customerReviews">Customer Reviews</span> </h2></center>';
   var userIcon = '<i id = "userIcon" class="fa fa-user-circle-o"></i>';
 
   //only display 10 reviews max
@@ -101,15 +101,18 @@ function getNLUData(data) {
  * This function modifies the sentiment bar as needed.
  */
 function showSentiment(sentimentPercent, querySelector) {
-
+  setTimeout(function(){ 
+    
   console.log('query selector: ')
   console.log(querySelector)
   var barInner = [].slice.call(document.querySelectorAll(querySelector));
 
-  barInner.map(function (bar, index) {
-    bar.dataset.percent = sentimentPercent.toFixed(0) + "%";
-    bar.style.width = bar.dataset.percent;
-  });
+    barInner.map(function (bar, index) {
+      bar.dataset.percent = sentimentPercent.toFixed(0) + "%";
+      bar.style.width = bar.dataset.percent;
+    });
+  }, 0);
+
 }
 
 /**

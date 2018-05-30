@@ -10,9 +10,9 @@
   <meta name="author" content="Horea Porutiu">
 
   <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <link rel="stylesheet" media="screen and (min-width: 961px)" href="css/widescreen.css">
+  <link rel="stylesheet" media="screen and (min-width: 600px) and (max-width: 960px)" href="css/mediumscreen.css">  
   <link rel="stylesheet" media="screen and (max-width: 599px)" href="css/smallscreen.css">
-  <link rel="stylesheet" media="screen and (min-width: 600px)" href="css/mediumscreen.css">
-  <link rel="stylesheet" media="screen and (min-width: 800px)" href="css/widescreen.css">
 
   <!-- Roboto Slab Font -->
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Slab" />
@@ -25,38 +25,26 @@
 
 </head>
 
+
+
+
 <body>
 
-<div id='page'> 
-
-  <div id='wrapperId' class="wrapper">
-    <header class="header">
-      <a href="/" id='secondOpinion'><span style='font-weight: bold; color:black'>Watson</span> Second Opinion</a>
-      <a href="https://www.ibm.com/watson/services/natural-language-understanding/" id='discovery'>Natural Language Understanding </a>
-      <a href="https://natural-language-understanding-demo.ng.bluemix.net/" id='discoveryDemo'>   NLU Demo</a>
-    </header>
-    
-    <article id="main" class="main">
-      <h1 id='appTitle'><span style='font-weight: bold'>Watson</span><span style="color: #9753e1"> Second Opinion</span> </h1>
-      <h3 id='appDescription'>analyzes millions of reviews and helps you make an educated decision</h3>
-    </article>
-
-    <aside id="aside2" class="aside aside-2">
-      <a href="https://www.ibm.com/watson/developer/">
-        <img id = 'watsonLogo' src="./photos/watson.png" alt="Mountain View">
+  <div class="topnav" id="myTopnav">
+    <a href="/" class="active">Watson Second Opinion</a>
+    <a href="https://natural-language-understanding-demo.ng.bluemix.net/" class="active">Natural Language Understanding Demo</a>
+    <a href="https://www.ibm.com/watson/developer/" class="active">Watson APIs</a>    
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
       </a>
-      <a href="https://www.ibm.com/watson/services/natural-language-understanding/">
-        <img id = 'discoveryLogo' src="./photos/NLU.png" alt="Mountain View">            
-      </a>
-
-    </aside>
   </div>
 
   <div class="col-md-12 text-center">
-
     <center>
       <section class="_full-width-row query query_collapsed">
-        <label id='inputInstructions'>Copy &amp; paste your Amazon product URL:</label>
+        <label id='inputInstructions'>Analyzes millions of reviews for a more informed decision</label>
+        <label id='inputInstructions2'>Paste Amazon product URL:</label>
+        
         <div id='searchBar'>
           <input id='productUrl' type="text" value="https://www.amazon.com/dp/B074QH5PGG/ref=sspa_dk_detail_3?psc=1&pd_rd_i=B074QH5PGG&pd_rd_wg=e5rZ3&pd_rd_r=AJP9FM9M5NGT7GCQF4RN&pd_rd_w=fMh4r"
             id="text" name="text" required/>
@@ -66,8 +54,15 @@
         </div>
         <br/>
       </section>
+
+
       <div id="myLoader" class="loader"></div>
+      <div id="loaderInfo" >
+        <center><h2> Proccessing...this might take a couple of minutes</h2></center>
+      </div>
     </center>
+    <div id = 'page'>
+        
 
     <div id="discoveryQueryOutput"></div>
     <div id='sentimentRow'>
@@ -85,20 +80,21 @@
           <div id="sentimentRating"></div>
         </center>
         <br>
-        <div class="bar">
+        <div class="barSentiment">
           <div class="bar-inner" data-percent="30%">
           </div>
         </div>
       </div>
-    </div>
-
-    <div id="keywordsCont">
-      <h2 id="topKeywords">Top Keywords</h2>
-      <h3 id="keywordDescription"></h3>
-      <div class="keywordBar">
-        <div class="keywordBar-inner" data-percent="30%"></div>
+      <div id="keywordsCont">
+        <h2 id="topKeywords">Top Keywords</h2>
+        <h3 id="keywordDescription"></h3>
+        <div class="keywordBar">
+          <div class="keywordBar-inner" data-percent="30%"></div>
+        </div>
       </div>
     </div>
+
+
     <div id='conceptsRow'>
       <div id="entitiesCont">
         <h2 id="topEntities">Top Entities</h2>
@@ -115,13 +111,13 @@
         </div>
       </div>
     </div>
+    <div class="reviews" id="reviewsCont"></div>    
+  </div>
 
-    <div class="reviews" id="reviewsCont"></div>
   </div>
 
   <script src="analyzeReviews.js"></script>
   <script src="buildUI.js"></script>
-</div>
 </body>
 
 </html>

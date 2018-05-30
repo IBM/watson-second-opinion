@@ -4,6 +4,7 @@ var pattern = /(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))/;
 //query DOM
 var outputText = document.getElementById("discoveryQueryOutput"); //variable that will hold our final translation
 var loader = document.getElementById("myLoader");
+var loaderInfo = document.getElementById("loaderInfo");
 var sentimentRating = document.getElementById("sentimentRating");
 var sentimentCont = document.getElementById("sentimentCont");
 var entitiesCont = document.getElementById("entitiesCont");
@@ -17,7 +18,7 @@ var productCont = document.getElementById("productCont");
 var topKeywords = document.getElementById("topKeywords");
 var topEntities = document.getElementById("topEntities");
 var relatedConcepts = document.getElementById("relatedConcepts");
-var wrapper = document.getElementById("wrapperId");
+// var wrapper = document.getElementById("wrapperId");
 var aside2 = document.getElementById("aside2");
 var aside1 = document.getElementById("aside1");
 var main = document.getElementById("main");
@@ -34,8 +35,9 @@ var watsonStarRating;
 
 //hide everything at start of app
 outputText.hidden = true;
-wrapper.hidden = false;
+// wrapper.hidden = false;
 loader.hidden = true; //hide loader at the start of the app
+loaderInfo.hidden = true; //hide loader at the start of the app
 sentimentRating.hidden = true;
 sentimentCont.hidden = true;
 entitiesCont.hidden = true;
@@ -85,7 +87,9 @@ function analyze() {
     + '<h3 id="conceptsDescription">General concepts that are not necessarily referenced in your data sorted by relavance (0-1).</h3></center>';
 
   loader.hidden = false;
-  wrapper.hidden = false;
+  loaderInfo.hidden = false;  
+  
+  // wrapper.hidden = false;
   sentimentRating.hidden = true;
   sentimentCont.hidden = true;
   entitiesCont.hidden = true;
@@ -107,9 +111,9 @@ function analyze() {
       outputText.innerHTML = "Error, check your network connection.";
     }
     else {
-      console.log(wrapper)
-      main.style.display = "none";
-      aside2.style.display = "none";
+      // console.log(wrapper)
+      // main.style.display = "none";
+      // aside2.style.display = "none";
 
       var output = JSON.parse(ourRequest.responseText);
       console.log('output: ')
@@ -193,7 +197,7 @@ function analyze() {
       }
     }
     loader.hidden = true;
-   
+    loaderInfo.hidden = true;    
     sentimentCont.hidden = false;
     reviewsCont.hidden = false;
     // productName.hidden = false;
@@ -207,3 +211,13 @@ function analyze() {
 document.getElementById("goButton").addEventListener("click", function () {
   analyze();
 });
+
+function myFunction() {
+  console.log('myFunc Called')
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+      x.className += " responsive";
+  } else {
+      x.className = "topnav";
+  }
+}

@@ -1,5 +1,22 @@
 /* Medium screens */
-@media all and (min-width: 600px) {
+@media all and (min-width: 600px) and (max-width: 960px) {
+  /* Add a black background color to the top navigation */
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+  .topnav.responsive {position: relative;}
+  .topnav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
   body {
     margin-left: -0.01em;
     margin-right: -0.01em;
@@ -9,6 +26,39 @@
   .wrapper > * {
     padding: 10px;
     flex: 1 100%;
+  }
+
+  .wrapper {
+    display: flex;  
+    flex-flow: row wrap;
+    font-weight: bold;
+    text-align: center;
+    background: #f4f4f4;
+    justify-content: space-around;
+    width: 100%;
+  }
+  input[type=text], select {
+    padding: 12px 20px;
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;  
+    font-size: 16px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid white;
+  }
+
+  .jumbotron {
+    margin-bottom: -2rem;
+  }
+
+  .query_collapsed, #box {
+    background-color: #9753e1;
+    margin-bottom: -2rem;
+    padding: 1rem 0;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-top: -15px;
+    height: 10%;
   }
   
   .main {
@@ -27,53 +77,79 @@
   }
 
   #watsonLogo {
-    margin-right: 2vw;
     width: 21vw;
     height: 21vw;  
     float: left;
     margin-bottom: .01vw;
     margin-top: 0.1vw;
-    
+    margin-left: 6vw;
   }
   #discoveryLogo {
-    margin-left: 2vw;
+    /* margin-left: 2vw; */
     width: 25vw;
     height: 28vw;
     float: right;    
     margin-bottom: -1vw;
     margin-top: -4vw;
+    margin-right: 2vw;
   }
   #secondOpinion {
     width: 33%;
     font-size: 1.3em;
-    margin-left: 1vw;
+    margin-left: 3vw;
   }
   #discovery{
     width: 33%;
     font-size: 1.2em;
+    margin-left: 3vw;
   }
   #discoveryDemo{
     width: 33%;
     font-size: 1.2em;
+    margin-right: -30vw;
+    margin-top: .1vw;
   }
   #appTitle {
+    margin-top: 1vw;
     font-size: 8vw;
     text-align: center;
   }
+  label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    text-align: left;  
+    min-height: 20px;
+    padding: 19px;
+    font-size: 20px;
+  }
+
+  #goButton {
+    position: relative;
+    margin-top: -20vw;
+    height: 35px;
+    width: 35px;
+    margin-left: 1vw;
+    margin-right: auto;  
+    top: 2vw;
+  }
+
   #appDescription {
     margin-top: -.1rem;
     padding-bottom: -10rem;
-    font-size: 4.8vw;
+    font-size: 4.7vw;
     width: 90%;
     margin-left: 5vw;
     text-align: center;
   }
   #inputInstructions {
-    font-size: 4.45vw;
+    font-size: 30px;
+    width: 90%;
     text-align: center;
   }
   #productUrl {
-    width: 71.5vw;
+    width: 73.5vw;
     color: white;
   }
   .header{
@@ -99,12 +175,47 @@
   }
 
   #productPicId {
-    width: 53%;
+    width: 50%;
     height: 13%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 1vw;
     display: block;
+  }
+
+
+
+  #topEntities, #topKeywords, #relatedConcepts, #sentimentTitle, #customerReviews {
+    z-index: 900;
+    font-size: 40px;
+    margin-top: -10px;
+    margin-bottom: -0.1vw;
+  }
+
+   #customerReviews {
+    margin-top: -1vw;
+  } 
+
+  #amazonRating {
+    font-size: 4vw;
+    margin-left: -23vw;
+    margin-top: -5vw;
+  }
+  
+  #watsonRating {
+    font-size: 4vw;
+    margin-left: -23vw; 
+  }
+
+  .col-md-12 {
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    margin: 15px 5px 15px 5px;
+    color: white;
+  }
+
+  #wordCloudContent{
+    margin-left: 1.7vw;
   }
 
   #productCont {
@@ -119,48 +230,133 @@
     overflow: hidden;
     
   }
-  #entitiesCont, #keywordCont, #relatedConceptsCont {
+
+  #reviewsCont {
     width: 78.5%;
+    z-index: -1;
+    border: 1px solid #e3e3e3;  
     min-height: 25em;
-    border: 1px solid #e3e3e3;   
-    margin:auto;
-    margin-bottom: 4vw;
-    padding: 4vw 4vw 4vw 4vw;
+    margin: auto;
     
+    padding: 0vw 4vw 4vw 4vw;
   }
 
   #sentimentCont {
     width: 78.5%;  
     border: 1px solid #e3e3e3;  
-    min-height: 17em;
+    min-height: 13em;
     margin: auto;  
     margin-bottom: 4vw;
+    padding: 4vw 4vw 4vw 4vw; 
+  }
+  
+  #keywordsCont, #entitiesCont, #relatedConceptsCont {
+    width: 78.5%;
+    min-height: 25em;
+    border: 1px solid #e3e3e3;   
+    margin:auto;
+    margin-bottom: 4vw;
+    padding: 4vw 4vw 4vw 4vw; 
+  }
+
+  #productCont {
+    width: 78.5%;
+    height: 25em;
+    border: 1px solid #e3e3e3;   
+    z-index: -900;
+    margin: auto;
+    margin-bottom: 4vw;
+    margin-top: 7.5vw;
     padding: 4vw 4vw 4vw 4vw;
+    overflow: hidden;
     
   }
 
-  #amazonRating {
-    text-align: center; 
-    font-size: 4vw;
+  #keyword {
+    margin-left: 2vw;  
+    color: #9753e1;
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.2em;
+    text-align: left;
+    line-height: 1.2em;
+    max-height: 1.2em; 
   }
   
-  #watsonRating {
+  
+  #keyword:before{
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;  
+  }
+  
+  #keyword:after{
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1em;
+  height: 1em;
+  margin-top: 0.2em;
+  background: white;
+  } 
+
+  .bar {
+    background-color: #ddd;
+    width: 90%;
+    height: 50px;
+    margin: auto;
+    margin-bottom: 3vw;
+    margin-left: 2vw;
+    }
+
+    .barSentiment {
+      margin-left: 2vw;
+      background-color: #ddd;
+      width: 90%;
+      height: 50px;
+      margin: auto;
+      margin-bottom: 3vw;
+      /* margin-left: 2vw; */
+      
+    }
+  
+  div[class^="keywordBar-inner"], div[class^="conceptsBar-inner"],
+  div[class^="entityBar-inner"], div[class^="bar-inner"] {
+    background-color: #9753e1;
+    width: 0%;
+    height: 100%;
+    position: relative;
+    transition: width 2500ms linear;
+  }
+
+  #sentimentRating {
+    width: 78.5%;
+    /* margin: auto; */
+    font-size: 5vw;
+    color: #9753e1;
+  }
+  
+  
+  .bar-inner:after, div[class^="keywordBar-inner"]:after, div[class^="conceptsBar-inner"]:after,
+  div[class^="entityBar-inner"]:after {
+    position: absolute;
+    right: 2.5%;
+    content: attr(data-percent);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 50px;
+  }
+  
+  .zc-ref {
     text-align: center;
-    font-style: italic;  
-    font-size: 4vw;
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;  
   }
-
-  h3 {
-    width: 92%;
-    font-size: 2.56vw;
+  
+  #discoveryQueryOutput {
+    padding-bottom: 3rem;
+    color: red;
   }
-
-  h4 {
-    font-size: 2.4vw;
-  }
-
-  #wordCloudContent{
-    margin-left: 1.7vw;
-  }
+  
   
 }
