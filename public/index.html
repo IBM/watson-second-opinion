@@ -9,6 +9,17 @@
   <meta name="description" content="Developer SLAM Project">
   <meta name="author" content="Horea Porutiu">
 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98632670-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-98632670-4');
+</script>
+
+
   <link rel="stylesheet" href="css/styles.css?v=1.0">
   <link rel="stylesheet" media="screen and (min-width: 961px)" href="css/widescreen.css">
   <link rel="stylesheet" media="screen and (min-width: 600px) and (max-width: 960px)" href="css/mediumscreen.css">  
@@ -17,7 +28,9 @@
   <!-- Roboto Slab Font -->
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Slab" />
   <!-- Font Awesome for Star Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  
+  
 
   <!-- Viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,9 +45,9 @@
 
   <div class="topnav" id="myTopnav">
     <a href="/" class="active">Watson Second Opinion</a>
-    <a href="https://natural-language-understanding-demo.ng.bluemix.net/" class="active">Natural Language Understanding Demo</a>
-    <a href="https://www.ibm.com/watson/developer/" class="active">Watson APIs</a>    
-    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <a href="https://natural-language-understanding-demo.ng.bluemix.net/" target="_blank" class="active">Natural Language Understanding Demo</a>
+    <a href="https://www.ibm.com/watson/developer/" target="_blank" class="active">Watson APIs</a>    
+    <a href="javascript:void(0);" class="icon" onclick="navBarToggle()">
         <i class="fa fa-bars"></i>
       </a>
   </div>
@@ -42,11 +55,11 @@
   <div class="col-md-12 text-center">
     <center>
       <section class="_full-width-row query query_collapsed">
-        <label id='inputInstructions'>Analyzes millions of reviews for a more informed decision</label>
+        <label id='inputInstructions'>Analyze millions of reviews for a more informed decision</label>
         <label id='inputInstructions2'>Paste Amazon product URL:</label>
         
         <div id='searchBar'>
-          <input id='productUrl' type="text" value="https://www.amazon.com/dp/B074QH5PGG/ref=sspa_dk_detail_3?psc=1&pd_rd_i=B074QH5PGG&pd_rd_wg=e5rZ3&pd_rd_r=AJP9FM9M5NGT7GCQF4RN&pd_rd_w=fMh4r"
+          <input id='productUrl' type="text" placeholder="https://www.amazon.com/..."
             id="text" name="text" required/>
           <svg id='goButton' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="#ffffff" class="icon icon">
             <path d="M12,1C5.9,1,1,5.9,1,12s4.9,11,11,11s11-4.9,11-11S18.1,1,12,1z M12,21c-5,0-9-4-9-9s4-9,9-9s9,4,9,9S17,21,12,21z M21,24 l3-3l7,7l-3,3L21,24z M21,20c0.6,0,1,0.4,1,1s-0.4,1-1,1s-1-0.4-1-1S20.4,20,21,20z"></path>
@@ -57,6 +70,7 @@
 
 
       <div id="myLoader" class="loader"></div>
+      <br>
       <div id="loaderInfo" >
         <center><h2> Proccessing...this might take a couple of minutes</h2></center>
       </div>

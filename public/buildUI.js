@@ -10,7 +10,7 @@ function getStarRatings(results) {
   console.log(results)
 
   reviewsCont.innerHTML = '<center><h2><span id = "customerReviews">Customer Reviews</span> </h2></center>';
-  var userIcon = '<i id = "userIcon" class="fa fa-user-circle-o"></i>';
+  var userIcon = '<i id = "userIcon" class="fas fa-user"></i>';
 
   //only display 10 reviews max
   if (results.length > 10) {
@@ -26,11 +26,11 @@ function getStarRatings(results) {
     var numberOfStars = 0;
     var starsContent = "";
     while (numberOfStars < results[i].rating) {
-      starsContent += "&#xf005 ";
+      starsContent += '<i class="fas fa-star"></i> ';
       numberOfStars++;
     }
     while (numberOfStars < 5) {
-      starsContent += "&#xf006 ";
+      starsContent += '<i class="far fa-star"></i> ';
       numberOfStars++;
     }
     reviewsCont.innerHTML += '<div class="stars-inner fa">' + starsContent + '</div></div>';
@@ -122,7 +122,7 @@ function showSentiment(sentimentPercent, querySelector) {
  * @param {string} Id - the id of the container to
  *
  */
-function buildWordCloud(dict, container, bar) {
+function buildCharts(dict, container, bar) {
 
   var i = 0;
 
@@ -148,9 +148,7 @@ function buildWordCloud(dict, container, bar) {
 
     showSentiment(relevance, bar);
     i++;
-  });
-  // showSentiment(50, '.keywordBar-inner0');
-  
+  });  
 
 }
 

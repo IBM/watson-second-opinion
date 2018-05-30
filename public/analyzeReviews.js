@@ -11,17 +11,15 @@ var entitiesCont = document.getElementById("entitiesCont");
 var keywordsCont = document.getElementById("keywordsCont");
 var reviewsCont = document.getElementById("reviewsCont");
 var relatedConceptsCont = document.getElementById("relatedConceptsCont");
-// var productName = document.getElementById("productName");
 var productHeader = document.getElementById("productHeader");
 var productPic = document.getElementById("productPic");
 var productCont = document.getElementById("productCont");
 var topKeywords = document.getElementById("topKeywords");
 var topEntities = document.getElementById("topEntities");
 var relatedConcepts = document.getElementById("relatedConcepts");
-// var wrapper = document.getElementById("wrapperId");
-var aside2 = document.getElementById("aside2");
-var aside1 = document.getElementById("aside1");
-var main = document.getElementById("main");
+var button = document.getElementById("goButton");
+var inputUrl = document.getElementById("productUrl");
+
 
 //variables to show NLU results
 var entitiesDict = [];
@@ -35,7 +33,6 @@ var watsonStarRating;
 
 //hide everything at start of app
 outputText.hidden = true;
-// wrapper.hidden = false;
 loader.hidden = true; //hide loader at the start of the app
 loaderInfo.hidden = true; //hide loader at the start of the app
 sentimentRating.hidden = true;
@@ -45,12 +42,10 @@ keywordsCont.hidden = true;
 productCont.hidden = true;
 relatedConceptsCont.hidden = true;
 reviewsCont.hidden = true;
-// productName.hidden = true;
 productHeader.hidden = true;
 
 function analyze() {
   outputText.hidden = true;
-  // productName.hidden = true;
   productHeader.hidden = true;
   data.url = document.getElementById("productUrl").value;
   var match = data.url.match(pattern);
@@ -63,7 +58,7 @@ function analyze() {
     relatedConceptsCont.hidden = true;
     reviewsCont.hidden = true;
     productCont.hidden = true;
-    outputText.innerHTML = "Please check your input is a valid Amazon product url";
+    outputText.innerHTML = "Please check your input is a valid Amazon product URL";
     return;
   }
 
@@ -78,13 +73,15 @@ function analyze() {
 
   //clear the keywords from the previous query
   keywordsCont.innerHTML = '<center> <h2 id="topKeywords">Top Keywords</h2>'
-    + '<h3 id="keywordDescription">Most common keywords extracted from customer reviews sorted by relavance (0-1).</h3> </center>';
+    + '<h3 id="keywordDescription">Most common keywords extracted from customer reviews sorted by relevance (0%-100%).</h3> </center>';
 
   entitiesCont.innerHTML = '<center> <h2 id="topEntities">Top Entities</h2>'
-    + '<h3 id="entityDescription">Most common people, companies, organization, and cities extracted from custmer reviews sorted by relavance (0-1).</h3> </center>';
+    + '<h3 id="entityDescription">Most common people, organizations, and' 
+    + '<a href="https://console.bluemix.net/docs/services/natural-language-understanding/entity-types.html#entity-types-and-subtypes" target="_blank"> other information </a>'
+    + 'extracted from customer reviews sorted by relevance (0%-100%).</h3> </center>';
 
   relatedConceptsCont.innerHTML = '<center> <h2 id="relatedConcepts">Related Concepts</h2>'
-    + '<h3 id="conceptsDescription">General concepts that are not necessarily referenced in your data sorted by relavance (0-1).</h3></center>';
+    + '<h3 id="conceptsDescription">General concepts that are not necessarily referenced in the reviews sorted by relevance (0%-100%).</h3></center>';
 
   loader.hidden = false;
   loaderInfo.hidden = false;  
@@ -111,9 +108,6 @@ function analyze() {
       outputText.innerHTML = "Error, check your network connection.";
     }
     else {
-      // console.log(wrapper)
-      // main.style.display = "none";
-      // aside2.style.display = "none";
 
       var output = JSON.parse(ourRequest.responseText);
       console.log('output: ')
@@ -153,10 +147,11 @@ function analyze() {
         + '<span style="font-weight: bold; ">' + amazonScrapeRating + '</span>'
         + ' stars' + '</span>' + ' <br>'
         + '<span id = "watsonRating">'
-        + '<a title="some text for tooltip" href="https://www.ibm.com/watson/developer/">  Watson </a>' + ' Rating: '
+        + '  Watson' + ' Rating: '
         + '<span style="font-weight: bold; cursor:pointer; ">'
         + watsonStarRating.toString().substring(0, 3) + '</span>'
-        + ' stars <div class="tooltip"> ? <span class="tooltiptext"> '
+        // + ' stars'  + 'f05a' ;
+        + ' stars <div class="tooltip"> <i class="fas fa-info-circle"></i> <span class="tooltiptext"> '
         + 'The Watson Rating is computed by taking an aggregate of the product reviews and using natural language understanding '
         + 'to uncover insights from the reviews. The more positive the attitude and emotion of the review, the higher the Watson Rating.</span></div></span>';
 
@@ -166,7 +161,7 @@ function analyze() {
         keywordsCont.hidden = false;
         var keywordId = 'keywordsCont';
         var keywordBar = '.keywordBar-inner';
-        buildWordCloud(keywordDict, keywordsCont, keywordBar);
+        buildCharts(keywordDict, keywordsCont, keywordBar);
       } else {
         topKeywords.hidden = true;
         keywordsCont.hidden = true;
@@ -179,7 +174,7 @@ function analyze() {
         relatedConceptsCont.hidden = false;
         var conceptsId = 'relatedConceptsCont';
         var conceptsBar = '.conceptsBar-inner';        
-        buildWordCloud(conceptDict, relatedConceptsCont,'.conceptsBar-inner' );
+        buildCharts(conceptDict, relatedConceptsCont,'.conceptsBar-inner' );
       } else {
         relatedConcepts.hidden = true;
         relatedConceptsCont.hidden = true;
@@ -190,7 +185,7 @@ function analyze() {
         entitiesCont.hidden = false;
         var entitiesId = 'entitiesCont';
         var entityBar = '.entityBar-inner';                
-        buildWordCloud(entitiesDict, entitiesCont, entityBar);
+        buildCharts(entitiesDict, entitiesCont, entityBar);
       } else {
         entitiesCont.hidden = true;
         topEntities.hidden = true;
@@ -208,16 +203,28 @@ function analyze() {
   ourRequest.send(json);
 }
 
-document.getElementById("goButton").addEventListener("click", function () {
+//Press the "Enter" key inside the input field to trigger the analysis
+inputUrl.addEventListener("keyup", function(event) {
+  event.preventDefault();
+  if (event.keyCode === 13) {
+    analyze();
+  }
+});
+
+//click on magnifying glass icon to analyze
+button.addEventListener("click", function () {
   analyze();
 });
 
-function myFunction() {
-  console.log('myFunc Called')
+function navBarToggle() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
       x.className += " responsive";
   } else {
       x.className = "topnav";
+  }
+
+  function showToolTip() {
+
   }
 }
