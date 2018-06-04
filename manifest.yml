@@ -1,0 +1,6 @@
+---
+applications:
+ - name: 2ndOpinion
+   host: 2ndOpinion
+   random-route: true
+   memory: 512M
