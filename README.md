@@ -1,28 +1,28 @@
 [![Build Status](https://travis-ci.org/IBM/watson-second-opinion.svg?branch=master)](https://travis-ci.org/IBM/watson-second-opinion)
 
-# Create a Review Analyzer with Watson Discovery
+# Create a Review Analyzer with Watson Natural Language Understanding
 
-In this Code Pattern, we will create a Node.js app that takes the reviews from an online shopping website, Amazon, and feeds them into the Watson Discovery service. The reviews will be stored in a Cloudant or couchdb database. The Watson Discovery service will show the overall sentiments of the reviews. The sample application will do all the reading of reviews for you and will give an overall insight about them. The Code Pattern can be useful to developers that are looking into processing multiple documents with Watson Discovery.
+In this Code Pattern, we will create a Node.js app that takes the reviews from an online shopping website, Amazon, and feeds them into the Watson Natural Language Understanding service. The reviews will be stored in a Cloudant database. The Watson Natural Language Understanding service will show the overall sentiments of the reviews. The sample application will do all the reading of reviews for you and will give an overall insight about them. The Code Pattern can be useful to developers that are looking into processing multiple documents with Watson Natural Language Understanding.
 
 When the reader has completed this Code Pattern, they will understand how to:
 
-* Interact with Watson Discovery using Watson's Node SDK
-* Build a user interface around the result of Watson Discovery
+* Interact with Watson Natural Language Understanding using Watson's Node SDK
+* Build a user interface around the result of Watson Natural Language Understanding
 * Deploy the app in Kubernetes
-* Deploy and connect a CouchDB in the same instance of Kubernetes Cluster
+* Deploy and connect a Cloudant database in the same instance of Kubernetes Cluster
 
 <!--Remember to dump an image in this path-->
 ![Architecture](/docs/app-architecture.png)
 
 ## Flow
 1. The user deploys the app in Kubernetes. The user interacts with the user interface of the app.
-2. The user enters the product ID and the app would start getting the reviews of the Product.
+2. The user enters the product URL and the app would start getting the reviews of the Product.
 3. The app then stores the reviews in a database for later use.
-4. The app starts to upload the reviews in Watson Discovery.
-5. After Watson Discovery finishes processing the reviews, the app then stores the result (General Sentiment and Top Entities) in the CouchDB. The user will see the result in the UI.
+4. The app starts to upload the reviews in Watson Natural Language Understanding.
+5. After Watson Natural Language Understanding finishes processing the reviews, the app then stores the result (General Sentiment and Top Entities) in Cloudant. The user will see the result in the UI.
 
 ## Included components
-* [Watson Discovery](https://www.ibm.com/watson/services/discovery/):  A cognitive search and content analytics engine for applications to identify patterns, trends, and actionable insights.
+* [Watson Natural Language Understanding](https://www.ibm.com/watson/services/natural-language-understanding/):  Analyze text to extract meta-data from content such as overall sentiment, emotion, concepts, entities, keywords, categories, relations and semantic roles.
 * [Kubernetes Cluster](https://console.bluemix.net/containers-kubernetes/catalogCluster): Create and manage your own cloud infrastructure and use Kubernetes as your container orchestration engine.
 
 ## Featured technologies
@@ -52,10 +52,10 @@ You would also need a Docker Registry. [Docker Hub](https://hub.docker.com/) let
 
 ## Deploy to IBM Cloud
 
-[![Deploy to Bluemix](https://metrics-tracker.mybluemix.net/stats/7044d7c07bc30cff6a6c2a52e804ad8a/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-review-analyzer.git)
+[![Deploy to Bluemix](https://metrics-tracker.mybluemix.net/stats/7044d7c07bc30cff6a6c2a52e804ad8a/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-second-opinion.git)
 
 1. Create the following service:
-    * [**Watson Discovery**](https://console.ng.bluemix.net/catalog/services/discovery)
+    * [**Watson Natural Language Understanding**](https://console.bluemix.net/catalog/services/natural-language-understanding)
     * [**IBM Cloud Kubernetes**](https://console.bluemix.net/containers-kubernetes/catalog/cluster)
       > You can use an existing IBM Cloud Kubernetes cluster
 
@@ -86,7 +86,7 @@ $ cd watson-second-opinion/
 
 Create the following service:
 
-* [**Watson Discovery**](https://console.ng.bluemix.net/catalog/services/discovery)
+* [**Watson Natural Language Understanding**](https://console.ng.bluemix.net/catalog/services/discovery)
 * [**IBM Cloud Kubernetes**](https://console.bluemix.net/containers-kubernetes/catalog/cluster)
 
 ### 3. Build your Docker image
@@ -149,7 +149,7 @@ Use the configuration for your cluster by exporting the environment variables - 
 $ export KUBECONFIG=
 ```
 
-Add your Watson Discovery credentials in `config.json.sample` and rename it to `config.json`:
+Add your Watson Natural Language Understanding credentials in `config.json.sample` and rename it to `config.json`:
 
 ![Discovery Credentials](docs/discovery-credentials.png)
 
@@ -179,9 +179,9 @@ Change `horeaporutiu/watson-review-analyzer:2.1` to `YOUR_DOCKERHUB_USERNAME/wat
 </pre>
 
 ### 5. Deploy the application
-<!--Deploy in kubernetes (1) nodejs app and (2) couchdb instance. Access via external ip-->
+<!--Deploy in kubernetes (1) nodejs app and (2) Cloudant instance. Access via external ip-->
 
-Deploy the CouchDB database. This is where the reviews and Watson Discovery results will be stored.
+Deploy the CouchDB database. This is where the reviews and Watson Natural Language Understanding results will be stored.
 
 ```
 $ kubectl apply -f couchdb.yaml
@@ -230,7 +230,7 @@ Go to `169.xy.xyz.221` or `169.xy.xyz.35:31385` (for clusters without a Load Bal
 
 ### 6. Search for a product in Amazon
 
-To use the app, search for the product you want the reviews to be uploaded to Watson Discovery and get its product ID (ASIN).
+To use the app, search for the product you want the reviews to be uploaded to Watson Natural Language Understanding and get its product ID (ASIN).
 
 `https://www.amazon.com/Samsung-Thinnest-Premium-Anti-Scratch-Protective/dp/`**`B06XZ2CM2H`**`/ref=cm_cr_arp_d_product_top?ie=UTF8`
 
@@ -240,7 +240,7 @@ In this case, the product ID is **B06XZ2CM2H**
 
 Go ahead and press `Go`.
 
-After Watson Discovery finishes processing all the reviews, the app should show you its General Sentiment and Top entities found.
+After Watson Natural Language Understanding finishes processing all the reviews, the app should show you its General Sentiment and Top entities found.
 
 ![Landing Page](docs/concepts.png)
 
