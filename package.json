@@ -8,6 +8,7 @@
     "node": "6.*"
   },
   "scripts": {
+    "pre": "npm install",    
     "start": "node app.js"
   },
   "repository": {
