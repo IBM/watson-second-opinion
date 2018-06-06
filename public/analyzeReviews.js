@@ -97,7 +97,8 @@ function analyze() {
   console.log('data.source: ')
   console.log(match)
   data.source = match[0];
-  var nodeUrl = window.location.href + '/reviews/' + data.source;
+  var nodeUrl = window.location.href + 'reviews/' + data.source;
+  console.log(nodeUrl)
   // var nodeUrl = 'https://2ndopinion.mybluemix.net/reviews/' + data.source;
   var json = JSON.stringify(data);
   var ourRequest = new XMLHttpRequest();
