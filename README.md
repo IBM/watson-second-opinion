@@ -66,7 +66,7 @@ You would also need a Docker Registry. [Docker Hub](https://hub.docker.com/) let
     * For the cluster name, choose the one you have created
     * For the image registry namespace, use an existing one if you have previously created an [IBM Cloud Container Registry](https://console.bluemix.net/containers-kubernetes/registry/start) or use a unique name for yourself. The toolchain will create one for you if the namespace is existing
       > Toolchain will fail if the namespace is taken
-    * For the Discovery username and Discovery password, use the one you have just created
+    * For the NLU username and NLU password, use the one you have just created
 ![fields](docs/fields.png)
 
 4. The IP address of your app can be found in the logs of the delivery pipeline's deploy stage.
@@ -86,7 +86,7 @@ $ cd watson-second-opinion/
 
 Create the following service:
 
-* [**Watson Natural Language Understanding**](https://console.ng.bluemix.net/catalog/services/discovery)
+* [**Watson Natural Language Understanding**](https://console.bluemix.net/catalog/services/natural-language-understanding)
 * [**IBM Cloud Kubernetes**](https://console.bluemix.net/containers-kubernetes/catalog/cluster)
 
 ### 3. Build your Docker image
@@ -151,13 +151,13 @@ $ export KUBECONFIG=
 
 Add your Watson Natural Language Understanding credentials in `config.json.sample` and rename it to `config.json`:
 
-![Discovery Credentials](docs/discovery-credentials.png)
+![NLU Credentials](docs/discovery-credentials.png)
 
 `config.json`:
 ```
 {
-  "discoveryUsername" : "YOUR_WATSON_DISCOVERY_USERNAME",
-  "discoveryPassword" : "YOUR_WATSON_DISCOVERY_PASSWORD"
+  "nluUsername" : "YOUR_WATSON_NLU_USERNAME",
+  "nluPassword" : "YOUR_WATSON_NLU_PASSWORD"
 }
 ```
 
