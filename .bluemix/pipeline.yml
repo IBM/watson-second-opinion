@@ -157,9 +157,9 @@ stages:
       #bx cs init --host https://us-south.containers.bluemix.net
 
       echo "Creating config.json file"
-      echo "{\"discoveryUsername\":\"$DISCOVERY_USERNAME\",\"discoveryPassword\":\"$DISCOVERY_PASSWORD\"}" > config.json
+      echo "{\"nluUsername\":\"$NLU_USERNAME\",\"nluPassword\":\"$NLU_PASSWORD\",\"CLOUDANT_URL\":\"$CLOUDANT_URL\"}" > config.json
       echo ""
-      echo "CREATING CONFIG MAP FROM DISCOVERY CREDENTIALS"
+      echo "CREATING CONFIG MAP FROM NLU CREDENTIALS"
       kubectl create configmap watson-discovery-config --from-file=config.json
       echo ""
       echo "DEPLOYING USING MANIFEST:"

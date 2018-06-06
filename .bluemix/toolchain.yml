@@ -13,9 +13,9 @@ template:
     - hello-world-repo
   info:
     git url: >-
-      [https://github.com/IBM/watson-review-analyzer](https://github.com/IBM/watson-review-analyzer)
+      [https://github.com/IBM/watson-second-opinion](https://github.com/IBM/watson-second-opinion)
     git branch: >-
-      [master](https://github.com/IBM/watson-review-analyzer/tree/master)
+      [master](https://github.com/IBM/watson-second-opinion/tree/master)
 toolchain:
   name: 'watson-review-analyzer-toolchain-{{timestamp}}'
   template:
@@ -26,7 +26,7 @@ services:
     service_id: githubpublic
     parameters:
       repo_name: "{{name}}"
-      repo_url: https://github.com/IBM/watson-review-analyzer
+      repo_url: https://github.com/IBM/watson-second-opinion
       type: clone
       has_issues: false
   hello-world-build:
@@ -47,8 +47,9 @@ services:
           REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
           PROD_CLUSTER_NAME: '{{form.pipeline.parameters.prod-cluster-name}}'
           API_KEY: '{{form.pipeline.parameters.api-key}}'
-          DISCOVERY_USERNAME: '{{form.pipeline.parameters.discovery-username}}'
-          DISCOVERY_PASSWORD: '{{form.pipeline.parameters.discovery-password}}'
+          CLOUDANT_URL: '{{form.pipeline.parameters.cloudant-URL}}'
+          NLU_USERNAME: '{{form.pipeline.parameters.NLU-username}}'
+          NLU_PASSWORD: '{{form.pipeline.parameters.NLU-password}}'
         execute: true
 form:
   pipeline:
