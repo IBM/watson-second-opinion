@@ -52,7 +52,7 @@ You would also need a Docker Registry. [Docker Hub](https://hub.docker.com/) let
 
 ## Deploy to IBM Cloud
 
-[![Deploy to Bluemix](https://metrics-tracker.mybluemix.net/stats/7044d7c07bc30cff6a6c2a52e804ad8a/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-second-opinion.git)
+[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-second-opinion)
 
 1. Create the following service:
     * [**Watson Natural Language Understanding**](https://console.bluemix.net/catalog/services/natural-language-understanding)
