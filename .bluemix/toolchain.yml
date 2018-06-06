@@ -48,8 +48,8 @@ services:
           PROD_CLUSTER_NAME: '{{form.pipeline.parameters.prod-cluster-name}}'
           API_KEY: '{{form.pipeline.parameters.api-key}}'
           CLOUDANT_URL: '{{form.pipeline.parameters.cloudant-URL}}'
-          NLU_USERNAME: '{{form.pipeline.parameters.NLU-username}}'
-          NLU_PASSWORD: '{{form.pipeline.parameters.NLU-password}}'
+          NLU_USERNAME: '{{form.pipeline.parameters.nlu-username}}'
+          NLU_PASSWORD: '{{form.pipeline.parameters.nlu-password}}'
         execute: true
 form:
   pipeline:
