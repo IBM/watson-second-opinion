@@ -108,12 +108,12 @@ stages:
     stage: BUILD
     job: Container build
   properties:
-  - name: DISCOVERY_USERNAME
+  - name: NLU_USERNAME
     type: text
-    value: ${DISCOVERY_USERNAME}
-  - name: DISCOVERY_PASSWORD
+    value: ${NLU_USERNAME}
+  - name: NLU_PASSWORD
     type: secure
-    value: ${DISCOVERY_PASSWORD}
+    value: ${NLU_PASSWORD}
   jobs:
   - name: Deploy Kubernetes Pod
     type: deployer

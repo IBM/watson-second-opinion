@@ -48,13 +48,13 @@
             "type": "string",
             "pattern": "\\S"
         },
-        "discovery-username": {
-          "description": "The Watson Discovery username of the discovery instance you just created",
+        "nlu-username": {
+          "description": "The Watson NLU username of the natural language understanding instance you just created",
           "type": "string",
           "disabled": false
         },
-        "discovery-password": {
-          "description": "The Watson Discovery password of the discovery instance you just created",
+        "nlu-password": {
+          "description": "The Watson NLU password of the natural language understanding instance you just created",
           "type": "string",
           "disabled": false
         }
@@ -98,13 +98,13 @@
         },{
           "type": "text",
           "readonly": false,
-          "title": "Discovery Username",
-          "key": "discovery-username"
+          "title": "Natural Language Understanding Username",
+          "key": "nlu-username"
         },{
           "type": "password",
           "readonly": false,
-          "title": "Discovery Password",
-          "key": "discovery-password"
+          "title": "Natural Language Understanding Password",
+          "key": "nlu-password"
         }
     ]
 }
