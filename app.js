@@ -11,7 +11,6 @@ var cloudantDB = new CloudantDB();
 var ScrapeData = require('./lib/scrapeData.js');
 var scraper = new ScrapeData();
 
-cloudantDB.createDB();
 
 app.use(require('body-parser').json());
 
@@ -21,6 +20,8 @@ app.use(express.static(__dirname + '/public'));
 app.get('/reviews/:reviewId', function (req, res, next) {
   var reviewId = req.params.reviewId;
 
+  cloudantDB.createDB();
+  
   cloudantDB.existingCloudantDoc(reviewId)
     .then(function(docExists){
       console.log('docExists: ')
