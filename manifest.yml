@@ -1,6 +1,22 @@
 ---
+declared-services:
+  wso-nlu:
+    label: natural-language-understanding
+    plan: lite
+  wso-cloudant:
+    label: cloudantNoSQLDB
+    plan: Lite
 applications:
- - name: 2ndOpinion
-   host: 2ndOpinion
-   random-route: true
-   memory: 512M
+- path: .
+  name: watsonsecondoinion
+  buildpack: sdk-for-nodejs
+  memory: 512M
+  instances: 1
+  disk_quota: 512M
+  random-route: false
+  timeout: 180
+  services:
+  - wso-nlu
+  - wso-cloudant
+env:
+  ALPHAVANTAGE_API_KEY: placeholder
