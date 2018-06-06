@@ -8,14 +8,14 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 * Interact with Watson Natural Language Understanding using Watson's Node SDK
 * Build a user interface around the result of Watson Natural Language Understanding
-* Deploy the app in Kubernetes
-* Deploy and connect a Cloudant database in the same instance of Kubernetes Cluster
+* Create and use Cloudant NoSQL Database
+* Deploy a Nodejs application to analyze product reviews
 
 <!--Remember to dump an image in this path-->
 ![Architecture](/docs/app-architecture.png)
 
 ## Flow
-1. The user deploys the app in Kubernetes. The user interacts with the user interface of the app.
+1. The user deploys the app in IBM Cloud. The user interacts with the user interface of the app.
 2. The user enters the product URL and the app would start getting the reviews of the Product.
 3. The app then stores the reviews in a database for later use.
 4. The app starts to upload the reviews in Watson Natural Language Understanding.
@@ -23,7 +23,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 ## Included components
 * [Watson Natural Language Understanding](https://www.ibm.com/watson/services/natural-language-understanding/):  Analyze text to extract meta-data from content such as overall sentiment, emotion, concepts, entities, keywords, categories, relations and semantic roles.
-* [Kubernetes Cluster](https://console.bluemix.net/containers-kubernetes/catalogCluster): Create and manage your own cloud infrastructure and use Kubernetes as your container orchestration engine.
+* [Cloudant NoSQL DB](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db): A fully managed data layer designed for modern web and mobile applications that leverages a flexible JSON schema.
 
 ## Featured technologies
 * [Node.js](https://nodejs.org/): An open-source JavaScript run-time environment for executing server-side JavaScript code.
@@ -33,13 +33,6 @@ When the reader has completed this Code Pattern, they will understand how to:
 ## Watch the Video
 
 [![](docs/youtubePicture.png)](https://www.youtube.com/watch?v=wwNAEvbxd54&list=PLVztKpIRxvQXhHlMQttCfYZrDN8aELnzP&index=1&t=1s)
-
-# Prerequisite
-
-Create a Kubernetes cluster with either [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube) for local testing, or with [IBM Bluemix Container Service](https://github.com/IBM/container-journey-template/blob/master/README.md) to deploy in cloud. The code here is regularly tested against [Kubernetes Cluster from Bluemix Container Service](https://console.ng.bluemix.net/docs/containers/cs_ov.html#cs_ov) using Travis.
-
-Install [Docker](https://www.docker.com) by following the instructions [here](https://www.docker.com/community-edition#/download) for your preferred operating system.  
-You would also need a Docker Registry. [Docker Hub](https://hub.docker.com/) lets you create one quickly.
 
 # Steps
 
@@ -54,26 +47,21 @@ You would also need a Docker Registry. [Docker Hub](https://hub.docker.com/) let
 
 [![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-second-opinion)
 
-1. Create the following service:
-    * [**Watson Natural Language Understanding**](https://console.bluemix.net/catalog/services/natural-language-understanding)
-    * [**IBM Cloud Kubernetes**](https://console.bluemix.net/containers-kubernetes/catalog/cluster)
-      > You can use an existing IBM Cloud Kubernetes cluster
-
-2. Press the above `Deploy to IBM Cloud`
+1. Press the above `Deploy to IBM Cloud`
     > The toolchain uses GitHub for its source control. You may be asked to authenticate the toolchain to use your account. The toolchain will clone this repo and will be used for its deployment.
-3. Fill out the following fields.
-    * If you don't have an API key for your account, create one [here](https://console.ng.bluemix.net/iam/#/apikeys)
-    * For the cluster name, choose the one you have created
-    * For the image registry namespace, use an existing one if you have previously created an [IBM Cloud Container Registry](https://console.bluemix.net/containers-kubernetes/registry/start) or use a unique name for yourself. The toolchain will create one for you if the namespace is existing
-      > Toolchain will fail if the namespace is taken
-    * For the NLU username and NLU password, use the one you have just created
-![fields](docs/fields.png)
+<!--optional step-->
+2. In Toolchains, click on ``Delivery Pipeline`` to watch while the app is deployed. Once deployed, the app can be viewed by clicking ``View app``.
 
-4. The IP address of your app can be found in the logs of the delivery pipeline's deploy stage.
-![deploy](docs/deploy.png)
-![link](docs/link.png)
+<!--update with service names from manifest.yml-->
+3. To see the app and services created and configured for this Code Pattern, use the IBM Cloud dashboard. The app is named `watsonstockadvisor` with a unique suffix. The following services are created and easily identified by the `wsa-` prefix:
+    * wsa-discovery
+    * wsa-cloudant
 
-## Deploy to Kubernetes
+You can Deploy the application simply by clicking the ``Deploy to IBM Cloud`` button above to automatically create a toolchain to provision and run the application.
+
+If you do not have an IBM Cloud account yet, you will need to create one.
+
+## Deploy Locally
 
 ### 1. Clone the repo
 
@@ -87,7 +75,7 @@ $ cd watson-second-opinion/
 Create the following service:
 
 * [**Watson Natural Language Understanding**](https://console.bluemix.net/catalog/services/natural-language-understanding)
-* [**IBM Cloud Kubernetes**](https://console.bluemix.net/containers-kubernetes/catalog/cluster)
+* [**Cloudant NoSQL DB**](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db/)
 
 ### 3. Build your Docker image
 Login to Docker using your username and password for your Docker Registry.
