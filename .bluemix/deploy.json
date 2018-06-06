@@ -59,7 +59,7 @@
           "disabled": false
         }
     },
-    "required": ["registry-namespace", "prod-region", "api-key", "prod-cluster-name", "app-name","discovery-username","discovery-password"],
+    "required": ["registry-namespace", "prod-region", "api-key", "prod-cluster-name", "app-name","nlu-username","nlu-password"],
     "form": [
        {
           "type": "validator",
