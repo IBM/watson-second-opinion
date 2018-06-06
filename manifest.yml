@@ -2,7 +2,7 @@
 declared-services:
   wso-nlu:
     label: natural-language-understanding
-    plan: Lite
+    plan: free
   wso-cloudant:
     label: cloudantNoSQLDB
     plan: Lite
