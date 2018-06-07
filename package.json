@@ -32,8 +32,9 @@
     "watson-developer-cloud": "^2.42.0"
   },
   "devDependencies": {
-    "eslint": "^4.13.1"
+    "eslint": "^4.13.1",
+    "eslint-plugin-react": "^7.9.1"
   },
-  "author": "Anthony Amanse",
+  "author": "Horea Porutiu",
   "license": "Apache-2.0"
 }

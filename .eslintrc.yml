@@ -21,10 +21,12 @@ rules:
     - error
     - unix
   quotes:
-    - error
+    - warn
     - single
   semi:
     - error
     - always
   no-console:
+    - off
+  no-unused-vars:
     - warn

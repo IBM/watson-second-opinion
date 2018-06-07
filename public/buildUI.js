@@ -1,3 +1,4 @@
+/* global reviewsCont, keywordDict, conceptDict, entitiesDict, buildCharts */
 
 /**
 * Updates the UI to show accurate star ratings
@@ -6,8 +7,8 @@
 */
 function getStarRatings(results) {
 
-  console.log('results: ')
-  console.log(results)
+  console.log('results: ');
+  console.log(results);
 
   reviewsCont.innerHTML = '<center><h2><span id = "customerReviews">Customer Reviews</span> </h2></center>';
   var userIcon = '<i id = "userIcon" class="fas fa-user"></i>';
@@ -24,7 +25,7 @@ function getStarRatings(results) {
       '<div class="stars-outer">' +
       '<p id = "rating">' + 'Rating: ' + '</p>';
     var numberOfStars = 0;
-    var starsContent = "";
+    var starsContent = '';
     while (numberOfStars < results[i].rating) {
       starsContent += '<i class="fas fa-star"></i> ';
       numberOfStars++;
@@ -51,7 +52,6 @@ function getNLUData(data) {
 
   if (data.concepts.length === undefined) {
     console.log('no concepts!');
-    showConcepts = false;
   } else {
     var conceptsLen;
     if (data.concepts.length > 10) {
@@ -60,13 +60,12 @@ function getNLUData(data) {
       conceptsLen = data.concepts.length;
     }
     for (var i = 0; i < conceptsLen; i++) {
-      pushToDict(conceptDict, data.concepts[i].text, data.concepts[i].relevance.toFixed(2))
+      pushToDict(conceptDict, data.concepts[i].text, data.concepts[i].relevance.toFixed(2));
     }
   }
 
   if (data.entities.length === undefined) {
     console.log('no concepts!');
-    showEntities = false;
   } else {
     var entitiesLen;
     if (data.entities.length > 10) {
@@ -75,13 +74,12 @@ function getNLUData(data) {
       entitiesLen = data.entities.length;
     }
     for (var j = 0; j < entitiesLen; j++) {
-      pushToDict(entitiesDict, data.entities[j].text, data.entities[j].relevance.toFixed(2))
+      pushToDict(entitiesDict, data.entities[j].text, data.entities[j].relevance.toFixed(2));
     }
   }
 
   if (data.keywords.length === undefined) {
     console.log('no concepts!');
-    showKeywords = false;
   } else {
     var keywordLen;
     if (data.keywords.length > 15) {
@@ -103,12 +101,12 @@ function getNLUData(data) {
 function showSentiment(sentimentPercent, querySelector) {
   setTimeout(function(){ 
     
-  console.log('query selector: ')
-  console.log(querySelector)
-  var barInner = [].slice.call(document.querySelectorAll(querySelector));
+    console.log('query selector: ');
+    console.log(querySelector);
+    var barInner = [].slice.call(document.querySelectorAll(querySelector));
 
-    barInner.map(function (bar, index) {
-      bar.dataset.percent = sentimentPercent.toFixed(0) + "%";
+    barInner.map(function (bar) {
+      bar.dataset.percent = sentimentPercent.toFixed(0) + '%';
       bar.style.width = bar.dataset.percent;
     });
   }, 0);
@@ -122,6 +120,7 @@ function showSentiment(sentimentPercent, querySelector) {
  * @param {string} Id - the id of the container to
  *
  */
+/* exported buildCharts */
 function buildCharts(dict, container, bar) {
 
   var i = 0;
@@ -138,13 +137,13 @@ function buildCharts(dict, container, bar) {
       //create div on the fly to be able to add relavance percentage
       + '<div class="bar"><div class=' + bar + ' data-percent="30%"></div></div></h4>';
 
-      var relevance = dict[key]["relevance"] * 100;
+    var relevance = dict[key]['relevance'] * 100;
 
-      if (!bar.includes('.')) {
-        bar = '.' + bar 
-        console.log('after adding . :')
-        console.log(bar) 
-      }
+    if (!bar.includes('.')) {
+      bar = '.' + bar ;
+      console.log('after adding . :');
+      console.log(bar); 
+    }
 
     showSentiment(relevance, bar);
     i++;
@@ -174,7 +173,7 @@ function pushToDict(dict, text, relevance) {
  */
 function sort(dict) {
   dict.sort(function (a, b) {
-    console.log('in the process of sorting')
+    console.log('in the process of sorting');
     return (b.relevance) - (a.relevance);
   });
 }

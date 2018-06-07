@@ -1,24 +1,25 @@
 //reg ex to recognize amazon product ID from URL
 var pattern = /(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))/;
+/* global showSentiment, getStarRatings, getNLUData, buildCharts*/
 
 //query DOM
-var outputText = document.getElementById("discoveryQueryOutput"); //variable that will hold our final translation
-var loader = document.getElementById("myLoader");
-var loaderInfo = document.getElementById("loaderInfo");
-var sentimentRating = document.getElementById("sentimentRating");
-var sentimentCont = document.getElementById("sentimentCont");
-var entitiesCont = document.getElementById("entitiesCont");
-var keywordsCont = document.getElementById("keywordsCont");
-var reviewsCont = document.getElementById("reviewsCont");
-var relatedConceptsCont = document.getElementById("relatedConceptsCont");
-var productHeader = document.getElementById("productHeader");
-var productPic = document.getElementById("productPic");
-var productCont = document.getElementById("productCont");
-var topKeywords = document.getElementById("topKeywords");
-var topEntities = document.getElementById("topEntities");
-var relatedConcepts = document.getElementById("relatedConcepts");
-var button = document.getElementById("goButton");
-var inputUrl = document.getElementById("productUrl");
+var outputText = document.getElementById('discoveryQueryOutput'); //variable that will hold our final translation
+var loader = document.getElementById('myLoader');
+var loaderInfo = document.getElementById('loaderInfo');
+var sentimentRating = document.getElementById('sentimentRating');
+var sentimentCont = document.getElementById('sentimentCont');
+var entitiesCont = document.getElementById('entitiesCont');
+var keywordsCont = document.getElementById('keywordsCont');
+var reviewsCont = document.getElementById('reviewsCont');
+var relatedConceptsCont = document.getElementById('relatedConceptsCont');
+var productHeader = document.getElementById('productHeader');
+var productPic = document.getElementById('productPic');
+var productCont = document.getElementById('productCont');
+var topKeywords = document.getElementById('topKeywords');
+var topEntities = document.getElementById('topEntities');
+var relatedConcepts = document.getElementById('relatedConcepts');
+var button = document.getElementById('goButton');
+var inputUrl = document.getElementById('productUrl');
 
 
 //variables to show NLU results
@@ -47,7 +48,7 @@ productHeader.hidden = true;
 function analyze() {
   outputText.hidden = true;
   productHeader.hidden = true;
-  data.url = document.getElementById("productUrl").value;
+  data.url = document.getElementById('productUrl').value;
   var match = data.url.match(pattern);
   if (match == null) {
     outputText.hidden = false;
@@ -58,7 +59,7 @@ function analyze() {
     relatedConceptsCont.hidden = true;
     reviewsCont.hidden = true;
     productCont.hidden = true;
-    outputText.innerHTML = "Please check your input is a valid Amazon product URL";
+    outputText.innerHTML = 'Please check your input is a valid Amazon product URL';
     return;
   }
 
@@ -94,24 +95,24 @@ function analyze() {
   productCont.hidden = true;
   keywordsCont.hidden = true;
   relatedConceptsCont.hidden = true;
-  console.log('data.source: ')
-  console.log(match)
+  console.log('data.source: ');
+  console.log(match);
   data.source = match[0];
   var nodeUrl = window.location.href + 'reviews/' + data.source;
-  console.log(nodeUrl)
+  console.log(nodeUrl);
   // var nodeUrl = 'https://2ndopinion.mybluemix.net/reviews/' + data.source;
   var json = JSON.stringify(data);
   var ourRequest = new XMLHttpRequest();
-  ourRequest.open("GET", nodeUrl, true);
+  ourRequest.open('GET', nodeUrl, true);
   ourRequest.setRequestHeader('Content-type', 'application/json');
   ourRequest.onload = function () {
     if (ourRequest.status == 400) {
-      outputText.innerHTML = "Error, check your network connection.";
+      outputText.innerHTML = 'Error, check your network connection.';
     }
     else {
 
       var output = JSON.parse(ourRequest.responseText);
-      console.log('output: ')
+      console.log('output: ');
       console.log(output);
 
       productHeader.innerHTML = '<b>' + output.reviews.productName + '</b>';
@@ -128,8 +129,8 @@ function analyze() {
       watsonStarRating = output.sentiment.document.score;
       var sentimentPercent = 50 + (watsonStarRating * 50);
 
-      console.log('sentimentPer: ')
-      console.log(sentimentPercent)
+      console.log('sentimentPer: ');
+      console.log(sentimentPercent);
 
       showSentiment(sentimentPercent, '.bar-inner');
 
@@ -160,21 +161,18 @@ function analyze() {
       if (showKeywords) {
         topKeywords.hidden = false;
         keywordsCont.hidden = false;
-        var keywordId = 'keywordsCont';
         var keywordBar = '.keywordBar-inner';
         buildCharts(keywordDict, keywordsCont, keywordBar);
       } else {
         topKeywords.hidden = true;
         keywordsCont.hidden = true;
       }
-      console.log('concepts!')
-      console.log(conceptDict)
+      console.log('concepts!');
+      console.log(conceptDict);
       //determine if we show related concepts or not
       if (showConcepts) {
         relatedConcepts.hidden = false;
         relatedConceptsCont.hidden = false;
-        var conceptsId = 'relatedConceptsCont';
-        var conceptsBar = '.conceptsBar-inner';        
         buildCharts(conceptDict, relatedConceptsCont,'.conceptsBar-inner' );
       } else {
         relatedConcepts.hidden = true;
@@ -184,7 +182,6 @@ function analyze() {
       if (showEntities) {
         topEntities.hidden = false;
         entitiesCont.hidden = false;
-        var entitiesId = 'entitiesCont';
         var entityBar = '.entityBar-inner';                
         buildCharts(entitiesDict, entitiesCont, entityBar);
       } else {
@@ -205,7 +202,7 @@ function analyze() {
 }
 
 //Press the "Enter" key inside the input field to trigger the analysis
-inputUrl.addEventListener("keyup", function(event) {
+inputUrl.addEventListener('keyup', function(event) {
   event.preventDefault();
   if (event.keyCode === 13) {
     analyze();
@@ -213,19 +210,15 @@ inputUrl.addEventListener("keyup", function(event) {
 });
 
 //click on magnifying glass icon to analyze
-button.addEventListener("click", function () {
+button.addEventListener('click', function () {
   analyze();
 });
 
 function navBarToggle() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-      x.className += " responsive";
+  var x = document.getElementById('myTopnav');
+  if (x.className === 'topnav') {
+    x.className += ' responsive';
   } else {
-      x.className = "topnav";
-  }
-
-  function showToolTip() {
-
+    x.className = 'topnav';
   }
 }
