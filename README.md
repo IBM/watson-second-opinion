@@ -69,6 +69,8 @@ You are ready to run the app!
 
 ### Update the Environment of your deployed app
 
+![envVar1](https://i.makeagif.com/media/6-07-2018/Gfmeju.gif)
+
 1. Navigate to https://console.bluemix.net/dashboard/apps/
 2. Located and click on your newly created application 
 3. Select 'Runtime' in the left menu
