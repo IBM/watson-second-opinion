@@ -96,150 +96,17 @@ Create the following service:
 * [**Watson Natural Language Understanding**](https://console.bluemix.net/catalog/services/natural-language-understanding)
 * [**Cloudant NoSQL DB**](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db/)
 
-### 4. Set environment variables
-![M_7Cl0](https://i.makeagif.com/media/10-10-2017/M_7Cl0.gif)
-
-```
-$ 
-$ docker push YOUR_DOCKERHUB_USERNAME/watson-review-analyzer:1.0
-```
-
-### 4. Configure deployment files
-Login to IBM Cloud (formerly called Bluemix). If not an IBM employee, use your IBM Cloud account username and password to login
-
-```
-$ bx login
-```
-
-If IBM employee, use --sso option and follow link for one time code, and use it to login.
-
-```
-$ bx login --sso
-```
+### 4. Get Service Credentials
 
 
-After you are logged in to IBM Cloud, you should see something like this:
+### 5. Set Envioronment Variables
 
-```
-API endpoint: https://api.ng.bluemix.net
+### 6. Run the App
 
-One Time Code (Get one at https://iam-id-2.ng.bluemix.net/identity/passcode)>
-Authenticating...
-OK
-
-Targeted account IBM (d5a44c1--------1a852cef31136c)
-
-Targeted resource group default
-
-
-API endpoint:     https://api.ng.bluemix.net (API version: 2.92.0)
-Region:           us-south
-User:             horea.porutiu@ibm.com
-Account:          IBM (d5a44c1--------1a852cef31136c)
-Resource group:   default
-```
-
-Next, setup kubectl to use your cluster
-
-```
-$ bx cs cluster-config <your-cluster-name>
-```
-Use the configuration for your cluster by exporting the environment variables - copy and paste the full line starting with:
-
-```
-$ export KUBECONFIG=
-```
-
-Add your Watson Natural Language Understanding credentials in `config.json.sample` and rename it to `config.json`:
-
-![NLU Credentials](docs/discovery-credentials.png)
-
-`config.json`:
-```
-{
-  "nluUsername" : "YOUR_WATSON_NLU_USERNAME",
-  "nluPassword" : "YOUR_WATSON_NLU_PASSWORD"
-}
-```
-
-Create configmap in Kubernetes for `config.json`
-
-```
-$ kubectl create configmap watson-discovery-config --from-file=config.json
-```
-
-Modify `watson-review-analyzer.yaml`. In the line where you specify the image name, use the docker image you just built.  
-Change `horeaporutiu/watson-review-analyzer:2.1` to `YOUR_DOCKERHUB_USERNAME/watson-review-analyzer:1.0`.
-
-<pre>
-    spec:
-      containers:
-        - image: <b>horeaporutiu/watson-review-analyzer:2.1</b>
-          imagePullPolicy: Always
-          name: watson-reviews
-</pre>
-
-### 5. Deploy the application
-<!--Deploy in kubernetes (1) nodejs app and (2) Cloudant instance. Access via external ip-->
-
-Deploy the CouchDB database. This is where the reviews and Watson Natural Language Understanding results will be stored.
-
-```
-$ kubectl apply -f couchdb.yaml
-```
-
-Deploy the Watson Review Analyzer app.
-
-```
-$ kubectl apply -f watson-review-analyzer.yaml
-```
-
-Check if your Pods are running. You should see a couchdb pod and the watson-review-analyzer pod.
-
-```
-$ kubectl get pods
-
-NAME                                         READY     STATUS    RESTARTS   AGE
-couchdb-deployment-78c87bf5bf-2nhc2          1/1       Running   0          4d
-watson-reviews-deployment-859b8d454f-4zxkw   1/1       Running   0          4d
-```
-
-You can access the application in the browser via the Load Balancer's IP (External IP).
-If you don't have the Load Balancer enabled, you can access it through one of your Kubernetes' worker IP and service Node port of watson-review-analyzer.
-
-<pre>
-$ kubectl get service
-
-NAME             CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
-couchdb          172.21.174.52    169.xy.xyz.220   5984:32402/TCP   13d
-kubernetes       172.21.0.1       &ltnone&gt           443/TCP          27d
-watson-reviews   172.21.254.246   <b>169.48.xyz.221</b>   80:<b>31385</b>/TCP     15m
-</pre>
-
-If you don't have the Load Balancer and need the worker IP:
-<pre>
-$ bx cs workers YOUR_CLUSTER_NAME
-
-OK
-ID                                                 Public IP       Private IP       Machine Type   State    Status   Zone    Version
-kube-dal12-cr5c30966926aa444f9c02c72d5c3e1ca5-w1   <b>169.xy.xyz.35</b>   10.184.120.196   b2c.16x64      normal   Ready    dal12   1.8.6_1506*
-</pre>
-
-Go to `169.xy.xyz.221` or `169.xy.xyz.35:31385` (for clusters without a Load Balancer)
-
-![Landing Page](docs/empty.png)
-
-### 6. Search for a product in Amazon
-
-To use the app, search for the product you want the reviews to be uploaded to Watson Natural Language Understanding and get its product ID (ASIN).
-
-`https://www.amazon.com/Samsung-Thinnest-Premium-Anti-Scratch-Protective/dp/`**`B06XZ2CM2H`**`/ref=cm_cr_arp_d_product_top?ie=UTF8`
-
-In this case, the product ID is **B06XZ2CM2H**
 
 ![Landing Page](docs/analysis.png)
 
-Go ahead and press `Go`.
+Find a product in Amazon that you want to learn more about, copy the URL of the product page, paste it into the app, and click 🔎.
 
 After Watson Natural Language Understanding finishes processing all the reviews, the app should show you its General Sentiment and Top entities found.
 
