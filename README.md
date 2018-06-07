@@ -38,12 +38,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 # Steps
 
-1. [Clone the repo](#1-clone-the-repo)
-2. [Create IBM Cloud services](#2-create-ibm-cloud-services)
-3. [Build your Docker image](#3-build-your-docker-image)
-4. [Configure deployment files](#4-configure-deployment-files)
-5. [Deploy the application](#5-deploy-the-application)
-6. [Search for a product in Amazon](#6-search-for-a-product-in-amazon)
+Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locally.
 
 ## Deploy to IBM Cloud
 If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
