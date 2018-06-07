@@ -8,8 +8,9 @@
     "node": "6.*"
   },
   "scripts": {
-    "pre": "npm install",    
-    "start": "node app.js"
+    "pre": "npm install",
+    "start": "node app.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -18,17 +19,20 @@
   "dependencies": {
     "async": "^2.6.0",
     "async-waterfall": "^0.1.5",
-    "body-parser": "^1.17.x",
+    "body-parser": "^1.18.3",
     "cheerio": "~1.0.0-rc.2",
     "cloudant": "^1.10.0",
-    "cloudscraper": "^1.4.x",
-    "express": "^4.15.x",
+    "cloudscraper": "^1.5.0",
+    "express": "^4.16.3",
     "jsonfile": "^4.0.0",
     "kue": "^0.11.6",
     "performance-now": "^2.1.0",
     "promise": "^8.0.x",
-    "request": "^2.83.x",
+    "request": "^2.87.0",
     "watson-developer-cloud": "^2.42.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.13.1"
   },
   "author": "Anthony Amanse",
   "license": "Apache-2.0"
