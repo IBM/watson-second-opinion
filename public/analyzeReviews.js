@@ -145,6 +145,9 @@ function analyze() {
 
       var amazonScrapeRating = output.reviews.starRating.substring(0, 3);
 
+      console.log('rating: ');
+      console.log(amazonScrapeRating);
+
       sentimentRating.innerHTML = ' <span id = "amazonRating">Amazon Rating: '
         + '<span style="font-weight: bold; ">' + amazonScrapeRating + '</span>'
         + ' stars' + '</span>' + ' <br>'
