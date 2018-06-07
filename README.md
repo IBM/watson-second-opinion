@@ -2,6 +2,8 @@
 
 # Create a Review Analyzer with Watson Natural Language Understanding
 
+![demo](https://i.makeagif.com/media/6-07-2018/IeEcIv.gif)
+
 In this Code Pattern, we will create a Node.js app that takes the reviews from an online shopping website, Amazon, and feeds them into the Watson Natural Language Understanding service. The reviews will be stored in a Cloudant database. The Watson Natural Language Understanding service will show the overall sentiments of the reviews. The sample application will do all the reading of reviews for you and will give an overall insight about them. The Code Pattern can be useful to developers that are looking into processing multiple documents with Watson Natural Language Understanding.
 
 When the reader has completed this Code Pattern, they will understand how to:
