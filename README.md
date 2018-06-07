@@ -58,15 +58,6 @@ If you do not have an IBM Cloud account yet, you will need to create one [here](
     * wso-nlu
     * wso-cloudant
 
-To use this app, you will have to click on each service (wso-nlu, wso-cloudant), and then on the left side you will see a tab for service credentials. Click that. Then, click ``new credential`` and name the credential. Then click on ``view credentials`` and for Cloudant, look for ``url`` and for nlu look for ``username`` and ``password``. Save these API keys in a notepad. Once you have: 
-
-1) NLU Username
-2) NLU Password
-3) Cloudant URL
-
-You are ready to run the app! 
-
-
 ### Update the Environment of your deployed app
 
 ![envVar1](https://i.makeagif.com/media/6-07-2018/Gfmeju.gif)
@@ -77,9 +68,10 @@ You are ready to run the app!
 4. Select the 'Environment Variables' tab in the middle of the page
 5. Scroll down to the User defined variables section
 6. Click on ``add``. 
-7. THIS IS EXTREMELY IMPORTANT. Make sure to write the name of the env variable EXACTLY as shown, otherwise, the app wont work. Under 'Name', type in 'CLOUDANT_URL', and under 'Value', the API key that we retrieved above.
-8. Repeat step 6 but now under name, type in `NLU_USERNAME` and under value the API key from above.
-9. Repeat step 6 but now under name, type in `NLU_PASSWORD`, and under value the API key from above.
+7. THIS IS EXTREMELY IMPORTANT. Make sure to write the name of the env variable EXACTLY as shown, otherwise, the app wont work. Scroll up until you see `VCAP_SERVICES`. You will then see `cloudantNoSQLDB` and under that `url`.  Under 'Name', type in 'CLOUDANT_URL', and under 'Value', paste the `url` value from the `cloudantNoSQLDB` section of `VCAP_SERVICES`.
+![envVar2](https://i.makeagif.com/media/6-07-2018/ubRZcv.gif)
+8. Repeat step 6 but now under name, type in `NLU_USERNAME` and under value go to `natural-language-understanding` section of the `VCAP_SERVICES` and get the value for `username`.
+9. Repeat step 6 but now under name, type in `NLU_PASSWORD`, and under value go `natural-language-understanding` section of the `VCAP_SERVICES` and get the value for `password`.
 10. Click ``save``.
 11. Nice job! You are done. Click on ``visit App URL`` at the top of the page to interact with the app. Simply copy and paste an Amazon URL from a product page into the app, and click on the magnifying glass and voilà! You will get some valuable insights from Watson.
 
