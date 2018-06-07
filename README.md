@@ -70,11 +70,16 @@ You are ready to run the app!
 ### Update the Environment of your deployed app
 
 1. Navigate to https://console.bluemix.net/dashboard/apps/
-2. Located and click on your newly created application (not the 'Route' link)
+2. Located and click on your newly created application 
 3. Select 'Runtime' in the left menu
 4. Select the 'Environment Variables' tab in the middle of the page
 5. Scroll down to the User defined variables section
-6. Go to your w
+6. Click on ``add``. 
+7. THIS IS EXTREMELY IMPORTANT. Make sure to write the name of the env variable EXACTLY as shown, otherwise, the app wont work. Under 'Name', type in 'CLOUDANT_URL', and under 'Value', the API key that we retrieved above.
+8. Repeat step 6 but now under name, type in `NLU_USERNAME` and under value the API key from above.
+9. Repeat step 6 but now under name, type in `NLU_PASSWORD`, and under value the API key from above.
+10. Click ``save``.
+11. Nice job! You are done. Click on ``visit App URL`` at the top of the page to interact with the app. Simply copy and paste an Amazon URL from a product page into the app, and click on the magnifying glass and voilà! You will get some valuable insights from Watson.
 
 ## Deploy Locally
 
@@ -85,24 +90,24 @@ $ git clone https://github.com/IBM/watson-second-opinion
 $ cd watson-second-opinion/
 ```
 
-### 2. Create IBM Cloud services
+### 2. Install Dependencies
+
+```
+$ npm install
+```
+
+### 3. Create IBM Cloud services
 
 Create the following service:
 
 * [**Watson Natural Language Understanding**](https://console.bluemix.net/catalog/services/natural-language-understanding)
 * [**Cloudant NoSQL DB**](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db/)
 
-### 3. Build your Docker image
-Login to Docker using your username and password for your Docker Registry.
+### 4. Set environment variables
+![M_7Cl0](https://i.makeagif.com/media/10-10-2017/M_7Cl0.gif)
 
 ```
-$ docker login
-```
-
-The Node.js app will be packaged into a Docker image. This will be used by the Kubernetes Cluster.
-
-```
-$ docker build -t YOUR_DOCKERHUB_USERNAME/watson-review-analyzer:1.0 .
+$ 
 $ docker push YOUR_DOCKERHUB_USERNAME/watson-review-analyzer:1.0
 ```
 
