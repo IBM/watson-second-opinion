@@ -68,8 +68,10 @@ If you do not have an IBM Cloud account yet, you will need to create one [here](
 4. Select the 'Environment Variables' tab in the middle of the page
 5. Scroll down to the User defined variables section
 6. Click on ``add``. 
-7. THIS IS EXTREMELY IMPORTANT. Make sure to write the name of the env variable EXACTLY as shown, otherwise, the app wont work. Scroll up until you see `VCAP_SERVICES`. You will then see `cloudantNoSQLDB` and under that `url`.  Under 'Name', type in 'CLOUDANT_URL', and under 'Value', paste the `url` value from the `cloudantNoSQLDB` section of `VCAP_SERVICES`.
+7. THIS IS EXTREMELY IMPORTANT. Make sure to write the name of the env variable EXACTLY as shown, otherwise, the app wont work. Scroll up until you see `VCAP_SERVICES`. You will then see `cloudantNoSQLDB` and under that `url`.  Under 'Name', type in `CLOUDANT_URL`, and under 'Value', paste the `url` value from the `cloudantNoSQLDB` section of `VCAP_SERVICES`.
+
 ![envVar2](https://i.makeagif.com/media/6-07-2018/ubRZcv.gif)
+
 8. Repeat step 6 but now under name, type in `NLU_USERNAME` and under value go to `natural-language-understanding` section of the `VCAP_SERVICES` and get the value for `username`.
 9. Repeat step 6 but now under name, type in `NLU_PASSWORD`, and under value go `natural-language-understanding` section of the `VCAP_SERVICES` and get the value for `password`.
 10. Click ``save``.
