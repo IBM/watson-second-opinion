@@ -44,6 +44,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 6. [Search for a product in Amazon](#6-search-for-a-product-in-amazon)
 
 ## Deploy to IBM Cloud
+If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
 
 [![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-second-opinion)
 
@@ -53,13 +54,27 @@ When the reader has completed this Code Pattern, they will understand how to:
 2. In Toolchains, click on ``Delivery Pipeline`` to watch while the app is deployed. Once deployed, the app can be viewed by clicking ``View app``.
 
 <!--update with service names from manifest.yml-->
-3. To see the app and services created and configured for this Code Pattern, use the IBM Cloud dashboard. The app is named `watsonstockadvisor` with a unique suffix. The following services are created and easily identified by the `wsa-` prefix:
-    * wsa-discovery
-    * wsa-cloudant
+3. To see the app and services created and configured for this Code Pattern, use the IBM Cloud dashboard. The app will be named according to what you inputted in the toolchain. The following services are created and easily identified by the `wso-` prefix:
+    * wso-nlu
+    * wso-cloudant
 
-You can Deploy the application simply by clicking the ``Deploy to IBM Cloud`` button above to automatically create a toolchain to provision and run the application.
+To use this app, you will have to click on each service (wso-nlu, wso-cloudant), and then on the left side you will see a tab for service credentials. Click that. Then, click ``new credential`` and name the credential. Then click on ``view credentials`` and for Cloudant, look for ``url`` and for nlu look for ``username`` and ``password``. Save these API keys in a notepad. Once you have: 
 
-If you do not have an IBM Cloud account yet, you will need to create one.
+1) NLU Username
+2) NLU Password
+3) Cloudant URL
+
+You are ready to run the app! 
+
+
+### Update the Environment of your deployed app
+
+1. Navigate to https://console.bluemix.net/dashboard/apps/
+2. Located and click on your newly created application (not the 'Route' link)
+3. Select 'Runtime' in the left menu
+4. Select the 'Environment Variables' tab in the middle of the page
+5. Scroll down to the User defined variables section
+6. Go to your w
 
 ## Deploy Locally
 
