@@ -1,5 +1,5 @@
 {
-  "name": "web-scraper",
+  "name": "watsonSecondOpinion",
   "main": "app.js",
   "description": "get reviews from amazon.",
   "version": "1.0.0",
