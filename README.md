@@ -125,7 +125,7 @@ $ node app.js
 
 Go to `http://localhost:4000/` in your browser of choice, and you should be greeted with the Watson Second Opinion UI.
 
-Find a product in Amazon that you want to learn more about, copy the URL of the product page, paste it into the app, and click 🔎. After Watson Natural Language Understanding finishes processing all the reviews, the app will show you its General Sentiment and Top entities found: 
+Find a product in Amazon that you want to learn more about, copy the URL of the product page, paste it into the app, and click 🔍. After Watson Natural Language Understanding finishes processing all the reviews, the app will show you its General Sentiment and Top entities found: 
 
 
 ![Landing Page](docs/analysis.png)
