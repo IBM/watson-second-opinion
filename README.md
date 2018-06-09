@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/IBM/watson-second-opinion.svg?branch=master)](https://travis-ci.org/IBM/watson-second-opinion)
 
 # Create a Review Analyzer with Watson Natural Language Understanding
+This is the code pattern for https://2ndopinion.mybluemix.net/. 
 
 ![demo](https://i.makeagif.com/media/6-07-2018/IeEcIv.gif)
 
