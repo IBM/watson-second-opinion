@@ -36,7 +36,6 @@ function getStarRatings(results) {
     }
     reviewsCont.innerHTML += '<div class="stars-inner fa">' + starsContent + '</div></div>';
 
-
     reviewsCont.innerHTML += '<p id = "reviewText">' + '<p><b>' +
       results[i].title + ' - ' + ' </b>' + results[i].text + '<br></p>';
   }
@@ -134,7 +133,7 @@ function buildCharts(dict, container, bar) {
 
     container.innerHTML += '<h4 id = "wordCloudContent">'
       + '<span id="keyword">' + dict[key]['text'] + '</span>' 
-      //create div on the fly to be able to add relavance percentage
+      //create div on the fly to be able to add relevance percentage
       + '<div class="bar"><div class=' + bar + ' data-percent="30%"></div></div></h4>';
 
     var relevance = dict[key]['relevance'] * 100;
