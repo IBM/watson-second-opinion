@@ -26,7 +26,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 ## Included components
 * [Watson Natural Language Understanding](https://www.ibm.com/watson/services/natural-language-understanding/):  Analyze text to extract meta-data from content such as overall sentiment, emotion, concepts, entities, keywords, categories, relations and semantic roles.
-* [Cloudant NoSQL DB](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db): A fully managed data layer designed for modern web and mobile applications that leverages a flexible JSON schema.
+* [Cloudant NoSQL DB](https://cloud.ibm.com/catalog/services/cloudant-nosql-db): A fully managed data layer designed for modern web and mobile applications that leverages a flexible JSON schema.
 
 ## Featured technologies
 * [Node.js](https://nodejs.org/): An open-source JavaScript run-time environment for executing server-side JavaScript code.
@@ -44,7 +44,7 @@ Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locall
 ## Deploy to IBM Cloud
 If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
 
-[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-second-opinion)
+[![Deploy to IBM Cloud](https://cloud.ibm.com/deploy/button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/IBM/watson-second-opinion)
 
 1. Press the above `Deploy to IBM Cloud`
     > The toolchain uses GitHub for its source control. You may be asked to authenticate the toolchain to use your account. The toolchain will clone this repo and will be used for its deployment.
@@ -60,7 +60,7 @@ If you do not have an IBM Cloud account yet, you will need to create one [here](
 
 ![envVar1](https://i.makeagif.com/media/6-07-2018/Gfmeju.gif)
 
-1. Navigate to https://console.bluemix.net/dashboard/apps/
+1. Navigate to https://cloud.ibm.com/dashboard/apps/
 2. Located and click on your newly created application 
 3. Select 'Runtime' in the left menu
 4. Select the 'Environment Variables' tab in the middle of the page
@@ -94,8 +94,8 @@ $ npm install
 
 Create the following service:
 
-* [**Watson Natural Language Understanding**](https://console.bluemix.net/catalog/services/natural-language-understanding)
-* [**Cloudant NoSQL DB**](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db/)
+* [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
+* [**Cloudant NoSQL DB**](https://cloud.ibm.com/catalog/services/cloudant-nosql-db/)
 
 
 ### 4. Get Service Credentials
