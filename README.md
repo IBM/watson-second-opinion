@@ -62,11 +62,11 @@ If you do not have an IBM Cloud account yet, you will need to create one [here](
 
 1. Navigate to https://cloud.ibm.com/dashboard/apps/
 2. Located and click on your newly created application 
-3. Select 'Runtime' in the left menu
-4. Select the 'Environment Variables' tab in the middle of the page
+3. Select `Runtime` in the left menu
+4. Select the `Environment Variables` tab in the middle of the page
 5. Scroll down to the User defined variables section
 6. Click on ``add``. 
-7. THIS IS EXTREMELY IMPORTANT. Make sure to write the name of the env variable EXACTLY as shown, otherwise, the app wont work. Scroll up until you see `VCAP_SERVICES`. You will then see `cloudantNoSQLDB` and under that `url`.  Under 'Name', type in `CLOUDANT_URL`, and under 'Value', paste the `url` value from the `cloudantNoSQLDB` section of `VCAP_SERVICES`.
+7. THIS IS EXTREMELY IMPORTANT. Make sure to write the name of the env variable EXACTLY as shown, otherwise, the app wont work. Scroll up until you see `VCAP_SERVICES`. You will then see `cloudantNoSQLDB` and under that `url`.  Under `Name`, type in `CLOUDANT_URL`, and under `Value`, paste the `url` value from the `cloudantNoSQLDB` section of `VCAP_SERVICES`.
 
 ![envVar2](https://i.makeagif.com/media/6-07-2018/ubRZcv.gif)
 
@@ -102,9 +102,9 @@ Create the following service:
 
 Once the service is created, click on it, and then click on `Service credentials` in the top left corner of the screen. Then click `New credential` and then `add`. For `Cloudant NoSQL DB`, save the value for `url`. For `Natural Language Understanding` save the value for `username` and `password`.
 
-### 5. Set Envioronment Variables
+### 5. Set Environment Variables
 
-After we run ``npm install`` from step 2 above, we need to set 3 enviornment variables that we got from step 4. Run the following commands to set these variables (your usernames / passwords / url will be different):
+After we run ``npm install`` from step 2 above, we need to set 3 environment variables that we got from step 4. Run the following commands to set these variables (your usernames / passwords / url will be different):
 
 ```
 $ export CLOUDANT_URL=https://f9d9e9d9-8b3f-4625-a425-7a8bbd57aeaf-bluemix:f6f4f68665aa1b6b7821ca0117302353427eb643306d3d2652bc867768bc4c80@f9d9e9d9-8b3f-4625-a425-7a8bbd57hdsf-bluemix.cloudant.com
