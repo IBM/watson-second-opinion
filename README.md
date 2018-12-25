@@ -44,7 +44,7 @@ Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locall
 ## Deploy to IBM Cloud
 If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
 
-[![Deploy to IBM Cloud](https://cloud.ibm.com/deploy/button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/IBM/watson-second-opinion)
+[![Deploy to IBM Cloud](docs/deploy.png)]
 
 1. Press the above `Deploy to IBM Cloud`
     > The toolchain uses GitHub for its source control. You may be asked to authenticate the toolchain to use your account. The toolchain will clone this repo and will be used for its deployment.
