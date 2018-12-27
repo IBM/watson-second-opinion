@@ -2,6 +2,8 @@
 
 # Create a Review Analyzer with Watson Natural Language Understanding
 
+https://watson-second-opinion.mybluemix.net/
+
 ![demo](https://i.makeagif.com/media/6-07-2018/IeEcIv.gif)
 
 In this Code Pattern, we will create a Node.js app that takes the reviews from an online shopping website, Amazon, and feeds them into the Watson Natural Language Understanding service. The reviews will be stored in a Cloudant database. The Watson Natural Language Understanding service will show the overall sentiments of the reviews. The sample application will do all the reading of reviews for you and will give an overall insight about them. The Code Pattern can be useful to developers that are looking into processing multiple documents with Watson Natural Language Understanding.
@@ -69,10 +71,11 @@ If you do not have an IBM Cloud account yet, you will need to create one [here](
 
 ![envVar2](https://i.makeagif.com/media/6-07-2018/ubRZcv.gif)
 
-8. Repeat step 6 but now under name, type in `NLU_USERNAME` and under value go to `natural-language-understanding` section of the `VCAP_SERVICES` and get the value for `username`.
-9. Repeat step 6 but now under name, type in `NLU_PASSWORD`, and under value go `natural-language-understanding` section of the `VCAP_SERVICES` and get the value for `password`.
-10. Click ``save``.
-11. Nice job! You are done. Click on ``visit App URL`` at the top of the page to interact with the app. Simply copy and paste an Amazon URL from a product page into the app, and click on the magnifying glass and voilà! You will get some valuable insights from Watson.
+8. **🚧🚧🚧PLEASE NOTE THE GIF ABOVE IS OUTDATED. INSTEAD OF NLU_USERNAME you will have to write iam_apikey🚧🚧🚧**
+
+ Repeat step 6 but now under name, type in `iam_apikey` and under value go to the `credential` section of `natural-language-understanding` section of the `VCAP_SERVICES` and get the value for `apikey`.
+9. Click ``save``.
+10. Nice job! You are done. Click on ``visit App URL`` at the top of the page to interact with the app. Simply copy and paste an Amazon URL from a product page into the app, and click on the magnifying glass and voilà! You will get some valuable insights from Watson.
 
 ## Deploy Locally
 
@@ -108,9 +111,8 @@ After we run ``npm install`` from step 2 above, we need to set 3 environment var
 ```
 $ export CLOUDANT_URL=https://f9d9e9d9-8b3f-4625-a425-7a8bbd57aeaf-bluemix:f6f4f68665aa1b6b7821ca0117302353427eb643306d3d2652bc867768bc4c80@f9d9e9d9-8b3f-4625-a425-7a8bbd57hdsf-bluemix.cloudant.com
 
-$ export NLU_USERNAME=9a512210-2bdd-4b20-8a73-1fb623511bb2
+$ export iam_apikey=xJLkOtKCXISqQHwjfdRBb99u2r-5sJ7n_sEsfsTJXZiJ
 
-$ export NLU_PASSWORD=2VB8BaW8HGK6
 
 ```
 
