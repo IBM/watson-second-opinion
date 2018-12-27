@@ -71,9 +71,7 @@ If you do not have an IBM Cloud account yet, you will need to create one [here](
 
 ![envVar2](https://i.makeagif.com/media/6-07-2018/ubRZcv.gif)
 
-8. **🚧🚧🚧PLEASE NOTE THE GIF ABOVE IS OUTDATED. INSTEAD OF NLU_USERNAME you will have to write iam_apikey🚧🚧🚧**
-
- Repeat step 6 but now under name, type in `iam_apikey` and under value go to the `credential` section of `natural-language-understanding` section of the `VCAP_SERVICES` and get the value for `apikey`.
+8. **🚧🚧🚧PLEASE NOTE THE GIF ABOVE IS OUTDATED. INSTEAD OF NLU_USERNAME you will have to write iam_apikey🚧🚧🚧** Repeat step 6 but now under name, type in `iam_apikey` and under value go to the `credential` section of `natural-language-understanding` section of the `VCAP_SERVICES` and get the value for `apikey`.
 9. Click ``save``.
 10. Nice job! You are done. Click on ``visit App URL`` at the top of the page to interact with the app. Simply copy and paste an Amazon URL from a product page into the app, and click on the magnifying glass and voilà! You will get some valuable insights from Watson.
 
