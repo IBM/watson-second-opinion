@@ -78,7 +78,7 @@ function analyze() {
 
   entitiesCont.innerHTML = '<center> <h2 id="topEntities">Top Entities</h2>'
     + '<h3 id="entityDescription">Most common people, organizations, and' 
-    + '<a href="https://console.bluemix.net/docs/services/natural-language-understanding/entity-types.html#entity-types-and-subtypes" target="_blank"> other information </a>'
+    + '<a href="https://cloud.ibm.com/docs/services/natural-language-understanding/entity-types.html#entity-types-and-subtypes" target="_blank"> other information </a>'
     + 'extracted from customer reviews sorted by relevance (0%-100%).</h3> </center>';
 
   relatedConceptsCont.innerHTML = '<center> <h2 id="relatedConcepts">Related Concepts</h2>'
