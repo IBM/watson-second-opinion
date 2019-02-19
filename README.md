@@ -100,7 +100,7 @@ Create the following service:
 
 ### 4. Get Service Credentials
 
-Once the service is created, click on it, and then click on `Service credentials` in the top left corner of the screen. Then click `New credential` and then `add`. For `Cloudant NoSQL DB`, save the value for `url`. For `Natural Language Understanding` save the value for `username` and `password`.
+Once the service is created, click on it, and then click on `Service credentials` in the top left corner of the screen. Then click `New credential` and then `add`. For `Cloudant NoSQL DB`, save the value for `url`. For `Natural Language Understanding` save the value for `iam_apikey`.
 
 ### 5. Set Environment Variables
 
@@ -109,7 +109,7 @@ After we run ``npm install`` from step 2 above, we need to set 3 environment var
 ```
 $ export CLOUDANT_URL=https://f9d9e9d9-8b3f-4625-a425-7a8bbd57aeaf-bluemix:f6f4f68665aa1b6b7821ca0117302353427eb643306d3d2652bc867768bc4c80@f9d9e9d9-8b3f-4625-a425-7a8bbd57hdsf-bluemix.cloudant.com
 
-$ export iam_apikey=xJLkOtKCXISqQHwjfdRBb99u2r-5sJ7n_sEsfsTJXZiJ
+$ export IAM_APIKEY=xJLkOtKCXISqQHwjfdRBb99u2r-5sJ7n_sEsfsTJXZiJ
 
 
 ```
