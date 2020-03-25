@@ -1,5 +1,5 @@
 [![Build Status](https://api.travis-ci.org/IBM/watson-second-opinion.svg?branch=master)](https://travis-ci.org/IBM/watson-second-opinion)
-#WARNING: This repository is no longer maintained ⚠️ USE AT YOUR OWN RISK
+# WARNING: This repository is no longer maintained ⚠️ USE AT YOUR OWN RISK
 
 # Create a Review Analyzer with Watson Natural Language Understanding
 
